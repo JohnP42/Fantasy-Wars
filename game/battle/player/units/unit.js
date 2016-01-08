@@ -9,8 +9,9 @@ Unit.prototype.update = function() {
 };
 
 Unit.prototype.move = function(path) {
+  // Moves unit along path
+  // path is in the format: [location1, location2, ..., targetLocation]
   var that = this
-  //path is in the format: [location1, location2, ..., targetLocation]
   path.forEach(function(position) {
     that.position = position;
     console.log(that.position);
@@ -49,15 +50,17 @@ Unit.prototype.animate = function() {
 };
 
 Unit.prototype.takeDamage = function(damage) {
-  //TODO: Updates unit health based on damage.
+  // Updates unit health based on damage.
   this.health -= damage;
   if (this.health <= 0) {
     this.die();
   }
 };
 
-Unit.prototype.getHealthNumber = function(position) {
-  //TODO: Translates health percentage into a displayable number 1-10.
+Unit.prototype.getHealthNumber = function() {
+  // Translates health percentage into a displayable number 1-10.
+  // 95 => 10, 5=>1, 55 => 6
+  return Math.ceil(this.health / 10)
 };
 
 Unit.prototype.getAttackDamage = function(position) {
