@@ -21,6 +21,18 @@ describe("Unit", function() {
   });
 
   describe("getPossibleMoves", function() {
+    xit("Returns an array of all possible moves", function() {
+
+    });
+  });
+
+  describe("getSurroundingTiles", function() {
+    xit("Returns an array of all surrounding tiles of a given location", function() {
+
+    });
+  });
+
+  describe("getPossibleMoves", function() {
     xit("Returns all possible moves from a given location", function() {
 
     });

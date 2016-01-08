@@ -30,7 +30,7 @@ Unit.prototype.attack = function(position) {
 //     };
 //     visited.push(position);
 //     //TODO: create get_surrounding_tiles();
-//     var surrounding_tiles = get_surrounding_tiles(position);
+//     var surrounding_tiles = getSurroundingTiles(position);
 //     surrounding_tiles.forEach(function(tile) {
 //       //TODO: create getTileAtposition() && getPenalty();
 //       var newRemainder = remainder - game.getTileAtposition(position).getPenalty();
@@ -40,6 +40,15 @@ Unit.prototype.attack = function(position) {
 //     })
 //   })
 // };
+
+Unit.prototype.getSurroundingTiles = function(position) {
+  // Returns an array of positions surrounding the input position
+  return [new Position(position.x, position.y + 1), // top
+          new Position(position.x + 1, position.y), // right
+          new Position(position.x, position.y - 1), // bottom
+          new Position(position.x - 1, position.y) // left
+  ];
+};
 
 Unit.prototype.getPossibleAttacks = function(position) {
   //TODO: Returns possible positions that can be attacked.
