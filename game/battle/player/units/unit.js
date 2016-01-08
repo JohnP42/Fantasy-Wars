@@ -1,6 +1,6 @@
-function Unit(location) {
-  this.location = location;
-  // Phaser.Sprite.call(this, game, location.canvasX, location.canvasY, 'spritename');
+function Unit(position) {
+  this.position = position;
+  // Phaser.Sprite.call(this, game, position.canvasX, position.canvasY, 'spritename');
 };
 
 Unit.prototype.update = function() {
@@ -8,37 +8,39 @@ Unit.prototype.update = function() {
 };
 
 Unit.prototype.move = function(path) {
+  var that = this
   //path is in the format: [location1, location2, ..., targetLocation]
-  path.forEach(function(location) {
-    this.location = location;
+  path.forEach(function(position) {
+    that.position = position;
+    console.log(that.position);
     // TODO: Add tween/animation
   })
 };
 
-Unit.prototype.attack = function(location) {
+Unit.prototype.attack = function(position) {
   //TODO: Attack enemy unit
 };
 
-Unit.prototype.getPossibleMoves = function(location) {
-  getPossibleMovesRecursive(function(remainder, location, visited) { //visited takes an array
-    if (remainder === 0 || remainder === 1) {
-      return [];
-    };
-    visited.push(location);
-    //TODO: create get_surrounding_tiles();
-    var surrounding_tiles = get_surrounding_tiles(location);
-    surrounding_tiles.forEach(function(tile) {
-      //TODO: create getTileAtLocation() && getPenalty();
-      var newRemainder = remainder - game.getTileAtLocation(location).getPenalty();
-      if ((newRemainder > 0 && !visited.includes(tile)) {
-        return [tile].concat(getPossibleMovesRecursive(newRemainder, tile, visited));
-      }
-    })
-  })
-};
+// Unit.prototype.getPossibleMoves = function(position) {
+//   function getPossibleMovesRecursive(function(remainder, position, visited) { //visited takes an array
+//     if (remainder === 0 || remainder === 1) {
+//       return [];
+//     };
+//     visited.push(position);
+//     //TODO: create get_surrounding_tiles();
+//     var surrounding_tiles = get_surrounding_tiles(position);
+//     surrounding_tiles.forEach(function(tile) {
+//       //TODO: create getTileAtposition() && getPenalty();
+//       var newRemainder = remainder - game.getTileAtposition(position).getPenalty();
+//       if ((newRemainder > 0 && !visited.includes(tile)) {
+//         return [tile].concat(getPossibleMovesRecursive(newRemainder, tile, visited));
+//       }
+//     })
+//   })
+// };
 
-Unit.prototype.getPossibleAttacks = function(location) {
-  //TODO: Returns possible locations that can be attacked.
+Unit.prototype.getPossibleAttacks = function(position) {
+  //TODO: Returns possible positions that can be attacked.
 };
 
 Unit.prototype.animate = function() {
@@ -53,14 +55,14 @@ Unit.prototype.takeDamage = function(damage) {
   }
 };
 
-Unit.prototype.getHealthNumber = function(location) {
+Unit.prototype.getHealthNumber = function(position) {
   //TODO: Translates health percentage into a displayable number 1-10.
 };
 
-Unit.prototype.getAttackDamage = function(location) {
+Unit.prototype.getAttackDamage = function(position) {
   //TODO: Returns attack damage based on formula for attack type and defense.
 };
 
-Unit.prototype.die = function(location) {
+Unit.prototype.die = function(position) {
   //TODO: Destroys unit and removes from map
 }
