@@ -1,5 +1,5 @@
-function Battle() {
-
+function Battle(map) {
+  this.map = map;
 };
 
 Battle.prototype.update = function() {
