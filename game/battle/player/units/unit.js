@@ -7,8 +7,9 @@ Unit.prototype.update = function() {
   //TODO: Update method
 };
 
-Unit.prototype.move = function() {
+Unit.prototype.move = function(location) {
   //TODO: Unit movement
+  this.location = location
 };
 
 Unit.prototype.attack = function(location) {
