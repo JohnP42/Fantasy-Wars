@@ -1,18 +1,15 @@
 describe("Unit", function() {
+  var unit;
+  var position;
 
   beforeEach(function() {
-    // var position = new Position(1,1);
-    // var unit = new Unit(location);
+    position = new Position(1,1);
+    unit = new Unit(location);
   });
 
   describe("move", function() {
     it("moves a unit from one location to target location", function() {
-      var position = new Position(1,1);
-      var position2 = new Position(1,0);
-      var position3 = new Position(0,0);
-      var unit = new Unit(position);
-      unit.move([position2, position3]);
-      // console.log(unit.position);
+      unit.move([new Position(1,0),  new Position(0,0)]);
       expect(unit.position.getCoordinates()).toEqual([0,0]);
     });
   });
