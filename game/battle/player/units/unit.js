@@ -47,6 +47,10 @@ Unit.prototype.animate = function() {
 
 Unit.prototype.takeDamage = function(damage) {
   //TODO: Updates unit health based on damage.
+  this.health -= damage;
+  if (this.health <= 0) {
+    this.die();
+  }
 };
 
 Unit.prototype.getHealthNumber = function(location) {
@@ -56,3 +60,7 @@ Unit.prototype.getHealthNumber = function(location) {
 Unit.prototype.getAttackDamage = function(location) {
   //TODO: Returns attack damage based on formula for attack type and defense.
 };
+
+Unit.prototype.die = function(location) {
+  //TODO: Destroys unit and removes from map
+}
