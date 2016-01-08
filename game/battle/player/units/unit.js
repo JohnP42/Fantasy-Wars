@@ -1,5 +1,6 @@
 function Unit(position) {
   this.position = position;
+  this.health = 100;
   // Phaser.Sprite.call(this, game, position.canvasX, position.canvasY, 'spritename');
 };
 
