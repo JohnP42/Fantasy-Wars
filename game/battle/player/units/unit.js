@@ -80,4 +80,5 @@ Unit.prototype.getAttackDamage = function(position) {
 
 Unit.prototype.die = function(position) {
   //TODO: Destroys unit and removes from map
+  this.destroy();
 }
