@@ -1,19 +1,17 @@
 function Battle(map) {
   this.map = map;
-  console.log(this.mapz)
 };
 
 Battle.prototype.update = function() {
   //TODO: Update method
 };
 
-Battle.prototype.getUnitAtLocation = function() {
+Battle.prototype.getUnitAtPosition = function() {
   //TODO: Retrieve unit at a given location
 };
 
-Battle.prototype.getTileAtLocation = function() {
+Battle.prototype.getTileAtPosition = function(position) {
   //TODO: Retrieve tile at a given location
-  console.log(game.add.tilemap("testmap"));
 };
 
 Battle.prototype.switchTurn = function() {
