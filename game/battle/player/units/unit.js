@@ -7,8 +7,9 @@ function Unit(position) {
   // Phaser.Sprite.call(this, game, position.canvasX, position.canvasY, 'spritename');
 };
 
-Unit.prototype.update = function() {
+Unit.prototype.updateUnit = function(map) {
   //TODO: Update method
+  this.animations.play("stand");
 };
 
 Unit.prototype.move = function(path) {
