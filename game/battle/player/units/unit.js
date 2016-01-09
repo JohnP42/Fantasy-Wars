@@ -17,7 +17,6 @@ Unit.prototype.move = function(path) {
   var that = this
   path.forEach(function(position) {
     that.position = position;
-    console.log(that.position);
     // TODO: Add tween/animation
   })
 };
@@ -81,4 +80,5 @@ Unit.prototype.getAttackDamage = function(position) {
 
 Unit.prototype.die = function(position) {
   //TODO: Destroys unit and removes from map
+  this.destroy();
 }
