@@ -1,3 +1,6 @@
+Unit.prototype = Object.create(Phaser.Sprite.prototype);
+Unit.prototype.constructor = Unit;
+
 function Unit(position) {
   this.position = position;
   // Phaser.Sprite.call(this, game, position.canvasX, position.canvasY, 'spritename');
