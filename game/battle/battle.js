@@ -1,5 +1,6 @@
 function Battle(map) {
   this.map = map;
+  console.log(this.mapz)
 };
 
 Battle.prototype.update = function() {
@@ -12,7 +13,7 @@ Battle.prototype.getUnitAtLocation = function() {
 
 Battle.prototype.getTileAtLocation = function() {
   //TODO: Retrieve tile at a given location
-  console.log(game.add.tilemap("testmap")
+  console.log(game.add.tilemap("testmap"));
 };
 
 Battle.prototype.switchTurn = function() {

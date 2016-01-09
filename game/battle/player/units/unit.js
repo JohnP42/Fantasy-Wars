@@ -14,7 +14,6 @@ Unit.prototype.move = function(path) {
   var that = this
   path.forEach(function(position) {
     that.position = position;
-    console.log(that.position);
     // TODO: Add tween/animation
   })
 };
