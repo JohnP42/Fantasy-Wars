@@ -2,9 +2,9 @@ function Map() {
   //map = game.world.cursor.map;
 }
 
-Map.prototype.getTileAtPos = function(position) {
+Map.prototype.getTileAtPos = function(pos) {
   var map = game.world.cursor.map;
-  return map.getTile(position.x, position.y).properties;
+  return map.getTile(pos.x, pos.y).properties;
 }
 
 

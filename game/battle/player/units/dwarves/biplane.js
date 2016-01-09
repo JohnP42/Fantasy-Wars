@@ -1,9 +1,9 @@
 Biplane.prototype = new UnitFlying();
 Biplane.prototype.constructor = Biplane;
 
-function Biplane(position) {
-  this.position = position;
-  Phaser.Sprite.call(this, game, position.canvasX(), position.canvasY(), "sprDwarves");
+function Biplane(pos) {
+  this.pos = pos;
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
   game.add.existing(this);
   this.animations.add("stand", [80, 81], 8);
   this.animations.add("move", [82, 83], 12);
