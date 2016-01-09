@@ -6,6 +6,7 @@ var battleState = {
     var map = game.add.tilemap("testmap", 32, 32, 12, 12);
     map.addTilesetImage("tileset", "tilesheet");
     map.createLayer("Tile Layer 1");
+    console.log(map);
 	},
 
 	update: function() {
