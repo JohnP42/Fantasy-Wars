@@ -17,5 +17,7 @@ There are different kinds of terrain that units can traverse. Terrain can hinder
 ## Orc
 
 ## How to run tests
-karma start
-TODO: Look into how to add assets into the karma tests
+* npm install
+* npm install -g karma-cli (to install npm globally)
+* karma start
+* TODO: Look into how to add assets into the karma tests
