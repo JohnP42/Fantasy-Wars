@@ -8,7 +8,7 @@ function Grenadier(position) {
   this.animations.add("grenadierStand", [10, 11], 2);
   this.animations.add("grenadierMove", [12, 13], 8);
   this.name = "Dwarf Grenadier";
-  this.hp = 100;
+  this.health = 100;
   this.attack = 50;
   this.defense = 0.2;
   this.speed = 3;
