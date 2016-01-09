@@ -1,9 +1,13 @@
-function Battle(map) {
+function Battle(map, players) {
   this.map = map;
+  this.players = players;
+  this.turn = 0;
 };
 
 Battle.prototype.update = function() {
-  //TODO: Update method
+  for (var i = 0; i < this.players.length; i++) {
+  	this.players[i].update(this.map, this.turn === i + 1)
+  }
 };
 
 Battle.prototype.getUnitAtPosition = function() {

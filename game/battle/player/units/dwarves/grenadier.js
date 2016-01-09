@@ -5,8 +5,8 @@ function Grenadier(position) {
   this.position = position;
   Phaser.Sprite.call(this, game, position.canvasX(), position.canvasY(), "sprDwarves");
   game.add.existing(this);
-  this.animations.add("grenadierStand", [10, 11], 2);
-  this.animations.add("grenadierMove", [12, 13], 8);
+  this.animations.add("stand", [10, 11], 2);
+  this.animations.add("move", [12, 13], 8);
   this.name = "Dwarf Grenadier";
   this.hp = 100;
   this.attack = 50;
