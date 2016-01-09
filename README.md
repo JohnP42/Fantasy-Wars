@@ -16,3 +16,6 @@ There are different kinds of terrain that units can traverse. Terrain can hinder
 ## Dwarf
 ## Orc
 
+## How to run tests
+karma start
+TODO: Look into how to add assets into the karma tests
