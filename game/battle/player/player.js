@@ -1,8 +1,9 @@
-function Player() {
+function Player(army) {
+	this.army = army;
 };
 
-Player.prototype.update = function() {
-
+Player.prototype.update = function(map, myTurn) {
+	this.army.update(map);
 };
 
 Player.prototype.onLocationSelect = function() {
