@@ -21,6 +21,18 @@ describe("Unit", function() {
   });
 
   describe("getPossibleMoves", function() {
+    xit("Returns an array of all possible moves", function() {
+
+    });
+  });
+
+  describe("getSurroundingTiles", function() {
+    xit("Returns an array of all surrounding tiles of a given location", function() {
+
+    });
+  });
+
+  describe("getPossibleMoves", function() {
     xit("Returns all possible moves from a given location", function() {
 
     });
@@ -49,8 +61,16 @@ describe("Unit", function() {
   });
 
   describe("getHealthNumber", function() {
-    xit("Translates health percentage into a displayable number 1-10", function() {
-
+    it("Translates health percentage into a displayable number 1-10", function() {
+      expect(unit.getHealthNumber()).toEqual(jasmine.any(Number));
+    });
+    it("Returns 6 when 54 is entered", function() {
+      unit.takeDamage(46);
+      expect(unit.getHealthNumber()).toEqual(6);
+    });
+    it("Returns 10 when 98 is entered", function() {
+      unit.takeDamage(2);
+      expect(unit.getHealthNumber()).toEqual(10);
     });
   });
 

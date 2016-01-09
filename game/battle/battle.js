@@ -12,6 +12,7 @@ Battle.prototype.getUnitAtLocation = function() {
 
 Battle.prototype.getTileAtLocation = function() {
   //TODO: Retrieve tile at a given location
+  console.log(game.add.tilemap("testmap")
 };
 
 Battle.prototype.switchTurn = function() {
