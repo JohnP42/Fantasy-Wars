@@ -3,10 +3,12 @@ var battleState = {
 	create: function() {
 		//TODO: anything needed on battle start add here
     // tilemap(key, tileWidth, tileHeight, width, height) → {Phaser.Tilemap}
-    var map = game.add.tilemap("testmap", 32, 32, 12, 12);
-    map.addTilesetImage("tileset", "tilesheet");
-    map.createLayer("Tile Layer 1");
-    console.log(map);
+
+    // FOR TESTING PURPOSES
+    var tilemap = game.add.tilemap("testmap", 32, 32, 12, 12);
+    tilemap.addTilesetImage("tileset", "tilesheet");
+    tilemap.createLayer("Tile Layer 1");
+    var map = new Map();
 	},
 
 	update: function() {
