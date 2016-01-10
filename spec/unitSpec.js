@@ -1,16 +1,16 @@
 describe("Unit", function() {
   var unit;
-  var position;
+  var pos;
 
   beforeEach(function() {
-    position = new Position(1,1);
+    pos = new Pos(1,1);
     unit = new Unit(location);
   });
 
   describe("move", function() {
     it("Moves a unit from one location to target location", function() {
-      unit.move([new Position(1,0),  new Position(0,0)]);
-      expect(unit.position.getCoordinates()).toEqual([0,0]);
+      unit.move([new Pos(1,0),  new Pos(0,0)]);
+      expect(unit.pos.getCoordinates()).toEqual([0,0]);
     });
   });
 
