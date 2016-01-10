@@ -1,9 +1,9 @@
 Cannon.prototype = new UnitArtillery();
 Cannon.prototype.constructor = Cannon;
 
-function Cannon(position) {
-  this.position = position;
-  Phaser.Sprite.call(this, game, position.canvasX(), position.canvasY(), "sprDwarves");
+function Cannon(pos) {
+  this.pos = pos;
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
   game.add.existing(this);
   this.animations.add("stand", [50, 51], 2);
   this.animations.add("move", [52, 53], 8);

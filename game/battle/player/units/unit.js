@@ -1,10 +1,11 @@
 Unit.prototype = Object.create(Phaser.Sprite.prototype);
 Unit.prototype.constructor = Unit;
 
-function Unit(position) {
-  this.position = position;
+function Unit(pos) {
+  this.pos = pos;
   this.health = 100;
-  // Phaser.Sprite.call(this, game, position.canvasX, position.canvasY, 'spritename');
+  this.speed = 3;
+  // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
 Unit.prototype.updateUnit = function(map) {
@@ -16,45 +17,52 @@ Unit.prototype.move = function(path) {
   // Moves unit along path
   // path is in the format: [location1, location2, ..., targetLocation]
   var that = this
-  path.forEach(function(position) {
-    that.position = position;
+  path.forEach(function(pos) {
+    that.pos = pos;
     // TODO: Add tween/animation
   })
 };
 
-Unit.prototype.attack = function(position) {
+Unit.prototype.attack = function(pos) {
   //TODO: Attack enemy unit
 };
 
-// Unit.prototype.getPossibleMoves = function(position) {
-//   function getPossibleMovesRecursive(function(remainder, position, visited) { //visited takes an array
-//     if (remainder === 0 || remainder === 1) {
-//       return [];
-//     };
-//     visited.push(position);
-//     //TODO: create get_surrounding_tiles();
-//     var surrounding_tiles = getSurroundingTiles(position);
-//     surrounding_tiles.forEach(function(tile) {
-//       //TODO: create getTileAtposition() && getPenalty();
-//       var newRemainder = remainder - game.getTileAtposition(position).getPenalty();
-//       if ((newRemainder > 0 && !visited.includes(tile)) {
-//         return [tile].concat(getPossibleMovesRecursive(newRemainder, tile, visited));
-//       }
-//     })
-//   })
-// };
+Unit.prototype.getPossibleMoves = function(pos, map) {
+  var remainder = this.speed;
+  var visited = [pos];
+  return this.getPossibleMovesRecursive(remainder, pos, visited, map);
+};
 
-Unit.prototype.getSurroundingTiles = function(position) {
+Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map) { //visited takes an array
+  var that = this;
+  var finalArray = [pos];
+
+  if (remainder === 0 || remainder === 1) {
+    return [];
+  };
+  visited.push(pos);
+  var surroundingPos = this.getSurroundingPos(pos);
+  surroundingPos.forEach(function(pos) {
+    //TODO: create getTileAtpos() && getPenalty();
+    var newRemainder = remainder - map.getPenaltyAtPos(pos, that);
+    if (newRemainder > 0 && !visited.includes(pos)) {
+      return finalArray.concat(that.getPossibleMovesRecursive(newRemainder, pos, visited, map));
+    }
+  });
+  return finalArray;
+};
+
+Unit.prototype.getSurroundingPos = function(pos) {
   // Returns an array of positions surrounding the input position
-  return [new Position(position.x, position.y + 1), // top
-          new Position(position.x + 1, position.y), // right
-          new Position(position.x, position.y - 1), // bottom
-          new Position(position.x - 1, position.y) // left
+  return [new Pos(pos.x, pos.y + 1), // top
+          new Pos(pos.x + 1, pos.y), // right
+          new Pos(pos.x, pos.y - 1), // bottom
+          new Pos(pos.x - 1, pos.y) // left
   ];
 };
 
-Unit.prototype.getPossibleAttacks = function(position) {
-  //TODO: Returns possible positions that can be attacked.
+Unit.prototype.getPossibleAttacks = function(pos) {
+  //TODO: Returns possible pos that can be attacked.
 };
 
 Unit.prototype.animate = function() {
@@ -75,11 +83,11 @@ Unit.prototype.getHealthNumber = function() {
   return Math.ceil(this.health / 10)
 };
 
-Unit.prototype.getAttackDamage = function(position) {
+Unit.prototype.getAttackDamage = function(pos) {
   //TODO: Returns attack damage based on formula for attack type and defense.
 };
 
-Unit.prototype.die = function(position) {
+Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
   this.destroy();
 }

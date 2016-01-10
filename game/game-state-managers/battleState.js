@@ -12,21 +12,27 @@ var battleState = {
     tilemap.addTilesetImage("tileset", "tilesheet");
     tilemap.createLayer("Tile Layer 1");
     map = new Map();
-    var army = [new Grenadier(new Position(2, 2)), 
-    new Warrior(new Position(1, 3)), 
-    new Mech(new Position(1, 2)), 
-    new MotorBike(new Position(0, 8)), 
-    new IronGuard(new Position(3, 3)), 
-    new Cannon(new Position(3, 2)), 
-    new Mortar(new Position(1, 1)), 
-    new Biplane(new Position(10, 1))];
+    var army = [new Grenadier(new Pos(2, 2)),
+    new Warrior(new Pos(1, 3)),
+    new Mech(new Pos(1, 2)),
+    new MotorBike(new Pos(0, 8)),
+    new IronGuard(new Pos(3, 3)),
+    new Cannon(new Pos(3, 2)),
+    new Mortar(new Pos(1, 1)),
+    new Biplane(new Pos(10, 1))];
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf([]))]);
-	
+
 	},
 
 	update: function() {
 		//TODO: Anything dealing with the battle here
 		battle.update();
-	}
+	},
+
+    render: function() {
+        battle.showSelectedMoves().forEach(function(tileRect) {
+            game.debug.geom(tileRect,'rgba(0,0,255,0.5');
+        });
+    }
 
 }
