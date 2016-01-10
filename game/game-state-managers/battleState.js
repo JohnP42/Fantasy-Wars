@@ -8,6 +8,7 @@ var battleState = {
     // tilemap(key, tileWidth, tileHeight, width, height) → {Phaser.Tilemap}
 
     // FOR TESTING PURPOSES
+
     var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
     tilemap.addTilesetImage("FW_Set", "tilesheet");
     tilemap.createLayer("Tile Layer 1");
