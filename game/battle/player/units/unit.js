@@ -36,18 +36,16 @@ Unit.prototype.getPossibleMoves = function(pos, map) {
 Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map) { //visited takes an array
   var that = this;
   var finalArray = [pos];
-
   if (remainder === 0 || remainder === 1) {
     return [];
   };
   visited.push(pos);
   var surroundingPos = this.getSurroundingPos(pos);
   surroundingPos.forEach(function(pos) {
-    //TODO: create getTileAtpos() && getPenalty();
-    var newRemainder = remainder - map.getPenaltyAtPos(pos, that);
+    var newRemainder = remainder - 1; // map.getPenaltyAtPos(pos, that);
     if (newRemainder > 0 && !visited.includes(pos)) {
-      return finalArray.concat(that.getPossibleMovesRecursive(newRemainder, pos, visited, map));
-    }
+      finalArray = finalArray.concat(that.getPossibleMovesRecursive(newRemainder, pos, visited, map));
+    };
   });
   return finalArray;
 };

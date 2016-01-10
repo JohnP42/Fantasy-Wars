@@ -31,19 +31,21 @@ Battle.prototype.onClickListener = function() {
     pos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE))
     unit = this.getUnitAtPos(pos);
     this.currentSelectedUnit = unit;
+    this.getSelectedMoves().forEach(function(tileRect) {
+      game.debug.geom(tileRect, 'rgba(0,0,255,.5');
+    });
   }
 };
 
-Battle.prototype.showSelectedMoves = function() {
+Battle.prototype.getSelectedMoves = function() {
   //TODO
   if(this.currentSelectedUnit) {
     var poses = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
-    // poses.map(function(pos) {
-    //   return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
-    // });
-    var pos = poses[0];
-    poses = [new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE)];
-    console.log(poses);
+    poses = poses.map(function(pos) {
+      return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
+    });
+    // var pos = poses[0];
+    // poses = [new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE)];
     return poses;
   }
   return [];

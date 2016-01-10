@@ -30,9 +30,9 @@ var battleState = {
 	},
 
     render: function() {
-        battle.showSelectedMoves().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(0,0,255,0.5');
-        });
+        // battle.showSelectedMoves().forEach(function(tileRect) {
+        //     game.debug.geom(tileRect,'rgba(0,0,255,0.5');
+        // });
     }
 
 }
