@@ -3,6 +3,7 @@ function Battle(map, players) {
   this.players = players;
   this.turn = 0;
   this.currentSelectedUnit = null;
+  this.currentSelectedMovement = [];
 };
 
 Battle.prototype.update = function() {
@@ -28,25 +29,27 @@ Battle.prototype.getUnitAtPos = function(pos) {
 Battle.prototype.onClickListener = function() {
   // Retrieve tile at a given pos
   if(game.input.mousePointer.isDown) {
-    pos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE))
+    pos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     unit = this.getUnitAtPos(pos);
-    this.currentSelectedUnit = unit;
-    this.getSelectedMoves().forEach(function(tileRect) {
-      game.debug.geom(tileRect, 'rgba(0,0,255,.5');
-    });
+    console.log(unit);
+    if(this.currentSelectedUnit !== unit) {
+      this.currentSelectedUnit = unit;
+      this.currentSelectedMovement = this.getSelectedMoves();
+    }
+
   }
 };
 
 Battle.prototype.getSelectedMoves = function() {
   //TODO
   if(this.currentSelectedUnit) {
-    var poses = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
-    poses = poses.map(function(pos) {
+    var positions = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
+    console.log(positions);
+    positions = positions.map(function(pos) {
       return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
     });
-    // var pos = poses[0];
-    // poses = [new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE)];
-    return poses;
+
+    return positions;
   }
   return [];
 }

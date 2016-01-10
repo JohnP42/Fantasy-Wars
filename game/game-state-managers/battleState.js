@@ -21,7 +21,6 @@ var battleState = {
     new Mortar(new Pos(1, 1)),
     new Biplane(new Pos(10, 1))];
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf([]))]);
-
 	},
 
 	update: function() {
@@ -30,9 +29,9 @@ var battleState = {
 	},
 
     render: function() {
-        // battle.showSelectedMoves().forEach(function(tileRect) {
-        //     game.debug.geom(tileRect,'rgba(0,0,255,0.5');
-        // });
+        battle.currentSelectedMovement.forEach(function(tileRect) {
+            game.debug.geom(tileRect,'rgba(0,0,255,0.5');
+        });
     }
 
 }
