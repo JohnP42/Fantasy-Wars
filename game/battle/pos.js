@@ -19,3 +19,9 @@ Pos.prototype.canvasY = function() {
 Pos.prototype.equals = function(pos) {
   return (this.x === pos.x && this.y === pos.y);
 }
+
+Pos.prototype.getPath = function() {
+	if (this.parentPos === null) 
+		return [this];
+	return [this].concat(this.parentPos.getPath());
+}

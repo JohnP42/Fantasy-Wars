@@ -11,16 +11,18 @@ function Unit(pos) {
 Unit.prototype.updateUnit = function(map) {
   //TODO: Update method
   this.animations.play("stand");
+  this.x = this.pos.canvasX();
+  this.y = this.pos.canvasY();
 };
 
 Unit.prototype.move = function(path) {
   // Moves unit along path
   // path is in the format: [location1, location2, ..., targetLocation]
   var that = this
-  path.forEach(function(pos) {
+  path.reverse().forEach(function(pos) {
     that.pos = pos;
-    // TODO: Add tween/animation
-  })
+  });
+  console.log(this);
 };
 
 Unit.prototype.attack = function(pos) {
@@ -31,7 +33,7 @@ Unit.prototype.getPossibleMoves = function(pos, map) {
   var remainder = this.speed + 1;
   var visited = [pos];
   var possibleMoves = this.getPossibleMovesRecursive(remainder, pos, visited, map);
-  // console.log(possibleMoves);
+
   return possibleMoves;
 };
 
