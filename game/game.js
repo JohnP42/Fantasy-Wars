@@ -4,7 +4,7 @@ window.onload = function() {
 
   game.state.add("bootState", bootState);
   game.state.add("loadState", loadState);
-  game.state.add("menuState", menuState);
+  game.state.add("mainMenuState", mainMenuState);
   game.state.add("battleState", battleState);
 
   game.state.start("bootState");
