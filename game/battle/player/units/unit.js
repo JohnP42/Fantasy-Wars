@@ -30,29 +30,43 @@ Unit.prototype.attack = function(pos) {
 };
 
 Unit.prototype.getPossibleMoves = function(pos, map) {
-  var remainder = this.speed + 1;
-  var visited = [pos];
-  var possibleMoves = this.getPossibleMovesRecursive(remainder, pos, visited, map);
 
-  return possibleMoves;
-};
-
-Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map) { //visited takes an array
   var that = this;
   var finalArray = [pos];
-  if (remainder === 0) { // || remainder === 1
-    return [];
-  };
-  visited.push(pos);
-  var surroundingPos = this.getSurroundingPos(pos);
-  surroundingPos.forEach(function(pos) {
-    var newRemainder = remainder - 1; // map.getPenaltyAtPos(pos, that);
-    if (newRemainder > 0 && !visited.includes(pos)) {
-      finalArray = finalArray.concat(that.getPossibleMovesRecursive(newRemainder, pos, visited, map));
-    };
-  });
+  var closed = [];
+  var moved = [0];
+
+  var x = 0;
+
+  while (closed.length < finalArray.length) {
+    
+    this.getSurroundingPos(finalArray[x]).forEach(function(position) {
+      if(!that.arrayIncludesPosition(finalArray, position)) {
+        if(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that) <= that.speed) {
+          finalArray.push(position);
+          moved.push(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that));
+        }
+      }
+    });
+
+    if(!this.arrayIncludesPosition(closed, finalArray[x]))
+      closed.push(finalArray[x]);
+    x++;
+  }
+
   return finalArray;
-};
+}
+
+Unit.prototype.arrayIncludesPosition = function(array, pos) {
+  var included = false;
+  array.forEach(function(item) {
+    if(pos.equals(item)) {
+      included = true;
+      return;
+    }
+  });
+  return included;
+}
 
 Unit.prototype.getSurroundingPos = function(pos) {
   // Returns an array of positions surrounding the input position
