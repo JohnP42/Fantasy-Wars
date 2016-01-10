@@ -86,7 +86,7 @@ Unit.prototype.getHealthNumber = function() {
 Unit.prototype.getAttackDamage = function(pos) {
   //TODO: Returns attack damage based on formula for attack type and defense.
 };
-
+\
 Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
   this.destroy();
