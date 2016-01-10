@@ -5,24 +5,41 @@ function Unit(pos) {
   this.pos = pos;
   this.health = 100;
   this.speed = 3;
+  this.movedThisTurn = false;
+  this.walkPath = [];
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
 Unit.prototype.updateUnit = function(map) {
   //TODO: Update method
-  this.animations.play("stand");
-  this.x = this.pos.canvasX();
-  this.y = this.pos.canvasY();
+  if(this.walkPath.length === 0) {
+    this.animations.play("stand");
+    this.x = this.pos.canvasX();
+    this.y = this.pos.canvasY();
+  }
 };
 
-Unit.prototype.move = function(path) {
+Unit.prototype.move = function() {
   // Moves unit along path
   // path is in the format: [location1, location2, ..., targetLocation]
-  var that = this
-  path.reverse().forEach(function(pos) {
-    that.pos = pos;
-  });
-  console.log(this);
+  this.animations.play("move");
+  var nextTile = this.walkPath[this.walkPath.length - 1];
+  if (!nextTile)
+    return true;
+  if (nextTile.canvasX() > this.x)
+    this.x += 2;
+  if(nextTile.canvasX() < this.x)
+    this.x -= 2;
+  if(nextTile.canvasY() > this.y)
+    this.y += 2;
+  if(nextTile.canvasY() < this.y)
+    this.y -= 2;
+  if(nextTile.canvasX() === this.x && nextTile.canvasY() === this.y) {
+    this.pos.x = this.walkPath[this.walkPath.length - 1].x;
+    this.pos.y = this.walkPath[this.walkPath.length - 1].y;
+    this.walkPath.pop();
+  }
+  return (this.walkPath.length === 0);
 };
 
 Unit.prototype.attack = function(pos) {
