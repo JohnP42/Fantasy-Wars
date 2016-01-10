@@ -39,6 +39,11 @@ Unit.prototype.move = function() {
     this.pos.y = this.walkPath[this.walkPath.length - 1].y;
     this.walkPath.pop();
   }
+  if (this.walkPath.length === 0) {
+    var gray = game.add.filter('Gray');
+    this.filters = [gray];
+    this.movedThisTurn = true;
+  }
   return (this.walkPath.length === 0);
 };
 

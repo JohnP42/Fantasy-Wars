@@ -17,6 +17,7 @@ var battleState = {
     tilemap.addTilesetImage("FW_Set", "tilesheet");
     tilemap.createLayer("Tile Layer 1");
     map = new Map();
+
     var army = [new Grenadier(new Pos(2, 2)),
     new Warrior(new Pos(1, 3)),
     new Mech(new Pos(1, 2)),

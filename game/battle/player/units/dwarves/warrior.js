@@ -1,9 +1,9 @@
 Warrior.prototype = new UnitInfantry();
 Warrior.prototype.constructor = Warrior;
 
-function Warrior(pos) {
+function Warrior(pos, player) {
   this.pos = pos;
-  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves" + player);
   game.add.existing(this);
   this.animations.add("stand", [0, 1], 2);
   this.animations.add("move", [2, 3], 8);
