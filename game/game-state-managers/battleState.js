@@ -27,6 +27,12 @@ var battleState = {
 	update: function() {
 		//TODO: Anything dealing with the battle here
 		battle.update();
-	}
+	},
+
+    render: function() {
+        battle.showSelectedMoves().forEach(function(tileRect) {
+            game.debug.geom(tileRect,'rgba(0,0,255,0.5');
+        });
+    }
 
 }

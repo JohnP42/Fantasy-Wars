@@ -10,7 +10,6 @@ Battle.prototype.update = function() {
   	this.players[i].update(this.map, this.turn === i + 1)
   }
   this.onClickListener();
-  this.showSelectedMoves();
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -38,9 +37,16 @@ Battle.prototype.onClickListener = function() {
 Battle.prototype.showSelectedMoves = function() {
   //TODO
   if(this.currentSelectedUnit) {
-    var tiles = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
-    console.log(tiles);
+    var poses = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
+    // poses.map(function(pos) {
+    //   return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
+    // });
+    var pos = poses[0];
+    poses = [new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE)];
+    console.log(poses);
+    return poses;
   }
+  return [];
 }
 
 Battle.prototype.getTileAtPos = function(pos) {
