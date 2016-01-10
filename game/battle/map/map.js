@@ -8,7 +8,8 @@ Map.prototype.getTileAtPos = function(pos) {
 }
 
 Map.prototype.getPenaltyAtPos = function(pos, unit) {
-  var tile = this.getTileAtPos(pos);
+  // This line is causing problems
+  // var tile = this.getTileAtPos(pos);
   return 1;
 }
 
