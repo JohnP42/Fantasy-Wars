@@ -67,6 +67,8 @@ Battle.prototype.onClickListener = function() {
 
 Battle.prototype.animateMovement = function() {
   if (this.currentSelectedUnit.move()) {
+    var gray = game.add.filter('Gray');
+    this.currentSelectedUnit.filters = [gray];
     this.turnState = "selectingUnit";
     this.currentSelectedUnit = null;
     this.currentSelectedMovement = [];
