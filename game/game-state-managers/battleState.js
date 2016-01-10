@@ -30,7 +30,7 @@ var battleState = {
 
     render: function() {
         battle.getSelectedMoves().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(0,0,255,0.5');
+            game.debug.geom(tileRect,'rgba(50,150,200,0.5');
         });
     }
 
