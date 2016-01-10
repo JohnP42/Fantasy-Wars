@@ -8,9 +8,11 @@ var loadState = {
     game.load.image("tilesheet", "game/assets/maps/fantasy_wars_tilesheet.png");
 
     game.load.spritesheet("sprDwarves", "game/assets/spritesheets/dwarf_units.png", 32, 32);
+
+    game.load.spritesheet("battleButton", "game/assets/menus/battleground_buttons_sheet.png", 193, 71)
 	},
 
 	create: function() {
-		game.state.start("battleState");
+		game.state.start("mainMenuState");
 	}
 }
