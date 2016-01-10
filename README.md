@@ -11,9 +11,26 @@ A player can move each unit once per turn, one at a time. When a player selects 
 # Basic Rules (Terrain):
 There are different kinds of terrain that units can traverse. Terrain can hinder movement, protect from range attacks, and some can be captured to gain an advantage. Some terrain can be captured and used to either gain resources, or spend resources to create units. If the structure belongs to you and a unit starts the turn on it, it will gain 20% of its max health and restore all ammo. Only infantry units can capture buildings.
 
+# Unit Types
+* Artillery
+* Cavalry
+* Flying
+* Infantry
+
 # Factions
 ## Elf
 ## Dwarf
+
+###Units
+* Bi-Plane
+* Cannon
+* Grenandier
+* Iron Guard
+* Mech
+* Mortar
+* Mortarbike
+* Warrior
+
 ## Orc
 
 ## How to run tests
