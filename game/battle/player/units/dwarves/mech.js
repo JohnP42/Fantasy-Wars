@@ -1,9 +1,9 @@
 Mech.prototype = new UnitInfantry();
 Mech.prototype.constructor = Mech;
 
-function Mech(pos) {
+function Mech(pos, player) {
   this.pos = pos;
-  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves" + player);
   game.add.existing(this);
   this.animations.add("stand", [20, 21], 2);
   this.animations.add("move", [22, 23], 8);
