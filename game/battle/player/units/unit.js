@@ -39,12 +39,14 @@ Unit.prototype.getPossibleMoves = function(pos, map) {
   var x = 0;
 
   while (closed.length < finalArray.length) {
-    
+
     this.getSurroundingPos(finalArray[x]).forEach(function(position) {
-      if(!that.arrayIncludesPosition(finalArray, position)) {
-        if(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that) <= that.speed) {
-          finalArray.push(position);
-          moved.push(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that));
+      if(map.posValid(position)) {
+        if(!that.arrayIncludesPosition(finalArray, position)) {
+          if(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that) <= that.speed) {
+            finalArray.push(position);
+            moved.push(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that));
+          }
         }
       }
     });
