@@ -54,8 +54,10 @@ Battle.prototype.onClickListener = function() {
         this.currentSelectedMovement = [];
       }
       else {
-        this.turnState = "animatingMovement";
-        this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
+        if (!this.currentSelectedUnit.movedThisTurn) {
+          this.turnState = "animatingMovement";
+          this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
+        };
       }
     }
   }
@@ -67,6 +69,8 @@ Battle.prototype.onClickListener = function() {
 
 Battle.prototype.animateMovement = function() {
   if (this.currentSelectedUnit.move()) {
+    // var gray = game.add.filter('Gray');
+    // this.currentSelectedUnit.filters = [gray];
     this.turnState = "selectingUnit";
     this.currentSelectedUnit = null;
     this.currentSelectedMovement = [];
@@ -84,7 +88,7 @@ Battle.prototype.getMoveAtPos = function(mousePos) {
 
 Battle.prototype.getSelectedMoves = function() {
   //TODO
-  if(this.currentSelectedUnit) {
+  if(this.currentSelectedUnit && !this.currentSelectedUnit.movedThisTurn) {
     var positions = this.currentSelectedMovement.slice();
 
     positions = positions.map(function(pos) {
