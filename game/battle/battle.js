@@ -12,7 +12,12 @@ Battle.prototype.update = function() {
   for (var i = 0; i < this.players.length; i++) {
   	this.players[i].update(this.map, this.turn === i + 1)
   }
-  this.onClickListener();
+  if(this.turnState !== "animatingMovement") {
+    this.onClickListener();
+  }
+  else {
+    this.animateMovement();
+  }
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -31,7 +36,7 @@ Battle.prototype.getUnitAtPos = function(pos) {
 Battle.prototype.onClickListener = function() {
   // Retrieve tile at a given pos
   if(game.input.mousePointer.isDown && this.canClick) {
-    mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
+    var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     this.canClick = false
     if(this.turnState === "selectingUnit") {
       unit = this.getUnitAtPos(mousePos);
@@ -42,23 +47,33 @@ Battle.prototype.onClickListener = function() {
       }
     }
     else if(this.turnState ==="selectingMove") {
-      squareToMoveTo = this.getMoveAtPos(mousePos);
+      var squareToMoveTo = this.getMoveAtPos(mousePos);
       if (squareToMoveTo === null) {
-        this.turnState = "selectingUnit"
+        this.turnState = "selectingUnit";
         this.currentSelectedUnit = null;
         this.currentSelectedMovement = [];
       }
       else {
-        this.currentSelectedUnit.move(squareToMoveTo.getPath());
-        this.turnState = "selectingUnit"
-        this.currentSelectedUnit = null;
-        this.currentSelectedMovement = [];
+        if (!this.currentSelectedUnit.movedThisTurn) {
+          this.turnState = "animatingMovement";
+          this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
+        };
       }
     }
   }
 
   if(game.input.mousePointer.isUp) {
     this.canClick = true;
+  }
+};
+
+Battle.prototype.animateMovement = function() {
+  if (this.currentSelectedUnit.move()) {
+    // var gray = game.add.filter('Gray');
+    // this.currentSelectedUnit.filters = [gray];
+    this.turnState = "selectingUnit";
+    this.currentSelectedUnit = null;
+    this.currentSelectedMovement = [];
   }
 };
 
@@ -73,7 +88,7 @@ Battle.prototype.getMoveAtPos = function(mousePos) {
 
 Battle.prototype.getSelectedMoves = function() {
   //TODO
-  if(this.currentSelectedUnit) {
+  if(this.currentSelectedUnit && !this.currentSelectedUnit.movedThisTurn) {
     var positions = this.currentSelectedMovement.slice();
 
     positions = positions.map(function(pos) {

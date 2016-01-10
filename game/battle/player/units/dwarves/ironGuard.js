@@ -1,9 +1,9 @@
 IronGuard.prototype = new UnitInfantry();
 IronGuard.prototype.constructor = IronGuard;
 
-function IronGuard(pos) {
+function IronGuard(pos, player) {
   this.pos = pos;
-  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves" + player);
   game.add.existing(this);
   this.animations.add("stand", [30, 31], 2);
   this.animations.add("move", [32, 33], 8);

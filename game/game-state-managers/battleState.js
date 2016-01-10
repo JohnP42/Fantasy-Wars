@@ -3,15 +3,21 @@ var battleState = {
 	map: null,
 	battle: null,
 
+    preload: function() {
+      game.cache.removeSound('menus');
+    },
+
 	create: function() {
 		//TODO: anything needed on battle start add here
     // tilemap(key, tileWidth, tileHeight, width, height) → {Phaser.Tilemap}
 
     // FOR TESTING PURPOSES
+    var bgm = game.add.audio('battle');
     var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
     tilemap.addTilesetImage("FW_Set", "tilesheet");
     tilemap.createLayer("Tile Layer 1");
     map = new Map();
+
     var army = [new Grenadier(new Pos(2, 2)),
     new Warrior(new Pos(1, 3)),
     new Mech(new Pos(1, 2)),
@@ -21,6 +27,7 @@ var battleState = {
     new Mortar(new Pos(1, 1)),
     new Biplane(new Pos(5, 1))];
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf([]))]);
+    bgm.play();
 	},
 
 	update: function() {
@@ -30,7 +37,7 @@ var battleState = {
 
     render: function() {
         battle.getSelectedMoves().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(0,0,255,0.5');
+            game.debug.geom(tileRect,'rgba(50,150,200,0.5');
         });
     }
 
