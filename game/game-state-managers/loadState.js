@@ -2,6 +2,8 @@ var loadState = {
 
 	preload: function() {
 		//TODO: Load assets here
+    game.load.audio('menus', 'game/assets/audio/BGM/menus.ogg');
+    game.load.audio('battle', 'game/assets/audio/BGM/battle.ogg')
     this.load.image('logo', 'game/assets/logo.jpg');
 
     game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
