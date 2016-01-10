@@ -29,7 +29,7 @@ var battleState = {
 	},
 
     render: function() {
-        battle.currentSelectedMovement.forEach(function(tileRect) {
+        battle.getSelectedMoves().forEach(function(tileRect) {
             game.debug.geom(tileRect,'rgba(0,0,255,0.5');
         });
     }

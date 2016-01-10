@@ -4,6 +4,8 @@ function Battle(map, players) {
   this.turn = 0;
   this.currentSelectedUnit = null;
   this.currentSelectedMovement = [];
+  this.turnState = "selectingUnit";
+  this.canClick = true;
 };
 
 Battle.prototype.update = function() {
@@ -28,24 +30,51 @@ Battle.prototype.getUnitAtPos = function(pos) {
 
 Battle.prototype.onClickListener = function() {
   // Retrieve tile at a given pos
-  if(game.input.mousePointer.isDown) {
-    pos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
-    unit = this.getUnitAtPos(pos);
-    if(this.currentSelectedUnit !== unit) {
-      this.currentSelectedUnit = unit;
-      this.currentSelectedMovement = this.getSelectedMoves();
+  if(game.input.mousePointer.isDown && this.canClick) {
+    mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
+    this.canClick = false
+    if(this.turnState === "selectingUnit") {
+      unit = this.getUnitAtPos(mousePos);
+      if(this.currentSelectedUnit !== unit) {
+        this.currentSelectedUnit = unit;
+        this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
+        this.turnState = "selectingMove";
+      }
     }
+    else if(this.turnState ==="selectingMove") {
+      squareToMoveTo = this.getMoveAtPos(mousePos);
+      if (squareToMoveTo === null) {
+        this.turnState = "selectingUnit"
+        this.currentSelectedUnit = null;
+        this.currentSelectedMovement = [];
+      }
+      else {
+        this.currentSelectedUnit.move(squareToMoveTo.getPath());
+        this.turnState = "selectingUnit"
+        this.currentSelectedUnit = null;
+        this.currentSelectedMovement = [];
+      }
+    }
+  }
+
+  if(game.input.mousePointer.isUp) {
+    this.canClick = true;
   }
 };
 
-Battle.prototype.selectingMovementSquare = function() {
-  
+Battle.prototype.getMoveAtPos = function(mousePos) {
+  finalSquare = null;
+  this.currentSelectedMovement.forEach(function(pos) {
+    if (mousePos.equals(pos))
+      finalSquare = pos;
+  });
+  return finalSquare;
 }
 
 Battle.prototype.getSelectedMoves = function() {
   //TODO
   if(this.currentSelectedUnit) {
-    var positions = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
+    var positions = this.currentSelectedMovement.slice();
 
     positions = positions.map(function(pos) {
       return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
