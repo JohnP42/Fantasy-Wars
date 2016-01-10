@@ -4,6 +4,7 @@ Unit.prototype.constructor = Unit;
 function Unit(pos) {
   this.pos = pos;
   this.health = 100;
+  this.speed = 3;
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
@@ -26,25 +27,29 @@ Unit.prototype.attack = function(pos) {
   //TODO: Attack enemy unit
 };
 
-// Unit.prototype.getPossibleMoves = function(pos) {
-//   function getPossibleMovesRecursive(function(remainder, pos, visited) { //visited takes an array
-//     if (remainder === 0 || remainder === 1) {
-//       return [];
-//     };
-//     visited.push(pos);
-//     //TODO: create get_surrounding_tiles();
-//     var surrounding_tiles = getSurroundingTiles(pos);
-//     surrounding_tiles.forEach(function(tile) {
-//       //TODO: create getTileAtpos() && getPenalty();
-//       var newRemainder = remainder - game.getTileAtpos(pos).getPenalty();
-//       if ((newRemainder > 0 && !visited.includes(tile)) {
-//         return [tile].concat(getPossibleMovesRecursive(newRemainder, tile, visited));
-//       }
-//     })
-//   })
-// };
+Unit.prototype.getPossibleMoves = function(pos, map) {
+  var remainder = this.speed;
+  var visited = [pos];
+  this.getPossibleMovesRecursive(remainder, pos, visited, map);
+};
 
-Unit.prototype.getSurroundingTiles = function(pos) {
+Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map) { //visited takes an array
+  var that = this;
+  if (remainder === 0 || remainder === 1) {
+    return [];
+  };
+  visited.push(pos);
+  var surroundingPos = this.getSurroundingPos(pos);
+  surroundingPos.forEach(function(pos) {
+    //TODO: create getTileAtpos() && getPenalty();
+    var newRemainder = remainder - map.getPenaltyAtPos(pos, that);
+    if ((newRemainder > 0 && !visited.includes(pos)) {
+      return [pos].concat(getPossibleMovesRecursive(newRemainder, pos, visited));
+    }
+  });
+};
+
+Unit.prototype.getSurroundingPos = function(pos) {
   // Returns an array of positions surrounding the input position
   return [new Pos(pos.x, pos.y + 1), // top
           new Pos(pos.x + 1, pos.y), // right

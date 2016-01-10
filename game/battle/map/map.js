@@ -7,6 +7,10 @@ Map.prototype.getTileAtPos = function(pos) {
   return map.getTile(pos.x, pos.y).properties;
 }
 
+Map.prototype.getPenaltyAtPos = function(pos, unit) {
+  var tile = this.getTileAtPos(pos);
+  return 1;
+}
 
 
 

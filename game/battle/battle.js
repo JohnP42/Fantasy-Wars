@@ -2,6 +2,7 @@ function Battle(map, players) {
   this.map = map;
   this.players = players;
   this.turn = 0;
+  this.currentSelectedUnit = null;
 };
 
 Battle.prototype.update = function() {
@@ -9,6 +10,7 @@ Battle.prototype.update = function() {
   	this.players[i].update(this.map, this.turn === i + 1)
   }
   this.onClickListener();
+  this.showSelectedMoves();
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -16,7 +18,6 @@ Battle.prototype.getUnitAtPos = function(pos) {
   finalUnit = null;
   this.players.forEach(function(player) {
     player.army.units.forEach(function(unit) {
-      // console.log(unit.pos);
       if (unit.pos.equals(pos)) {
          finalUnit = unit;
       };
@@ -30,9 +31,17 @@ Battle.prototype.onClickListener = function() {
   if(game.input.mousePointer.isDown) {
     pos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE))
     unit = this.getUnitAtPos(pos);
-    console.log(unit);
+    this.currentSelectedUnit = unit;
   }
 };
+
+Battle.prototype.showSelectedMoves = function() {
+  //TODO
+  if(currentSelectedUnit) {
+    var tiles = currentSelectedUnit.getPossibleMoves(currentSelectedUnit.pos, this.map);
+    console.log(tiles);
+  }
+}
 
 Battle.prototype.getTileAtPos = function(pos) {
   // Retrieve tile at a given pos
