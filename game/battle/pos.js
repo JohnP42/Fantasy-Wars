@@ -1,6 +1,7 @@
-function Pos(x, y) {
+function Pos(x, y, parentPos) {
   this.x = x;
   this.y = y;
+  this.parentPos = parentPos || null;
 }
 
 Pos.prototype.getCoordinates = function() {

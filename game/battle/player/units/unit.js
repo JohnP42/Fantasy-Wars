@@ -28,7 +28,7 @@ Unit.prototype.attack = function(pos) {
 };
 
 Unit.prototype.getPossibleMoves = function(pos, map) {
-  var remainder = this.speed;
+  var remainder = this.speed + 1;
   var visited = [pos];
   var possibleMoves = this.getPossibleMovesRecursive(remainder, pos, visited, map);
   // console.log(possibleMoves);
@@ -54,10 +54,10 @@ Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map
 
 Unit.prototype.getSurroundingPos = function(pos) {
   // Returns an array of positions surrounding the input position
-  return [new Pos(pos.x, pos.y + 1), // top
-          new Pos(pos.x + 1, pos.y), // right
-          new Pos(pos.x, pos.y - 1), // bottom
-          new Pos(pos.x - 1, pos.y) // left
+  return [new Pos(pos.x, pos.y + 1, pos), // top
+          new Pos(pos.x + 1, pos.y, pos), // right
+          new Pos(pos.x, pos.y - 1, pos), // bottom
+          new Pos(pos.x - 1, pos.y, pos) // left
   ];
 };
 
