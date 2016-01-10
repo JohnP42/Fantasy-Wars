@@ -31,7 +31,7 @@ Unit.prototype.getPossibleMoves = function(pos, map) {
   var remainder = this.speed;
   var visited = [pos];
   var possibleMoves = this.getPossibleMovesRecursive(remainder, pos, visited, map);
-  console.log(possibleMoves);
+  // console.log(possibleMoves);
   return possibleMoves;
 };
 
@@ -86,7 +86,7 @@ Unit.prototype.getHealthNumber = function() {
 Unit.prototype.getAttackDamage = function(pos) {
   //TODO: Returns attack damage based on formula for attack type and defense.
 };
-\
+
 Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
   this.destroy();
