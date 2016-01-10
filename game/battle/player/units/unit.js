@@ -30,11 +30,13 @@ Unit.prototype.attack = function(pos) {
 Unit.prototype.getPossibleMoves = function(pos, map) {
   var remainder = this.speed;
   var visited = [pos];
-  this.getPossibleMovesRecursive(remainder, pos, visited, map);
+  return this.getPossibleMovesRecursive(remainder, pos, visited, map);
 };
 
 Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map) { //visited takes an array
   var that = this;
+  var finalArray = [pos];
+
   if (remainder === 0 || remainder === 1) {
     return [];
   };
@@ -43,10 +45,11 @@ Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map
   surroundingPos.forEach(function(pos) {
     //TODO: create getTileAtpos() && getPenalty();
     var newRemainder = remainder - map.getPenaltyAtPos(pos, that);
-    if ((newRemainder > 0 && !visited.includes(pos)) {
-      return [pos].concat(getPossibleMovesRecursive(newRemainder, pos, visited));
+    if (newRemainder > 0 && !visited.includes(pos)) {
+      return finalArray.concat(that.getPossibleMovesRecursive(newRemainder, pos, visited, map));
     }
   });
+  return finalArray;
 };
 
 Unit.prototype.getSurroundingPos = function(pos) {

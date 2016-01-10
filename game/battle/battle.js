@@ -37,8 +37,8 @@ Battle.prototype.onClickListener = function() {
 
 Battle.prototype.showSelectedMoves = function() {
   //TODO
-  if(currentSelectedUnit) {
-    var tiles = currentSelectedUnit.getPossibleMoves(currentSelectedUnit.pos, this.map);
+  if(this.currentSelectedUnit) {
+    var tiles = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
     console.log(tiles);
   }
 }
