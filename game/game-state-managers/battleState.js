@@ -9,7 +9,7 @@ var battleState = {
 
     // FOR TESTING PURPOSES
     var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
-    tilemap.addTilesetImage("tileset", "tilesheet");
+    tilemap.addTilesetImage("FW_Set", "tilesheet");
     tilemap.createLayer("Tile Layer 1");
     map = new Map();
     var army = [new Grenadier(new Pos(2, 2)),
@@ -19,7 +19,7 @@ var battleState = {
     new IronGuard(new Pos(3, 3)),
     new Cannon(new Pos(3, 2)),
     new Mortar(new Pos(1, 1)),
-    new Biplane(new Pos(10, 1))];
+    new Biplane(new Pos(5, 1))];
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf([]))]);
 	},
 
