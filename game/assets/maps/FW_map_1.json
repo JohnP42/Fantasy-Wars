@@ -23,7 +23,7 @@
         {
          "columns":4,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/tilesheets\/FWtiles\/tilesheet_merged.png",
+         "image":"..\/..\/..\/..\/tilesheets\/FWtiles\/fantasy_wars_tilesheet.png",
          "imageheight":192,
          "imagewidth":128,
          "margin":0,
@@ -66,14 +66,13 @@
                 },
              "18":
                 {
-                 "goldYielded":"100",
                  "movCostArt":"1",
                  "movCostCav":"1",
                  "movCostFly":"1",
                  "movCostInf":"1",
                  "name":"town",
-                 "protection":".25",
-                 "yieldFrequency":"1"
+                 "owner":"0",
+                 "protection":".5"
                 },
              "19":
                 {
@@ -100,6 +99,7 @@
                  "movCostFly":"1",
                  "movCostInf":"1",
                  "name":"castle",
+                 "owner":"0",
                  "protection":".75"
                 },
              "21":
@@ -109,9 +109,8 @@
                  "movCostFly":"1",
                  "movCostInf":"1",
                  "name":"barracks",
-                 "protection":".5",
-                 "unitsYielded":"1",
-                 "yieldFrequency":"1"
+                 "owner":"0",
+                 "protection":".5"
                 },
              "22":
                 {
