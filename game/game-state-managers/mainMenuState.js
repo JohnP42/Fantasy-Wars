@@ -5,7 +5,8 @@ var mainMenuState = {
     var logo = this.add.image(0, 0, 'logo');
     logo.width = this.game.width;
     logo.height = this.game.height;
-    var button = this.add.sprite(525, 300, 'battleButton');
+    var menuButton = new MenuButton(528, 200, 'battleButton');
+
 	},
 
 	update: function() {
