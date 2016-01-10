@@ -1,9 +1,9 @@
 Grenadier.prototype = new UnitInfantry();
 Grenadier.prototype.constructor = Grenadier;
 
-function Grenadier(pos) {
+function Grenadier(pos, player) {
   this.pos = pos;
-  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves" + player);
   game.add.existing(this);
   this.animations.add("stand", [10, 11], 2);
   this.animations.add("move", [12, 13], 8);
