@@ -30,13 +30,15 @@ Unit.prototype.attack = function(pos) {
 Unit.prototype.getPossibleMoves = function(pos, map) {
   var remainder = this.speed;
   var visited = [pos];
-  return this.getPossibleMovesRecursive(remainder, pos, visited, map);
+  var possibleMoves = this.getPossibleMovesRecursive(remainder, pos, visited, map);
+  console.log(possibleMoves);
+  return possibleMoves;
 };
 
 Unit.prototype.getPossibleMovesRecursive = function(remainder, pos, visited, map) { //visited takes an array
   var that = this;
   var finalArray = [pos];
-  if (remainder === 0 || remainder === 1) {
+  if (remainder === 0) { // || remainder === 1
     return [];
   };
   visited.push(pos);
