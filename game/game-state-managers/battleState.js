@@ -3,12 +3,16 @@ var battleState = {
 	map: null,
 	battle: null,
 
+    preload: function() {
+      game.cache.removeSound('menus');
+    },
+
 	create: function() {
 		//TODO: anything needed on battle start add here
     // tilemap(key, tileWidth, tileHeight, width, height) → {Phaser.Tilemap}
 
     // FOR TESTING PURPOSES
-
+    var bgm = game.add.audio('battle');
     var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
     tilemap.addTilesetImage("FW_Set", "tilesheet");
     tilemap.createLayer("Tile Layer 1");
@@ -22,6 +26,7 @@ var battleState = {
     new Mortar(new Pos(1, 1)),
     new Biplane(new Pos(5, 1))];
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf([]))]);
+    bgm.play();
 	},
 
 	update: function() {
