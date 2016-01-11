@@ -38,7 +38,25 @@ var battleState = {
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
 
     //Add End Turn Button
-    button = game.add.button(game.world.centerX - 95, 400, 'dwarvesButton', function() {battle.players[0].endTurn()}); // battle.players[0].endTurn()
+    button = game.add.button(game.world.centerX - 95, 400, 'dwarvesButton', function() {
+        if (battle.currentPlayer === 1) {
+            battle.players[0].endTurn();
+            battle.currentPlayer = 2;
+            var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
+            var text = game.add.text(game.world.centerX, game.world.centerY, "Player 2 Turn", style);
+            text.anchor.set(0.5);
+            text.alpha = 1;
+            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+        } else {
+            battle.players[1].endTurn();
+            battle.currentPlayer = 1;
+            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+            var text = game.add.text(game.world.centerX, game.world.centerY, "Player 1 Turn", style);
+            text.anchor.set(0.5);
+            text.alpha = 1;
+            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+        };
+    });
 
     bgm.play();
     },
@@ -54,3 +72,4 @@ var battleState = {
         });
     }
 }
+
