@@ -1,5 +1,6 @@
 function Player(army) {
 	this.army = army;
+  this.active = false; // boolean to be used to determine which players turn it is
 };
 
 Player.prototype.update = function(map, myTurn) {
@@ -15,9 +16,13 @@ Player.prototype.openMenu = function() {
 };
 
 Player.prototype.endTurn = function() {
-  //TODO: Allows player to end their turn
+  // Allows player to end their turn
+  this.army.units.forEach(function(unit) {
+    unit.resetUnit();
+  });
 };
 
 Player.prototype.quitGame = function() {
   //TODO: Allows player to end the battle
+  // When this function is called it will start the "VictoryState" Game State
 };

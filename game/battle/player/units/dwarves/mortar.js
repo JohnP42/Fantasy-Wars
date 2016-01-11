@@ -1,9 +1,9 @@
 Mortar.prototype = new UnitArtillery();
 Mortar.prototype.constructor = Mortar;
 
-function Mortar(pos) {
+function Mortar(pos, player) {
   this.pos = pos;
-  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves" + player);
   game.add.existing(this);
   this.animations.add("stand", [60, 61], 2);
   this.animations.add("move", [62, 63], 8);
@@ -15,4 +15,5 @@ function Mortar(pos) {
   this.speed = 3;
   this.range = [3,5];
   this.cost = 900;
+  this.player = player;
 }

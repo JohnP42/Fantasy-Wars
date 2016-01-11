@@ -1,9 +1,9 @@
 MotorBike.prototype = new UnitInfantry();
 MotorBike.prototype.constructor = MotorBike;
 
-function MotorBike(pos) {
+function MotorBike(pos, player) {
   this.pos = pos;
-  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves");
+  Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprDwarves" + player);
   game.add.existing(this);
   this.animations.add("stand", [40, 41], 8);
   this.animations.add("move", [42, 43], 12);
@@ -15,4 +15,5 @@ function MotorBike(pos) {
   this.speed = 6;
   this.range = [1,2];
   this.cost = 200;
+  this.player = player;
 }
