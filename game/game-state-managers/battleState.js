@@ -18,7 +18,8 @@ var battleState = {
     // FOR TESTING PURPOSE
     // TODO: change "testmap" to mapKey
     //       implement armyType to get correct army units
-
+        game.world.setBounds(0, -50, 1000, 1000);
+        game.camera.y = -50;
         var bgm = game.add.audio('battle');
         var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
         tilemap.addTilesetImage("FW_Set", "tilesheet");
