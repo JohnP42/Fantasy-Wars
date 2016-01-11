@@ -12,15 +12,15 @@ var loadState = {
     game.load.audio('select', 'game/assets/audio/SE/select.ogg');
     game.load.audio('slash', 'game/assets/audio/SE/slash.ogg');
     this.load.image('logo', 'game/assets/logo.jpg');
-    this.load.image('parchment', 'game/assets/menus/parchment.png')
-    this.load.image('map1', 'game/assets/menus/FW_map_1_thumbnail.png')
-    this.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png')
-    this.load.image('elfImage','game/assets/menus/images/elfImage.png')
-    this.load.image('orcImage','game/assets/menus/images/orcImage.png')
+    this.load.image('parchment', 'game/assets/menus/parchment.png');
+    this.load.image('map1', 'game/assets/menus/FW_map_1_thumbnail.png');
+    this.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png');
+    this.load.image('elfImage','game/assets/menus/images/elfImage.png');
+    this.load.image('orcImage','game/assets/menus/images/orcImage.png');
 
-    game.load.spritesheet('dwarvesButton', 'game/assets/menus/buttons/dwarvesButton.png', 224, 71)
-    game.load.spritesheet('elvesButton', 'game/assets/menus/buttons/elvesButton.png', 224, 71)
-    game.load.spritesheet('orcsButton', 'game/assets/menus/buttons/orcsButton.png', 224, 71)
+    game.load.spritesheet('dwarvesButton', 'game/assets/menus/buttons/dwarvesButton.png', 224, 71);
+    game.load.spritesheet('elvesButton', 'game/assets/menus/buttons/elvesButton.png', 224, 71);
+    game.load.spritesheet('orcsButton', 'game/assets/menus/buttons/orcsButton.png', 224, 71);
 
     game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
     game.load.image("tilesheet", "game/assets/maps/fantasy_wars_tilesheet.png");
@@ -28,7 +28,7 @@ var loadState = {
     game.load.spritesheet("sprDwarves1", "game/assets/spritesheets/dwarf_units.png", 32, 32);
     game.load.spritesheet("sprDwarves2", "game/assets/spritesheets/dwarf_units2.png", 32, 32);
 
-    game.load.spritesheet("battleButton", "game/assets/menus/battleground_buttons_sheet.png", 193, 71)
+    game.load.spritesheet("battleButton", "game/assets/menus/battleground_buttons_sheet.png", 193, 71);
 
     game.load.script('gray', 'game/phaser/filters/Gray.js');
 	},
