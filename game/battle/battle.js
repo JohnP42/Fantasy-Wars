@@ -23,6 +23,15 @@ Battle.prototype.update = function() {
   else {
     this.onClickListener();
   }
+
+  if(this.turnState !== "selectingMove") {
+    moveHighlights.removeChildren();
+  }
+
+  if(this.turnState !== "selectingAttack") {
+    attackHighlights.removeChildren();
+  }
+
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -52,11 +61,13 @@ Battle.prototype.onClickListener = function() {
         // get possible moves
         this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
         this.turnState = "selectingMove";
+        this.renderMoveHighlights();
       }
     }
     else if(this.turnState === "selectingMove") {
       // if the selected move is valid, state becomes animation state, otherwise deselect unit
       var squareToMoveTo = this.getMoveAtPos(mousePos);
+
       if (squareToMoveTo === null) {
         this.turnState = "selectingUnit";
         this.currentSelectedUnit = null;
@@ -104,6 +115,7 @@ Battle.prototype.animateMovement = function() {
     this.turnState = "selectingAttack";
     this.currentSelectedMovement = [];
     this.currentSelectedAttacks = this.currentSelectedUnit.getPossibleAttacks(this.map);
+    this.renderAttackHighlights();
   }
 };
 
@@ -135,32 +147,30 @@ Battle.prototype.getUnitToAttackAtPos = function(mousePos) {
   return finalSquare === null ? null : this.getUnitAtPos(finalSquare);
 };
 
-Battle.prototype.getSelectedMoves = function() {
+Battle.prototype.renderMoveHighlights = function() {
   // parses Unit.getPossibleMoves for filtering (color/selection) - applies filter/rectangle
-  if(this.currentSelectedUnit && !this.currentSelectedUnit.movedThisTurn) {
+  if(!this.currentSelectedUnit.movedThisTurn) {
     var positions = this.currentSelectedMovement.slice();
 
-    positions = positions.map(function(pos) {
-      return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
+    positions.forEach(function(pos) {
+      moveHighlights.create(pos.canvasX(), pos.canvasY(), "selectionTiles", 0)
     });
-
-    return positions;
+    console.log(moveHighlights);
+    console.log(this.currentSelectedUnit);
+    moveHighlights.callAll("animations.add", "animations", "move", [0, 1, 2], 4, true);
+    moveHighlights.callAll("animations.play", "animations", "move");
   }
-  return [];
 };
 
-Battle.prototype.getSelectedAttacks = function() {
+Battle.prototype.renderAttackHighlights = function() {
   // parses Unit.getPossibleAttacks for filtering (color/selection) - applies filter/rectangle
-  if(this.currentSelectedUnit) {
-    var positions = this.currentSelectedAttacks.slice();
+  var positions = this.currentSelectedAttacks.slice();
 
-    positions = positions.map(function(pos) {
-      return new Phaser.Rectangle(pos.x * TILESCALE, pos.y * TILESCALE, TILESCALE, TILESCALE);
-    });
-
-    return positions;
-  }
-  return [];
+  positions = positions.map(function(pos) {
+    attackHighlights.create(pos.canvasX(), pos.canvasY(), "selectionTiles", 10)
+  });
+  attackHighlights.callAll("animations.add", "animations", "attack", [3, 4, 5], 4, true);
+  attackHighlights.callAll("animations.play", "animations", "attack");
 };
 
 Battle.prototype.getTileAtPos = function(pos) {

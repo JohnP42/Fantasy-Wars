@@ -30,8 +30,11 @@ var battleState = {
         var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
 
+        moveHighlights = game.add.group();
+        attackHighlights = game.add.group();
+
         // army 1
-        
+
         var army = [new Grenadier(new Pos(2, 2), 1),
         new Warrior(new Pos(1, 3), 1),
         new Mech(new Pos(1, 2), 1),
@@ -54,7 +57,7 @@ var battleState = {
         var topMenuBar = game.add.image(0, -64, 'topMenuBar');
         var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
         var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.currentPlayer.goldCount, style);
-        
+
         // bottom menu bar
 
         var bottomMenuBar = game.add.image(0, 482, 'bottomMenuBar');
@@ -92,13 +95,13 @@ var battleState = {
         // stats menu
 
         var statsStyle = {font: "16pt Herculanum", align: "left", fill: "white"};
-            
+
         var statsMenu = game.add.image(576, 353, 'statsMenu');
 
-        currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle); 
-        currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle); 
-        currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle); 
-        currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle); 
+        currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle);
+        currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle);
+        currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle);
+        currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle);
 
         bgm.play();
     },
@@ -106,7 +109,7 @@ var battleState = {
     update: function() {
         //TODO: Anything dealing with the battle here
         battle.update();
-        
+
         if (battle.currentSelectedUnit !== null) {
 
             currentUnitHealth.setText("Health:     " + battle.currentSelectedUnit.getHealthNumber());
@@ -118,13 +121,13 @@ var battleState = {
     },
 
     render: function() {
-        battle.getSelectedMoves().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(50,150,200,0.5');
-        });
+        // battle.getSelectedMoves().forEach(function(tileRect) {
 
-        battle.getSelectedAttacks().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(200, 50, 50, 0.5');
-        });
+        // });
+
+        // battle.getSelectedAttacks().forEach(function(tileRect) {
+        //   game.debug.geom(tileRect,'rgba(200, 50, 50, 0.5');
+        // });
     }
 }
 
