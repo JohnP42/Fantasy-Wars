@@ -14,15 +14,19 @@ var loadState = {
             game.load.audio('flash', 'game/assets/audio/SE/flash.ogg');
 
             this.load.image('logo', 'game/assets/logo.jpg');
-            this.load.image('parchment', 'game/assets/menus/ui/parchmentBackdrop.png')
-            this.load.image('map1', 'game/assets/menus/images/FW_map_1_thumbnail.png')
-            this.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png')
-            this.load.image('elfImage','game/assets/menus/images/elfImage.png')
-            this.load.image('orcImage','game/assets/menus/images/orcImage.png')
+            this.load.image('parchment', 'game/assets/menus/ui/parchmentBackdrop.png');
+            this.load.image('bottomMenuBar', 'game/assets/menus/ui/menuBar.png');
+            this.load.image('map1', 'game/assets/menus/images/FW_map_1_thumbnail.png');
+            this.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png');
+            this.load.image('elfImage','game/assets/menus/images/elfImage.png');
+            this.load.image('orcImage','game/assets/menus/images/orcImage.png');
 
-            game.load.spritesheet('dwarvesButton', 'game/assets/menus/buttons/dwarvesButton.png', 224, 71)
-            game.load.spritesheet('elvesButton', 'game/assets/menus/buttons/elvesButton.png', 224, 71)
-            game.load.spritesheet('orcsButton', 'game/assets/menus/buttons/orcsButton.png', 224, 71)
+            game.load.spritesheet('dwarvesButton', 'game/assets/menus/buttons/dwarvesButton.png', 224, 71);
+            game.load.spritesheet('elvesButton', 'game/assets/menus/buttons/elvesButton.png', 224, 71);
+            game.load.spritesheet('orcsButton', 'game/assets/menus/buttons/orcsButton.png', 224, 71);
+            game.load.spritesheet('endTurnButton', 'game/assets/menus/ui/endTurnButton.png', 160, 64);
+            game.load.spritesheet('endGameButton', 'game/assets/menus/ui/endGameButton.png', 160, 64)
+            game.load.spritesheet('turnCountButton', 'game/assets/menus/ui/turnCountButton.png', 160, 64)
 
             game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
             game.load.image("tilesheet", "game/assets/maps/fantasy_wars_tilesheet.png");

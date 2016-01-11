@@ -1,6 +1,6 @@
 window.onload = function() {
 
-  game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+  game = new Phaser.Game(800, 608, Phaser.AUTO, '');
 
   game.state.add("bootState", bootState);
   game.state.add("loadState", loadState);
