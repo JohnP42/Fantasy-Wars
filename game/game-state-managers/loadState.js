@@ -17,6 +17,7 @@ var loadState = {
             this.load.image('parchment', 'game/assets/menus/ui/parchmentBackdrop.png');
             this.load.image('bottomMenuBar', 'game/assets/menus/ui/menuBar.png');
             this.load.image('topMenuBar', 'game/assets/menus/ui/topMenuBar.png');
+            this.load.image('statsMenu', 'game/assets/menus/ui/statsMenu.png');
             this.load.image('map1', 'game/assets/menus/images/FW_map_1_thumbnail.png');
             this.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png');
             this.load.image('elfImage','game/assets/menus/images/elfImage.png');
