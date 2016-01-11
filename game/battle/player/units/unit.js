@@ -5,6 +5,7 @@ function Unit(pos, player) {
   this.player = player;
   this.pos = pos;
   this.health = 100;
+  this.damageTaken = 0;
   this.speed = 3;
   this.movedThisTurn = false;
   this.range = [1, 1];
@@ -112,11 +113,11 @@ Unit.prototype.getPossibleAttacks = function(map) {
 
   var finalArray = [];
 
-  for(var x = this.pos.x - this.range[1]; x < this.pos.x + this.range[1]; x++) {
-    for(var y = this.pos.y - this.range[1]; y < this.pos.y - this.range[1]; y++) {
-      newPos = new Pos(x, y);
-      if(map.posValid(pos) && this.distanceTo(newPos) >= this.range[0] && this.distanceTo(newPos) <= this.range[1])
-        finalArray.push(pos);
+  for(var x = this.pos.x - this.range[1]; x <= this.pos.x + this.range[1]; x++) {
+    for(var y = this.pos.y - this.range[1]; y <= this.pos.y + this.range[1]; y++) {
+      var newPos = new Pos(x, y);
+      if(map.posValid(newPos) && this.distanceTo(newPos) >= this.range[0] && this.distanceTo(newPos) <= this.range[1])
+        finalArray.push(newPos);
     }
   }
   return finalArray;
@@ -128,8 +129,8 @@ Unit.prototype.distanceTo = function(pos) {
 
 Unit.prototype.takeDamage = function(damage) {
   // Updates unit health based on damage.
-  this.health -= damage;
-  if (this.health <= 0) {
+  this.damageTaken += damage;
+  if (this.damageTaken >= this.health) {
     this.die();
   }
 };
@@ -137,11 +138,11 @@ Unit.prototype.takeDamage = function(damage) {
 Unit.prototype.getHealthNumber = function() {
   // Translates health percentage into a displayable number 1-10.
   // 95 => 10, 5=>1, 55 => 6, 50 => 5, 49 => 5
-  return Math.ceil(this.health / 10) //TODO: fix health denomination
+  return Math.ceil((this.health - this.damageTaken) / (this.health / 10)); //TODO: fix health denomination
 };
 
-Unit.prototype.getAttackDamage = function(pos, enemyDefense, terrainDefense) {
-  return (this.attack * ((this.health - this.damageTaken)/this.health)) * (1.0 - enemyDefense) * (1.0 - terrainDefense) * (Math.random() / 10 + 1);
+Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
+  return Math.floor((this.attack * ((this.health - this.damageTaken)/this.health)) * (1.0 - enemyDefense) * (1.0 - terrainDefense) * (Math.random() / 10 + 1));
 };
 
 Unit.prototype.die = function(pos) {
