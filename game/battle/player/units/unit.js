@@ -7,6 +7,7 @@ function Unit(pos, player) {
   this.health = 100;
   this.speed = 3;
   this.movedThisTurn = false;
+  this.range = [1, 1];
   this.walkPath = [];
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
@@ -107,13 +108,23 @@ Unit.prototype.getSurroundingPos = function(pos) {
   ];
 };
 
-Unit.prototype.getPossibleAttacks = function(pos) {
-  //TODO: Returns possible pos that can be attacked.
+Unit.prototype.getPossibleAttacks = function(map) {
+
+  var finalArray = [];
+
+  for(var x = this.pos.x - this.range[1]; x < this.pos.x + this.range[1]; x++) {
+    for(var y = this.pos.y - this.range[1]; y < this.pos.y - this.range[1]; y++) {
+      newPos = new Pos(x, y);
+      if(map.posValid(pos) && this.distanceTo(newPos) >= this.range[0] && this.distanceTo(newPos) <= this.range[1])
+        finalArray.push(pos);
+    }
+  }
+  return finalArray;
 };
 
-Unit.prototype.animate = function() {
-  //TODO: Handles animation states
-};
+Unit.prototype.distanceTo = function(pos) {
+  return (Math.abs(this.pos.x - pos.x) + Math.abs(this.pos.y - pos.y));
+}
 
 Unit.prototype.takeDamage = function(damage) {
   // Updates unit health based on damage.
