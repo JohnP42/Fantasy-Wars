@@ -36,6 +36,7 @@ var battleState = {
     new Cannon(new Pos(6, 11), 2),];
 
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
+
     bgm.play();
     },
 
