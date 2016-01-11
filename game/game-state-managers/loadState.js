@@ -11,6 +11,8 @@ var loadState = {
     game.load.audio('battleButton', 'game/assets/audio/SE/battleButton.ogg');
     game.load.audio('select', 'game/assets/audio/SE/select.ogg');
     game.load.audio('slash', 'game/assets/audio/SE/slash.ogg');
+    game.load.audio('flash', 'game/assets/audio/SE/flash.ogg');
+
     this.load.image('logo', 'game/assets/logo.jpg');
     this.load.image('parchment', 'game/assets/menus/parchment.png');
     this.load.image('map1', 'game/assets/menus/FW_map_1_thumbnail.png');
