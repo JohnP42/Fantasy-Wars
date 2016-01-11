@@ -37,17 +37,21 @@ Battle.prototype.getUnitAtPos = function(pos) {
 Battle.prototype.onClickListener = function() {
   // Retrieve tile at a given pos
   if(game.input.mousePointer.isDown && this.canClick) {
+    // calculate tile on which mouse click happens
     var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
-    this.canClick = false
+    this.canClick = false;
+    // get the unit in the tile
     if(this.turnState === "selectingUnit") {
       unit = this.getUnitAtPos(mousePos);
       if(this.currentSelectedUnit !== unit) {
         this.currentSelectedUnit = unit;
+        // get possible moves
         this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
         this.turnState = "selectingMove";
       }
     }
     else if(this.turnState ==="selectingMove") {
+      // if the selected move is valid, state becomes animation state, otherwise deselect unit
       var squareToMoveTo = this.getMoveAtPos(mousePos);
       if (squareToMoveTo === null) {
         this.turnState = "selectingUnit";
@@ -70,8 +74,6 @@ Battle.prototype.onClickListener = function() {
 
 Battle.prototype.animateMovement = function() {
   if (this.currentSelectedUnit.move()) {
-    // var gray = game.add.filter('Gray');
-    // this.currentSelectedUnit.filters = [gray];
     this.turnState = "selectingUnit";
     this.currentSelectedUnit = null;
     this.currentSelectedMovement = [];
@@ -79,16 +81,17 @@ Battle.prototype.animateMovement = function() {
 };
 
 Battle.prototype.getMoveAtPos = function(mousePos) {
+  // detects if target position is valid; if yes, returns position, otherwise null
   finalSquare = null;
   this.currentSelectedMovement.forEach(function(pos) {
     if (mousePos.equals(pos))
       finalSquare = pos;
   });
   return finalSquare;
-}
+};
 
 Battle.prototype.getSelectedMoves = function() {
-  //TODO
+  // parses Unit.getPossibleMoves for filtering (color/selection) - applies filter/rectangle
   if(this.currentSelectedUnit && !this.currentSelectedUnit.movedThisTurn) {
     var positions = this.currentSelectedMovement.slice();
 
@@ -99,7 +102,7 @@ Battle.prototype.getSelectedMoves = function() {
     return positions;
   }
   return [];
-}
+};
 
 Battle.prototype.getTileAtPos = function(pos) {
   // Retrieve tile at a given pos

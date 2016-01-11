@@ -3,7 +3,14 @@ var loadState = {
 	preload: function() {
 		//TODO: Load assets here
     game.load.audio('menus', 'game/assets/audio/BGM/menus.ogg');
-    game.load.audio('battle', 'game/assets/audio/BGM/battle.ogg')
+    game.load.audio('battle', 'game/assets/audio/BGM/battle.ogg');
+    game.load.audio('move', 'game/assets/audio/SE/move.ogg');
+    game.load.audio('coin', 'game/assets/audio/SE/coin.ogg');
+    game.load.audio('rifle', 'game/assets/audio/SE/rifle.ogg');
+    game.load.audio('capture', 'game/assets/audio/SE/capture.ogg');
+    game.load.audio('battleButton', 'game/assets/audio/SE/battleButton.ogg');
+    game.load.audio('select', 'game/assets/audio/SE/select.ogg');
+    game.load.audio('slash', 'game/assets/audio/SE/slash.ogg');
     this.load.image('logo', 'game/assets/logo.jpg');
     this.load.image('parchment', 'game/assets/menus/parchment.png')
     this.load.image('map1', 'game/assets/menus/FW_map_1_thumbnail.png')
