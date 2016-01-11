@@ -39,10 +39,11 @@ var battleState = {
 
     //Add End Turn Button
     button = game.add.button(game.world.centerX - 95, 400, 'dwarvesButton', function() {
-        battle.players[0].endTurn();
         if (battle.currentPlayer === 1) {
+            battle.players[0].endTurn();
             battle.currentPlayer = 2;
         } else {
+            battle.players[1].endTurn();
             battle.currentPlayer = 1;
         };
     });
