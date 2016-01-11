@@ -131,3 +131,9 @@ Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
   this.destroy();
 }
+
+Unit.prototype.resetUnit = function() {
+  // Resets unit at the end of a player's turn
+  this.movedThisTurn = false;
+  this.filters = null;
+}
