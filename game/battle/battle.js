@@ -6,6 +6,7 @@ function Battle(map, players) {
   this.currentSelectedMovement = [];
   this.turnState = "selectingUnit";
   this.canClick = true;
+  this.currentPlayer = 1;
 };
 
 Battle.prototype.update = function() {
@@ -54,7 +55,9 @@ Battle.prototype.onClickListener = function() {
         this.currentSelectedMovement = [];
       }
       else {
-        if (!this.currentSelectedUnit.movedThisTurn) {
+        console.log(this.currentPlayer);
+        console.log(this.currentSelectedUnit.player);
+        if (!this.currentSelectedUnit.movedThisTurn && this.currentSelectedUnit.player === this.currentPlayer) {
           this.turnState = "animatingMovement";
           this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
         };

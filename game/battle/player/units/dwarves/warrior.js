@@ -15,4 +15,5 @@ function Warrior(pos, player) {
   this.speed = 3;
   this.range = [1,1];
   this.cost = 100;
+  this.player = player;
 }

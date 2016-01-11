@@ -1,7 +1,8 @@
 Unit.prototype = Object.create(Phaser.Sprite.prototype);
 Unit.prototype.constructor = Unit;
 
-function Unit(pos) {
+function Unit(pos, player) {
+  this.player = player;
   this.pos = pos;
   this.health = 100;
   this.speed = 3;
