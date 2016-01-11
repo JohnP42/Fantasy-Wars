@@ -1,7 +1,7 @@
 function Battle(map, players) {
   this.map = map;
   this.players = players;
-  this.turn = 0;
+  this.turn = 1;
   this.currentSelectedUnit = null;
   this.currentSelectedMovement = [];
   this.turnState = "selectingUnit";

@@ -37,28 +37,38 @@ var battleState = {
 
         battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
 
-    //Add End Turn Button
-    button = game.add.button(160, 536, 'endTurnButton', function() {
-        if (battle.currentPlayer === 1) {
-            battle.players[0].endTurn();
-            battle.currentPlayer = 2;
-            var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
-            var text = game.add.text(game.world.centerX, game.world.centerY, "Player 2 Turn", style);
-            text.anchor.set(0.5);
-            text.alpha = 1;
-            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-        } else {
-            battle.players[1].endTurn();
-            battle.currentPlayer = 1;
-            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-            var text = game.add.text(game.world.centerX, game.world.centerY, "Player 1 Turn", style);
-            text.anchor.set(0.5);
-            text.alpha = 1;
-            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-        };
-    });
+        var bottomMenuBar = game.add.image(0, 536, 'bottomMenuBar');
+        var turnCountButton = game.add.button(0, 536, 'turnCountButton');
+        var style = {font: "21pt Herculanum", align: "left", fill: "white"};
+        var turnCount = game.add.text(20, game.height - 46, "Turn: " + battle.turn, style);
+        var endGameButton = game.add.button(320, 536, 'endGameButton', function() {
+            game.state.start("mainMenuState");
+        });
 
-    bgm.play();
+        //Add End Turn Button
+        var button = game.add.button(160, 536, 'endTurnButton', function() {
+            if (battle.currentPlayer === 1) {
+                battle.players[0].endTurn();
+                battle.currentPlayer = 2;
+                var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
+                var text = game.add.text(game.world.centerX, game.world.centerY, "Player 2 Turn", style);
+                text.anchor.set(0.5);
+                text.alpha = 1;
+                var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+            } else {
+                battle.players[1].endTurn();
+                battle.currentPlayer = 1;
+                var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+                var text = game.add.text(game.world.centerX, game.world.centerY, "Player 1 Turn", style);
+                text.anchor.set(0.5);
+                text.alpha = 1;
+                var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+                battle.turn ++;
+                turnCount.setText("Turn: " + battle.turn);
+            };
+        });
+
+        bgm.play();
     },
 
     update: function() {
