@@ -8,6 +8,7 @@ function Mech(pos, player) {
   this.animations.add("stand", [20, 21], 2);
   this.animations.add("move", [22, 23], 8);
   this.animations.add("attack", [24, 25], 8);
+  this.moveSound = "move";
   this.name = "Dwarf Mech";
   this.health = 100;
   this.attack = 100;
