@@ -38,7 +38,7 @@ var battleState = {
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
 
     //Add End Turn Button
-    button = game.add.button(game.world.centerX - 95, 400, 'dwarvesButton', function() {
+    button = game.add.button(160, 536, 'endTurnButton', function() {
         if (battle.currentPlayer === 1) {
             battle.players[0].endTurn();
             battle.currentPlayer = 2;

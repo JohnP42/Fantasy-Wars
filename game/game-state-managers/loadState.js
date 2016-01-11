@@ -21,6 +21,7 @@ var loadState = {
     game.load.spritesheet('dwarvesButton', 'game/assets/menus/buttons/dwarvesButton.png', 224, 71)
     game.load.spritesheet('elvesButton', 'game/assets/menus/buttons/elvesButton.png', 224, 71)
     game.load.spritesheet('orcsButton', 'game/assets/menus/buttons/orcsButton.png', 224, 71)
+    game.load.spritesheet('endTurnButton', 'game/assets/menus/ui/endTurnButton.png', 160, 64)
 
     game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
     game.load.image("tilesheet", "game/assets/maps/fantasy_wars_tilesheet.png");
