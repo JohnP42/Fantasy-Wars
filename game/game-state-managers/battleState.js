@@ -1,7 +1,11 @@
 var battleState = {
 
-	map: null,
-	battle: null,
+    init: function(mapKey, armyType) {
+        this.mapKey = mapKey;
+        this.armyType = armyType;
+    	map: null;
+    	battle: null;
+    },
 
     preload: function() {
       game.cache.removeSound('menus');
@@ -11,7 +15,10 @@ var battleState = {
     //TODO: anything needed on battle start add here
     // tilemap(key, tileWidth, tileHeight, width, height) → {Phaser.Tilemap}
 
-    // FOR TESTING PURPOSES
+    // FOR TESTING PURPOSE
+    // TODO: change "testmap" to mapKey
+    //       implement armyType to get correct army units
+
     var bgm = game.add.audio('battle');
     var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
     tilemap.addTilesetImage("FW_Set", "tilesheet");

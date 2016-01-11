@@ -5,6 +5,8 @@ window.onload = function() {
   game.state.add("bootState", bootState);
   game.state.add("loadState", loadState);
   game.state.add("mainMenuState", mainMenuState);
+  game.state.add("mapSelectState", mapSelectState);
+  game.state.add("armySelectState", armySelectState);
   game.state.add("battleState", battleState);
 
   game.state.start("bootState");
