@@ -141,6 +141,11 @@ Unit.prototype.getHealthNumber = function() {
   return Math.ceil((this.health - this.damageTaken) / (this.health / 10)); //TODO: fix health denomination
 };
 
+Unit.prototype.getDefenseAsPercent = function() {
+  // Gets defense as a percent
+  return (this.defense * 100 + "%");
+}
+
 Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
   return Math.floor((this.attack * ((this.health - this.damageTaken)/this.health)) * (1.0 - enemyDefense) * (1.0 - terrainDefense) * (Math.random() / 10 + 1));
 };
