@@ -5,6 +5,10 @@ var battleState = {
         this.armyType = armyType;
     	map: null;
     	battle: null;
+        var currentUnitHealth = null;
+        var currentUnitAttack = null;
+        var currentUnitDefense = null;
+        var currentUnitSpeed = null;
     },
 
     preload: function() {
@@ -85,12 +89,32 @@ var battleState = {
             currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
         });
 
+        // stats menu
+
+        var statsStyle = {font: "16pt Herculanum", align: "left", fill: "white"};
+            
+        var statsMenu = game.add.image(576, 353, 'statsMenu');
+
+        currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle); 
+        currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle); 
+        currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle); 
+        currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle); 
+
         bgm.play();
     },
 
     update: function() {
         //TODO: Anything dealing with the battle here
         battle.update();
+        
+        if (battle.currentSelectedUnit !== null) {
+
+            currentUnitHealth.setText("Health:     " + battle.currentSelectedUnit.getHealthNumber());
+            currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
+            currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
+            currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
+
+        }
     },
 
     render: function() {
