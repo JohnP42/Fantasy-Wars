@@ -24,6 +24,8 @@ var battleState = {
         tilemap.addTilesetImage("FW_Set", "tilesheet");
         tilemap.createLayer("Tile Layer 1");
         map = new Map();
+        moveHighlights = game.add.group();
+        attackHighlights = game.add.group();
         var army = [new Grenadier(new Pos(2, 2), 1),
         new Warrior(new Pos(1, 3), 1),
         new Mech(new Pos(1, 2), 1),
@@ -77,13 +79,13 @@ var battleState = {
     },
 
     render: function() {
-        battle.getSelectedMoves().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(50,150,200,0.5');
-        });
+        // battle.getSelectedMoves().forEach(function(tileRect) {
 
-        battle.getSelectedAttacks().forEach(function(tileRect) {
-            game.debug.geom(tileRect,'rgba(200, 50, 50, 0.5');
-        });
+        // });
+
+        // battle.getSelectedAttacks().forEach(function(tileRect) {
+        //   game.debug.geom(tileRect,'rgba(200, 50, 50, 0.5');
+        // });
     }
 }
 
