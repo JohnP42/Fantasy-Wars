@@ -21,8 +21,8 @@ var battleState = {
 
         var bgm = game.add.audio('battle');
         var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
-        tilemap.addTilesetImage("FW_Set", "tilesheet");
-        tilemap.createLayer("Tile Layer 1");
+        var tileset = tilemap.addTilesetImage("FW_Set", "tilesheet");
+        var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
         var army = [new Grenadier(new Pos(2, 2), 1),
         new Warrior(new Pos(1, 3), 1),
