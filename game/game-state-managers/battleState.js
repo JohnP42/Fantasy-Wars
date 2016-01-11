@@ -80,6 +80,10 @@ var battleState = {
         battle.getSelectedMoves().forEach(function(tileRect) {
             game.debug.geom(tileRect,'rgba(50,150,200,0.5');
         });
+
+        battle.getSelectedAttacks().forEach(function(tileRect) {
+            game.debug.geom(tileRect,'rgba(200, 50, 50, 0.5');
+        });
     }
 }
 
