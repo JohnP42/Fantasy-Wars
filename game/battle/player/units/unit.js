@@ -135,4 +135,5 @@ Unit.prototype.die = function(pos) {
 Unit.prototype.resetUnit = function() {
   // Resets unit at the end of a player's turn
   this.movedThisTurn = false;
+  this.filters = null;
 }
