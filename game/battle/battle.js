@@ -55,8 +55,6 @@ Battle.prototype.onClickListener = function() {
         this.currentSelectedMovement = [];
       }
       else {
-        console.log(this.currentPlayer);
-        console.log(this.currentSelectedUnit.player);
         if (!this.currentSelectedUnit.movedThisTurn && this.currentSelectedUnit.player === this.currentPlayer) {
           this.turnState = "animatingMovement";
           this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();

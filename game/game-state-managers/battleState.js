@@ -38,7 +38,14 @@ var battleState = {
     battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
 
     //Add End Turn Button
-    button = game.add.button(game.world.centerX - 95, 400, 'dwarvesButton', function() {battle.players[0].endTurn()}); // battle.players[0].endTurn()
+    button = game.add.button(game.world.centerX - 95, 400, 'dwarvesButton', function() {
+        battle.players[0].endTurn();
+        if (battle.currentPlayer === 1) {
+            battle.currentPlayer = 2;
+        } else {
+            battle.currentPlayer = 1;
+        };
+    });
 
     bgm.play();
     },
