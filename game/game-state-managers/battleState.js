@@ -37,16 +37,16 @@ var battleState = {
 
         battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
 
-        var bottomMenuBar = game.add.image(0, 536, 'bottomMenuBar');
-        var turnCountButton = game.add.button(0, 536, 'turnCountButton');
+        var bottomMenuBar = game.add.image(0, 544, 'bottomMenuBar');
+        var turnCountButton = game.add.button(0, 544, 'turnCountButton');
         var style = {font: "21pt Herculanum", align: "left", fill: "white"};
         var turnCount = game.add.text(20, game.height - 46, "Turn: " + battle.turn, style);
-        var endGameButton = game.add.button(320, 536, 'endGameButton', function() {
+        var endGameButton = game.add.button(320, 544, 'endGameButton', function() {
             game.state.start("mainMenuState");
         });
 
         //Add End Turn Button
-        var button = game.add.button(160, 536, 'endTurnButton', function() {
+        var button = game.add.button(160, 544, 'endTurnButton', function() {
             if (battle.currentPlayer === 1) {
                 battle.players[0].endTurn();
                 battle.currentPlayer = 2;
