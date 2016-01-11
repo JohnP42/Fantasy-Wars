@@ -42,9 +42,19 @@ var battleState = {
         if (battle.currentPlayer === 1) {
             battle.players[0].endTurn();
             battle.currentPlayer = 2;
+            var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
+            var text = game.add.text(game.world.centerX, game.world.centerY, "Player 2 Turn", style);
+            text.anchor.set(0.5);
+            text.alpha = 1;
+            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
         } else {
             battle.players[1].endTurn();
             battle.currentPlayer = 1;
+            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+            var text = game.add.text(game.world.centerX, game.world.centerY, "Player 1 Turn", style);
+            text.anchor.set(0.5);
+            text.alpha = 1;
+            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
         };
     });
 
@@ -62,3 +72,4 @@ var battleState = {
         });
     }
 }
+
