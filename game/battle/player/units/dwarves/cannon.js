@@ -15,4 +15,5 @@ function Cannon(pos, player) {
   this.speed = 3;
   this.range = [2,4];
   this.cost = 1000;
+  this.player = player;
 }

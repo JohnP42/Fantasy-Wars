@@ -15,4 +15,5 @@ function Biplane(pos, player) {
   this.speed = 8;
   this.range = [1,2];
   this.cost = 400;
+  this.player = player;
 }

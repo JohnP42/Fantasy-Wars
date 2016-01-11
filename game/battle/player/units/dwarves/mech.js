@@ -15,4 +15,5 @@ function Mech(pos, player) {
   this.speed = 2;
   this.range = [1,2];
   this.cost = 200;
+  this.player = player;
 }
