@@ -17,4 +17,5 @@ function IronGuard(pos, player) {
   this.speed = 3;
   this.range = [1,1];
   this.cost = 400;
+  this.player = player;
 }

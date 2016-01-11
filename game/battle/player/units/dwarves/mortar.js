@@ -15,4 +15,5 @@ function Mortar(pos, player) {
   this.speed = 3;
   this.range = [3,5];
   this.cost = 900;
+  this.player = player;
 }

@@ -15,4 +15,5 @@ function MotorBike(pos, player) {
   this.speed = 6;
   this.range = [1,2];
   this.cost = 200;
+  this.player = player;
 }

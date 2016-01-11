@@ -17,4 +17,5 @@ function Grenadier(pos, player) {
   this.speed = 3;
   this.range = [1,2];
   this.cost = 150;
+  this.player = player;
 }
