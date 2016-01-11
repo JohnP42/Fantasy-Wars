@@ -18,7 +18,7 @@ var armySelectState = {
     var selectArmyText = this.add.text(265, 20, "Choose Your Army", {font: "bold 24pt Herculanum", align: "left"});
 
     var dwarfImage = this.add.image(20, 70, "dwarfImage", "dwarf");
-    var dwarfArmyButton = new MenuButton(450, 110, "dwarvesButton", "battleState", "dwarf", "flash");
+    var dwarfArmyButton = new MenuButton(450, 110, "dwarvesButton", "battleState", "flash", "dwarf");
 
     var elfImage = this.add.image(20, 245, "elfImage", "elf");
     var elfArmyButton = new MenuButton(450, 285, "elvesButton", "battleState", "elf", "flash");
