@@ -14,6 +14,6 @@ var mainMenuState = {
 
 	update: function() {
 		//TODO: Anything dealing with the main menu here
-	}
+	},
 
 }

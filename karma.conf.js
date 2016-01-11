@@ -12,7 +12,7 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-
+    // TODO: load assets
     // list of files / patterns to load in the browser
     files: [
       'game/phaser/phaser.js',
@@ -22,6 +22,7 @@ module.exports = function(config) {
       'game/battle/player/units/unitArtillery.js',
       'game/**/*.js',
       'spec/unitSpec.js',
+      // TODO: load files in dependency order
     ],
 
 

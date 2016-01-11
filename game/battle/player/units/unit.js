@@ -54,25 +54,30 @@ Unit.prototype.attack = function(pos) {
 Unit.prototype.getPossibleMoves = function(pos, map) {
 
   var that = this;
-  var finalArray = [pos];
-  var closed = [];
-  var moved = [0];
+  var finalArray = [pos]; // valid positions to move into
+  var closed = []; // previously searched positions
+  var moved = [0]; // cost of movement
 
   var x = 0;
 
   while (closed.length < finalArray.length) {
-
+    // for each square, find the possible next moves
     this.getSurroundingPos(finalArray[x]).forEach(function(position) {
+      // if those moves are valid (terrain and grid)
       if(map.posValid(position)) {
+        // if the position has not already been counted
         if(!that.arrayIncludesPosition(finalArray, position)) {
+          // if potential cost of movement exceeds speed, do not add to possible valid moves
           if(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that) <= that.speed) {
+            // otherwise, add to possible valid moves
             finalArray.push(position);
+            // add the corresponding movement cost to moved array
             moved.push(moved[finalArray.indexOf(finalArray[x])] + map.getPenaltyAtPos(position, that));
           }
         }
       }
     });
-
+    // if the position hasn't already been found, add to closed array
     if(!this.arrayIncludesPosition(closed, finalArray[x]))
       closed.push(finalArray[x]);
     x++;
@@ -120,7 +125,7 @@ Unit.prototype.takeDamage = function(damage) {
 Unit.prototype.getHealthNumber = function() {
   // Translates health percentage into a displayable number 1-10.
   // 95 => 10, 5=>1, 55 => 6
-  return Math.ceil(this.health / 10)
+  return Math.ceil(this.health / 10) //TODO: fix health denomination
 };
 
 Unit.prototype.getAttackDamage = function(pos) {
@@ -129,7 +134,7 @@ Unit.prototype.getAttackDamage = function(pos) {
 
 Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
-  this.destroy();
+  this.destroy(); // FIXME: scope differently
 }
 
 Unit.prototype.resetUnit = function() {
