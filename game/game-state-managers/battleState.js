@@ -1,8 +1,10 @@
 var battleState = {
 
-    init: function(mapKey, armyType) {
+    init: function(mapKey, armyKey, audio) {
         this.mapKey = mapKey;
-        this.armyType = armyType;
+        this.armyKey = armyKey;
+        console.log(mapKey);
+        console.log(armyKey);
     	map: null;
     	battle: null;
         var currentUnitHealth = null;
