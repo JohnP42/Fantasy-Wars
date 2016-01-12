@@ -39,9 +39,9 @@ Unit.prototype.move = function() {
   if (!nextTile)
     return true;
 
-  if (nextTile.canvasX() > this.x) {
+  if (nextTile.canvasX() > this.x)
     this.x += 2;
-  if(nextTile.canvasX() < this.x) {
+  if(nextTile.canvasX() < this.x)
     this.x -= 2;
   if(nextTile.canvasY() > this.y)
     this.y += 2;
