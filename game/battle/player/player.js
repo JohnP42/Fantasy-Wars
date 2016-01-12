@@ -7,8 +7,10 @@ Player.prototype.update = function(map, myTurn) {
 	this.army.update(map);
 };
 
-Player.prototype.onLocationSelect = function() {
-  //TODO: Options when location is selected
+Player.prototype.unitPositions = function() {
+  return this.army.units.map(function(unit) {
+    return unit.pos;
+  });
 };
 
 Player.prototype.openMenu = function() {

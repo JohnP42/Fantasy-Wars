@@ -54,7 +54,7 @@ Unit.prototype.attack = function(pos) {
   //TODO: Attack enemy unit
 };
 
-Unit.prototype.getPossibleMoves = function(pos, map) {
+Unit.prototype.getPossibleMoves = function(pos, map, enemyPositions) {
 
   var that = this;
   var finalArray = [pos]; // valid positions to move into
@@ -67,7 +67,7 @@ Unit.prototype.getPossibleMoves = function(pos, map) {
     // for each square, find the possible next moves
     this.getSurroundingPos(finalArray[x]).forEach(function(position) {
       // if those moves are valid (terrain and grid)
-      if(map.posValid(position)) {
+      if(map.posValid(position) && !that.arrayIncludesPosition(enemyPositions, position)) {
         // if the position has not already been counted
         if(!that.arrayIncludesPosition(finalArray, position)) {
           // if potential cost of movement exceeds speed, do not add to possible valid moves
