@@ -1,7 +1,7 @@
 var armySelectState = {
 
-  init: function(mapKey) {
-    this.selectedMap = mapKey
+  init: function(mapKey, armyKey, audio) {
+    this.mapKey = mapKey;
   },
 
   preload: function() {
@@ -12,23 +12,23 @@ var armySelectState = {
   },
 
   create: function() {
-    var parchment = this.add.image(0, 0, 'parchment');
-    parchment.width = this.game.width;
-    parchment.height = this.game.height;
+    _setBackgroundImage('parchment');
     var selectArmyText = this.add.text(265, 20, "Choose Your Army", {font: "bold 24pt Herculanum", align: "left"});
+    // pass to new MenuButton(x, y, spriteKey, targetState, tilemap name, armykey, audio)
+    var dwarfImage = this.add.image(20, 70, "dwarfImage");
+    var dwarfArmyButton = new MenuButton(450, 110, "armySelectionButtons", "battleState", this.mapKey, "dwarf", "flash", 2, 2, 3, 2);
 
-    var dwarfImage = this.add.image(20, 70, "dwarfImage", "dwarf");
-    var dwarfArmyButton = new MenuButton(450, 110, "dwarvesButton", "battleState", "dwarf");
+    var elfImage = this.add.image(20, 245, "elfImage");
+    var elfArmyButton = new MenuButton(450, 285, "armySelectionButtons", "battleState", this.mapKey, "elf", "flash", 0, 0, 1, 0);
 
-    var elfImage = this.add.image(20, 245, "elfImage", "elf");
-    var elfArmyButton = new MenuButton(450, 285, "elvesButton", "battleState", "elf");
+    var orcImage = this.add.image(20, 420, "orcImage");
+    var orcArmyButton = new MenuButton(450, 462, "armySelectionButtons", "battleState", this.mapKey, "orc", "flash", 4, 4, 5, 4);
 
-    var orcImage = this.add.image(20, 420, "orcImage", "orc");
-    var orcArmyButton = new MenuButton(450, 462, "orcsButton", "battleState", "orc");
-    // mapThumb.width = 150;
-    // mapThumb.height = 190;
-    //TODO: Add minimap sprites;
-    //      Add minimap text;
-    //      Add page text
   }
 }
+
+function _setBackgroundImage(imgKey) {
+  var logo = game.add.image(0, 0, imgKey);
+  logo.width = game.width;
+  logo.height = game.height;
+};
