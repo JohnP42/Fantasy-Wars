@@ -53,14 +53,13 @@ Battle.prototype.onClickListener = function() {
     // calculate tile on which mouse click happens
     var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     this.canClick = false;
-    // get the unit in the tile
     if(this.turnState === "selectingUnit") {
-      this._turnStateSelectingUnitHelper(mousePos);
+      this._clickListenerTurnStateSelectingUnitHelper(mousePos);
     }
     else if(this.turnState === "selectingMove") {
-      this._turnStateSelectingMoveHelper(mousePos);
+      this._clickListenerTurnStateSelectingMoveHelper(mousePos);
     }else if(this.turnState === "selectingAttack") {
-      this._turnStateSelectingAttackHelper(mousePos);
+      this._clickListenerTurnStateSelectingAttackHelper(mousePos);
     }
   }
 
@@ -174,7 +173,7 @@ Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
   }
 };
 
-Battle.prototype._turnStateSelectingAttackHelper = function(mousePos) {
+Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePos) {
   // if the selected move is valid, state becomes animation state, otherwise deselect unit
     var unitToAttack = this.getUnitToAttackAtPos(mousePos);
 
@@ -195,7 +194,7 @@ Battle.prototype._turnStateSelectingAttackHelper = function(mousePos) {
     }
 };
 
-Battle.prototype._turnStateSelectingMoveHelper = function(mousePos) {
+Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos) {
   // if the selected move is valid, state becomes animation state, otherwise deselect unit
   var squareToMoveTo = this.getMoveAtPos(mousePos);
   var unitAtPos = this.getUnitAtPos(mousePos);
@@ -216,7 +215,7 @@ Battle.prototype._turnStateSelectingMoveHelper = function(mousePos) {
   };
 };
 
-Battle.prototype._turnStateSelectingUnitHelper = function(mousePos) {
+Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos) {
   unit = this.getUnitAtPos(mousePos);
   if(this.currentSelectedUnit !== unit) {
     this.currentSelectedUnit = unit;
