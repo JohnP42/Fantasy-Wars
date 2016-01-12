@@ -51,17 +51,17 @@ var battleState = {
             currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
             currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
-
         }
 
         // TODO : at stuff from current selected tile
         if (battle.currentSelectedTile != null) {
-            currentTileName.setText("Name: "  );
-            currentTileDefense.setText("Defense: "  );
-            currentTileInfMov.setText("Infantry Cost: "  );
-            currentTileCavMov.setText("Cavalry Cost: "  );
-            currentTileArtMov.setText("Artillery Cost: "  );
-            currentTileFlyMov.setText("Fly Cost: "  );
+            var defense = parseFloat(battle.currentSelectedTile.protection);
+            currentTileName.setText("Name: " + battle.currentSelectedTile.name );
+            currentTileDefense.setText("Defense: " + (defense * 100) + "%");
+            currentTileInfMov.setText("Infantry Cost: "  + battle.currentSelectedTile.movCostInf );
+            currentTileCavMov.setText("Cavalry Cost: "  + battle.currentSelectedTile.movCostCav );
+            currentTileArtMov.setText("Artillery Cost: "  + battle.currentSelectedTile.movCostArt );
+            currentTileFlyMov.setText("Fly Cost: "  + battle.currentSelectedTile.movCostFly );
         }
     },
 

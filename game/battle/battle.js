@@ -5,6 +5,7 @@ function Battle(map, players) {
   this.currentSelectedUnit = null;
   this.currentSelectedMovement = [];
   this.currentSelectedAttacks = [];
+  this.currentSelectedTile = null;
   this.turnState = "selectingUnit";
   this.canClick = true;
   this.currentPlayer = 1;
@@ -53,6 +54,9 @@ Battle.prototype.onClickListener = function() {
     // calculate tile on which mouse click happens
     var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     this.canClick = false;
+
+    this.currentSelectedTile = this.map.getTileAtPos(mousePos);
+
     if(this.turnState === "selectingUnit") {
       this._clickListenerTurnStateSelectingUnitHelper(mousePos);
     }
