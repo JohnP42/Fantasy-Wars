@@ -38,31 +38,8 @@ var battleState = {
         // create battle
         battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
 
+        // Setup Menu UI
         _setupUIElements(battle);
-
-        // stats menu
-
-        var statsStyle = {font: "16pt Herculanum", align: "left", fill: "white"};
-
-        var statsMenu = game.add.image(576, 353, 'statsMenu');
-
-        currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle);
-        currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle);
-        currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle);
-        currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle);
-
-        var spriteAnimationBackdrop = game.add.image(576, 162, 'statsMenu');
-
-        var terrainStatsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
-
-        var terrainStatsMenu = game.add.image(576, 0, 'statsMenu');
-
-        currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
-        currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
-        currentTileInfMov = game.add.text(596, 72, "Infantry Cost:  ", terrainStatsStyle);
-        currentTileCavMov = game.add.text(596, 99, "Cavalry Cost:  ", terrainStatsStyle);
-        currentTileArtMov = game.add.text(596, 127, "Artillery Cost:  ", terrainStatsStyle);
-        currentTileFlyMov = game.add.text(596, 153, "Fly Cost:  ", terrainStatsStyle);
     },
 
     update: function() {
@@ -70,7 +47,6 @@ var battleState = {
         battle.update();
 
         if (battle.currentSelectedUnit !== null) {
-
             currentUnitHealth.setText("Health:     " + battle.currentSelectedUnit.getHealthNumber());
             currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
@@ -136,8 +112,10 @@ function _initializeArmyPlayer2() {
 
 function _setupUIElements(battle) {
     userInterfaceText = _createTopMenuBar(battle);
-    _createBottomMenuBar(battle);
-    _createEndTurnButton(battle, userInterfaceText);
+    bottomInterfaceText = _createBottomMenuBar(battle);
+    _createStatsMenu(battle);
+    _createTerrainMenu(battle);
+    _createEndTurnButton(battle, userInterfaceText, bottomInterfaceText);
 };
 
 function _createTopMenuBar(battle) {
@@ -159,9 +137,35 @@ function _createBottomMenuBar(battle) {
             game.state.start("mainMenuState");
         };
     });
+    return {"turnCount": turnCount};
+};
+
+function _createStatsMenu(battle) {
+    var statsStyle = {font: "16pt Herculanum", align: "left", fill: "white"};
+    var statsMenu = game.add.image(576, 353, 'statsMenu');
+
+    currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle);
+    currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle);
+    currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle);
+    currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle);
+
+    var spriteAnimationBackdrop = game.add.image(576, 162, 'statsMenu');
+};
+
+function _createTerrainMenu(battle) {
+    var terrainStatsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
+    var terrainStatsMenu = game.add.image(576, 0, 'statsMenu');
+
+    currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
+    currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
+    currentTileInfMov = game.add.text(596, 72, "Infantry Cost:  ", terrainStatsStyle);
+    currentTileCavMov = game.add.text(596, 99, "Cavalry Cost:  ", terrainStatsStyle);
+    currentTileArtMov = game.add.text(596, 127, "Artillery Cost:  ", terrainStatsStyle);
+    currentTileFlyMov = game.add.text(596, 153, "Fly Cost:  ", terrainStatsStyle);
 };
 
 function _createEndTurnButton(battle, userInterfaceText) {
+    var turnCount = bottomInterfaceText["turnCount"];
     // unpack user interface text
     currentPlayerText = userInterfaceText["currentPlayerText"];
     currentPlayerGold = userInterfaceText["currentPlayerGold"];
