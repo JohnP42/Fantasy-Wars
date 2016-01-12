@@ -200,6 +200,15 @@ Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePo
         this.unitCombat(this.currentSelectedUnit, unitToAttack, this.map.getTileAtPos(unitToAttack.pos).protection);
       }
       this.currentSelectedAttack = [];
+      if(this.currentSelectedUnit.alive === false) {
+        this.currentSelectedUnit.attackSound.play();
+        unitToAttack.attackSound.play();
+        this.turnState = "selectingUnit";
+        this.currentSelectedUnit.attacking = false;
+        this.currentSelectedUnit = null;
+        this.currentSelectedMovement = [];
+        this.currentSelectedAttacks = [];
+      }
     }
 };
 
