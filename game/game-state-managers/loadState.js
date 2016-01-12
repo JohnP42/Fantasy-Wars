@@ -2,8 +2,6 @@ var loadState = {
 
 	preload: function() {
 		//TODO: Load assets here
-            game.load.audio('menus', 'game/assets/audio/BGM/menus.ogg');
-            game.load.audio('battle', 'game/assets/audio/BGM/battle.ogg');
             game.load.audio('move', 'game/assets/audio/SE/move.ogg');
             game.load.audio('coin', 'game/assets/audio/SE/coin.ogg');
             game.load.audio('rifle', 'game/assets/audio/SE/rifle.ogg');

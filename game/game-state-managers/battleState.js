@@ -1,5 +1,4 @@
 var battleState = {
-
     init: function(mapKey, armyKey, audio) {
         this.mapKey = mapKey;
         this.armyKey = armyKey;
@@ -20,7 +19,8 @@ var battleState = {
     },
 
     preload: function() {
-      game.cache.removeSound('menus');
+        game.cache.removeSound('menus');
+        game.load.audio('battle', 'game/assets/audio/BGM/battle.ogg');
     },
 
 	create: function() {
@@ -72,7 +72,10 @@ var battleState = {
         var turnCountButton = game.add.button(0, 482, 'turnCountButton');
         var turnCount = game.add.text(20, game.height - 100, "Turn: " + battle.turn, style);
         var endGameButton = game.add.button(320, 482, 'endGameButton', function() {
-            game.state.start("mainMenuState");
+            if (window.confirm("Is it ok to end the game?")) {
+                game.cache.removeSound('battle');
+                game.state.start("mainMenuState");
+            };
         });
 
         //Add End Turn Button
@@ -116,7 +119,7 @@ var battleState = {
         var terrainStatsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
 
         var terrainStatsMenu = game.add.image(576, 0, 'statsMenu');
-        
+
         currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
         currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
         currentTileInfMov = game.add.text(596, 72, "Infantry Cost:  ", terrainStatsStyle);
@@ -146,8 +149,8 @@ var battleState = {
             currentTileDefense.setText("Defense: "  );
             currentTileInfMov.setText("Infantry Cost: "  );
             currentTileCavMov.setText("Cavalry Cost: "  );
-            currentTileArtMov.setText("Artillery Cost: "  ); 
-            currentTileFlyMov.setText("Fly Cost: "  ); 
+            currentTileArtMov.setText("Artillery Cost: "  );
+            currentTileFlyMov.setText("Fly Cost: "  );
         }
     },
 
