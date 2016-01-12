@@ -24,7 +24,6 @@ var mapSelectState = {
     // third map
 
     // fourth map
-
   }
 
 }
