@@ -1,6 +1,6 @@
 // Abstract Class
-function Mode() {
-
+function Mode(battle) {
+  this.battle = battle;
 };
 
 Mode.prototype.execute = function() {
