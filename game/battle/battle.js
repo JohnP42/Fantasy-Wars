@@ -59,7 +59,8 @@ Battle.prototype.onClickListener = function() {
       if(this.currentSelectedUnit !== unit) {
         this.currentSelectedUnit = unit;
         // get possible moves
-        this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map);
+        console.log(this.currentPlayer);
+        this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
         this.turnState = "selectingMove";
         this.renderMoveHighlights();
       }
@@ -67,8 +68,8 @@ Battle.prototype.onClickListener = function() {
     else if(this.turnState === "selectingMove") {
       // if the selected move is valid, state becomes animation state, otherwise deselect unit
       var squareToMoveTo = this.getMoveAtPos(mousePos);
-
-      if (squareToMoveTo === null) {
+      var unitAtPos = this.getUnitAtPos(mousePos);
+      if (squareToMoveTo === null || (unitAtPos !== null && unitAtPos !== this.currentSelectedUnit)) {
         this.turnState = "selectingUnit";
         this.currentSelectedUnit = null;
         this.currentSelectedMovement = [];
@@ -77,7 +78,12 @@ Battle.prototype.onClickListener = function() {
         if (!this.currentSelectedUnit.movedThisTurn && this.currentSelectedUnit.player === this.currentPlayer) {
           this.turnState = "animatingMovement";
           this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
-        };
+        }
+        else {
+          this.turnState = "selectingUnit";
+          this.currentSelectedUnit = null;
+          this.currentSelectedMovement = [];
+        }
       }
     }else if(this.turnState === "selectingAttack") {
       // if the selected move is valid, state becomes animation state, otherwise deselect unit
@@ -97,24 +103,35 @@ Battle.prototype.onClickListener = function() {
           this.unitCombat(this.currentSelectedUnit, unitToAttack, this.map.getTileAtPos(unitToAttack.pos).protection);
         }
         this.currentSelectedAttack = [];
-        // console.log(this.currentSelectedUnit.health - this.currentSelectedUnit.damageTaken);
-        // console.log(unitToAttack.health - unitToAttack.damageTaken);
-        console.log(this.currentSelectedUnit.getHealthNumber());
-        console.log(unitToAttack.getHealthNumber());
       }
     }
   }
 
-  if(game.input.mousePointer.isUp) {
+  if (game.input.mousePointer.isUp) {
     this.canClick = true;
   }
 };
 
 Battle.prototype.animateMovement = function() {
   if (this.currentSelectedUnit.move()) {
+    var that = this;
     this.turnState = "selectingAttack";
     this.currentSelectedMovement = [];
     this.currentSelectedAttacks = this.currentSelectedUnit.getPossibleAttacks(this.map);
+    var enemyInRange = false;
+    this.enemyPositions().forEach(function(pos) {
+      if (that.arrayIncludesPosition(that.currentSelectedAttacks, pos)) {
+        enemyInRange = true;
+      }
+    });
+
+    if(!enemyInRange) {
+      that.turnState = "selectingUnit";
+        that.currentSelectedUnit = null;
+        that.currentSelectedMovement = [];
+        that.currentSelectedAttacks = [];
+    }
+
     this.renderAttackHighlights();
   }
 };
@@ -149,17 +166,13 @@ Battle.prototype.getUnitToAttackAtPos = function(mousePos) {
 
 Battle.prototype.renderMoveHighlights = function() {
   // parses Unit.getPossibleMoves for filtering (color/selection) - applies filter/rectangle
-  if(!this.currentSelectedUnit.movedThisTurn) {
-    var positions = this.currentSelectedMovement.slice();
+  var positions = this.currentSelectedMovement.slice();
 
-    positions.forEach(function(pos) {
-      moveHighlights.create(pos.canvasX(), pos.canvasY(), "selectionTiles", 0)
-    });
-    console.log(moveHighlights);
-    console.log(this.currentSelectedUnit);
-    moveHighlights.callAll("animations.add", "animations", "move", [0, 1, 2], 4, true);
-    moveHighlights.callAll("animations.play", "animations", "move");
-  }
+  positions.forEach(function(pos) {
+    moveHighlights.create(pos.canvasX(), pos.canvasY(), "selectionTiles", 0)
+  });
+  moveHighlights.callAll("animations.add", "animations", "move", [0, 1, 2], 4, true);
+  moveHighlights.callAll("animations.play", "animations", "move");
 };
 
 Battle.prototype.renderAttackHighlights = function() {
@@ -181,6 +194,21 @@ Battle.prototype.getTileAtPos = function(pos) {
 Battle.prototype.switchTurn = function() {
   //TODO: Switches turn to next player or starts game
 };
+
+Battle.prototype.enemyPositions = function() {
+  return this.players[this.players.length - (this.currentPlayer - 1) -1].unitPositions();
+}
+
+Battle.prototype.arrayIncludesPosition = function(array, pos) {
+  var included = false;
+  array.forEach(function(item) {
+    if(pos.equals(item)) {
+      included = true;
+      return;
+    }
+  });
+  return included;
+}
 
 Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
   unit2.takeDamage(unit1.getAttackDamage(unit2.defense, terrainDefense));
