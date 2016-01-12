@@ -1,12 +1,14 @@
 MenuButton.prototype = Object.create(Phaser.Button.prototype);
 MenuButton.prototype.constructor = MenuButton;
 
-function MenuButton(x, y, spritekey, targetState, mapkey, armykey, audio) {
+function MenuButton(x, y, spritekey, targetState, mapkey, armykey, audio, overFrame, outFrame, downFrame, upFrame) {
   this.mapKey = mapkey;
   this.armyKey = armykey;
   this.targetState = targetState;
+
   this.audio = audio || null;
-  game.add.button(x, y, spritekey, this.actionOnClick, this);
+  Phaser.Button.call(this, game, x, y, spritekey, this.actionOnClick, this, overFrame, outFrame, downFrame, upFrame);
+  game.add.existing(this);
 };
 
 MenuButton.prototype.actionOnClick = function() {
