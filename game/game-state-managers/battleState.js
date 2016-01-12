@@ -23,7 +23,7 @@ var battleState = {
 
         _playSound('battle');
 
-        var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
+        var tilemap = game.add.tilemap(this.mapKey, 32, 32, 8, 12);
         var tileset = tilemap.addTilesetImage("FW_Set", "tilesheet");
         var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
