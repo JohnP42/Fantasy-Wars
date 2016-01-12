@@ -128,10 +128,10 @@ function _createTopMenuBar(battle) {
 
 function _createBottomMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
-    var bottomMenuBar = game.add.image(0, 482, 'bottomMenuBar');
-    var turnCountButton = game.add.button(0, 482, 'turnCountButton');
-    var turnCount = game.add.text(20, game.height - 100, "Turn: " + battle.turn, style);
-    var endGameButton = game.add.button(320, 482, 'endGameButton', function() {
+    var bottomMenuBar = game.add.image(0, 476, 'bottomMenuBar');
+    var turnCountButton = game.add.button(0, 476, 'turnCountButton');
+    var turnCount = game.add.text(20, game.height - 106, "Turn: " + battle.turn, style);
+    var endGameButton = game.add.button(320, 476, 'endGameButton', function() {
         if (window.confirm("Is it ok to end the game?")) {
             game.cache.removeSound('battle');
             game.state.start("mainMenuState");
@@ -176,7 +176,7 @@ function _createEndTurnButton(battle, userInterfaceText) {
     // unpack user interface text
     currentPlayerText = userInterfaceText["currentPlayerText"];
     currentPlayerGold = userInterfaceText["currentPlayerGold"];
-    var button = game.add.button(160, 482, 'endTurnButton', function() {
+    var button = game.add.button(160, 476, 'endTurnButton', function() {
         if (battle.currentPlayer === 1) {
             battle.players[0].endTurn();
             battle.currentPlayer = 2;
