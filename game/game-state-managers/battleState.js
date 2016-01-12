@@ -31,58 +31,14 @@ var battleState = {
         moveHighlights = game.add.group();
         attackHighlights = game.add.group();
 
-        // army 1
+        // Initialize player armies
         var army = _initializeArmyPlayer1();
-
-        // army 2
         var army2 = _initializeArmyPlayer2();
 
         // create battle
-
         battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
-        //top menu bar
 
-        var style = {font: "21pt Herculanum", align: "left", fill: "white"};
-        var topMenuBar = game.add.image(0, -64, 'topMenuBar');
-        var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
-        var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.currentPlayer.goldCount, style);
-
-        // bottom menu bar
-
-        var bottomMenuBar = game.add.image(0, 482, 'bottomMenuBar');
-        var turnCountButton = game.add.button(0, 482, 'turnCountButton');
-        var turnCount = game.add.text(20, game.height - 100, "Turn: " + battle.turn, style);
-        var endGameButton = game.add.button(320, 482, 'endGameButton', function() {
-            if (window.confirm("Is it ok to end the game?")) {
-                game.cache.removeSound('battle');
-                game.state.start("mainMenuState");
-            };
-        });
-
-        //Add End Turn Button
-        var button = game.add.button(160, 482, 'endTurnButton', function() {
-            if (battle.currentPlayer === 1) {
-                battle.players[0].endTurn();
-                battle.currentPlayer = 2;
-                var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
-                var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
-                text.anchor.set(0.5);
-                text.alpha = 1;
-                var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-            } else {
-                battle.players[1].endTurn();
-                battle.currentPlayer = 1;
-                var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-                var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
-                text.anchor.set(0.5);
-                text.alpha = 1;
-                var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-                battle.turn ++;
-                turnCount.setText("Turn: " + battle.turn);
-            };
-            currentPlayerText.setText("Player " + battle.currentPlayer);
-            currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
-        });
+        _setupUIElements(battle);
 
         // stats menu
 
@@ -178,4 +134,58 @@ function _initializeArmyPlayer2() {
         new Cannon(new Pos(6, 11), 2),];
 };
 
+function _setupUIElements(battle) {
+    userInterfaceText = _createTopMenuBar(battle);
+    _createBottomMenuBar(battle);
+    _createEndTurnButton(battle, userInterfaceText);
+};
 
+function _createTopMenuBar(battle) {
+    var style = {font: "21pt Herculanum", align: "left", fill: "white"};
+    var topMenuBar = game.add.image(0, -64, 'topMenuBar');
+    var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
+    var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.currentPlayer.goldCount, style);
+    return {"currentPlayerText": currentPlayerText, "currentPlayerGold": currentPlayerGold};
+};
+
+function _createBottomMenuBar(battle) {
+    var style = {font: "21pt Herculanum", align: "left", fill: "white"};
+    var bottomMenuBar = game.add.image(0, 482, 'bottomMenuBar');
+    var turnCountButton = game.add.button(0, 482, 'turnCountButton');
+    var turnCount = game.add.text(20, game.height - 100, "Turn: " + battle.turn, style);
+    var endGameButton = game.add.button(320, 482, 'endGameButton', function() {
+        if (window.confirm("Is it ok to end the game?")) {
+            game.cache.removeSound('battle');
+            game.state.start("mainMenuState");
+        };
+    });
+};
+
+function _createEndTurnButton(battle, userInterfaceText) {
+    // unpack user interface text
+    currentPlayerText = userInterfaceText["currentPlayerText"];
+    currentPlayerGold = userInterfaceText["currentPlayerGold"];
+    var button = game.add.button(160, 482, 'endTurnButton', function() {
+        if (battle.currentPlayer === 1) {
+            battle.players[0].endTurn();
+            battle.currentPlayer = 2;
+            var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
+            var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
+            text.anchor.set(0.5);
+            text.alpha = 1;
+            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+        } else {
+            battle.players[1].endTurn();
+            battle.currentPlayer = 1;
+            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+            var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
+            text.anchor.set(0.5);
+            text.alpha = 1;
+            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+            battle.turn ++;
+            turnCount.setText("Turn: " + battle.turn);
+        };
+        currentPlayerText.setText("Player " + battle.currentPlayer);
+        currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
+    });
+};
