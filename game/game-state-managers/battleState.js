@@ -23,7 +23,7 @@ var battleState = {
 
         _playSound('battle');
 
-        var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
+        var tilemap = game.add.tilemap(this.mapKey, 32, 32, 8, 12);
         var tileset = tilemap.addTilesetImage("FW_Set", "tilesheet");
         var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
@@ -113,6 +113,7 @@ function _initializeArmyPlayer2() {
 function _setupUIElements(battle) {
     userInterfaceText = _createTopMenuBar(battle);
     bottomInterfaceText = _createBottomMenuBar(battle);
+    _createSpriteAnimationCloseUp(battle);
     _createStatsMenu(battle);
     _createTerrainMenu(battle);
     _createEndTurnButton(battle, userInterfaceText, bottomInterfaceText);
@@ -138,6 +139,15 @@ function _createBottomMenuBar(battle) {
         };
     });
     return {"turnCount": turnCount};
+};
+
+function _createSpriteAnimationCloseUp(battle) {
+    var spriteAnimationBackdrop = game.add.image(576, 162, 'statsMenu');
+    var currentSprite = battle.currentSelectedUnit
+
+    // if (currentSprite) {
+    //     var spriteCloseUp = game.add.copyCurrentSprite.play("stand", 60, true);
+    // }
 };
 
 function _createStatsMenu(battle) {

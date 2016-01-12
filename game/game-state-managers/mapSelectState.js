@@ -14,11 +14,16 @@ var mapSelectState = {
   create: function() {
     _setBackgroundImage('parchment');
     var selectMapText = this.add.text(265, 20, "Choose Your Map", {font: "bold 24pt Herculanum", align: "left"});
-    var mapThumb = new MenuButton(20, 70, 'map1', "armySelectState", "map1", "army", "flash");
-    // mapThumb.width = 150;
-    // mapThumb.height = 190;
-    //TODO: Add minimap sprites;
-    //      Add minimap text;
+
+    // first map
+    // args = x, y, spritekey(map thumbnail), targetState, tilemap name, army name, audio
+    var mapThumb = new MenuButton(20, 70, 'map1', "armySelectState", "testmap", "army", "flash");
+    var mapThumbText = this.add.text(20, 260, "Two Rivers", {font: "16pt Herculanum", align: "left"});
+    // second map
+
+    // third map
+
+    // fourth map
   }
 
 }
