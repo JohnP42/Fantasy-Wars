@@ -50,7 +50,7 @@ Battle.prototype.getUnitAtPos = function(pos) {
 
 Battle.prototype.onClickListener = function() {
   // Retrieve tile at a given pos
-  if(game.activePointer.leftButton.isDown && this.canClick) {
+  if(game.input.activePointer.leftButton.isDown && this.canClick) {
     // calculate tile on which mouse click happens
     var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     this.canClick = false;
@@ -67,7 +67,7 @@ Battle.prototype.onClickListener = function() {
     }
   }
 
-  if (game.activePointer.leftButton.isUp) {
+  if (game.input.activePointer.leftButton.isUp) {
     this.canClick = true;
   }
 };
