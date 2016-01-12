@@ -192,7 +192,6 @@ Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePo
     else {
       this.turnState = "animatingAttack";
       this.currentSelectedUnit.attacking = true;
-      game.add.audio(this.currentSelectedUnit.attackSound).play();
       this.currentSelectedUnit.animations.play("attack");
       if (this.currentSelectedUnit.distanceTo(unitToAttack.pos) === 1) {
         this.unitCombat(this.currentSelectedUnit, unitToAttack, 0);
@@ -230,7 +229,6 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
   if(this.currentSelectedUnit !== unit) {
     this.currentSelectedUnit = unit;
     // get possible moves
-    console.log(this.currentPlayer);
     this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
     this.turnState = "selectingMove";
     this.renderMoveHighlights();

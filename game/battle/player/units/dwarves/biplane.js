@@ -9,8 +9,8 @@ function Biplane(pos, player) {
   this.animations.add("move", [82, 83], 12);
   this.animations.add("attack", [84, 85, 86, 87], 12);
   this.name = "Dwarf Biplane";
-  this.moveSound = "move";
-  this.attackSound = 'machineGun';
+  this.moveSound = game.add.audio("move");
+  this.attackSound = game.add.audio("machineGun");
   this.health = 100;
   this.attack = 50;
   this.defense = 0.1;
