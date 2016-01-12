@@ -55,15 +55,7 @@ Battle.prototype.onClickListener = function() {
     this.canClick = false;
     // get the unit in the tile
     if(this.turnState === "selectingUnit") {
-      unit = this.getUnitAtPos(mousePos);
-      if(this.currentSelectedUnit !== unit) {
-        this.currentSelectedUnit = unit;
-        // get possible moves
-        console.log(this.currentPlayer);
-        this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
-        this.turnState = "selectingMove";
-        this.renderMoveHighlights();
-      }
+      this._turnStateSelectingUnitHelper(mousePos);
     }
     else if(this.turnState === "selectingMove") {
       this._turnStateSelectingMoveHelper(mousePos);
@@ -222,4 +214,16 @@ Battle.prototype._turnStateSelectingMoveHelper = function(mousePos) {
       this.currentSelectedMovement = [];
     };
   };
-}
+};
+
+Battle.prototype._turnStateSelectingUnitHelper = function(mousePos) {
+  unit = this.getUnitAtPos(mousePos);
+  if(this.currentSelectedUnit !== unit) {
+    this.currentSelectedUnit = unit;
+    // get possible moves
+    console.log(this.currentPlayer);
+    this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
+    this.turnState = "selectingMove";
+    this.renderMoveHighlights();
+  };
+};
