@@ -1,5 +1,6 @@
 function Player(army) {
 	this.army = army;
+  this.gold = 500;
   this.active = false; // boolean to be used to determine which players turn it is
 };
 
