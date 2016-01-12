@@ -12,9 +12,7 @@ var armySelectState = {
   },
 
   create: function() {
-    var parchment = this.add.image(0, 0, 'parchment');
-    parchment.width = this.game.width;
-    parchment.height = this.game.height;
+    _setBackgroundImage('parchment');
     var selectArmyText = this.add.text(265, 20, "Choose Your Army", {font: "bold 24pt Herculanum", align: "left"});
     // pass to new MenuButton(x, y, spriteKey, targetState, mapkey, armykey, audio)
     var dwarfImage = this.add.image(20, 70, "dwarfImage");
@@ -32,3 +30,9 @@ var armySelectState = {
     //      Add page text
   }
 }
+
+function _setBackgroundImage(imgKey) {
+  var logo = game.add.image(0, 0, imgKey);
+  logo.width = game.width;
+  logo.height = game.height;
+};

@@ -5,6 +5,7 @@ function Battle(map, players) {
   this.currentSelectedUnit = null;
   this.currentSelectedMovement = [];
   this.currentSelectedAttacks = [];
+  this.currentSelectedTile = null;
   this.turnState = "selectingUnit";
   this.canClick = true;
   this.currentPlayer = 1;
@@ -53,59 +54,16 @@ Battle.prototype.onClickListener = function() {
     // calculate tile on which mouse click happens
     var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     this.canClick = false;
-    // get the unit in the tile
+
+    this.currentSelectedTile = this.map.getTileAtPos(mousePos);
+
     if(this.turnState === "selectingUnit") {
-      unit = this.getUnitAtPos(mousePos);
-      if(this.currentSelectedUnit !== unit) {
-        this.currentSelectedUnit = unit;
-        // get possible moves
-        this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
-        this.turnState = "selectingMove";
-        this.renderMoveHighlights();
-      }
+      this._clickListenerTurnStateSelectingUnitHelper(mousePos);
     }
     else if(this.turnState === "selectingMove") {
-      // if the selected move is valid, state becomes animation state, otherwise deselect unit
-      var squareToMoveTo = this.getMoveAtPos(mousePos);
-      var unitAtPos = this.getUnitAtPos(mousePos);
-      if (squareToMoveTo === null || (unitAtPos !== null && unitAtPos !== this.currentSelectedUnit)) {
-        this.turnState = "selectingUnit";
-        this.currentSelectedUnit = null;
-        this.currentSelectedMovement = [];
-      }
-      else {
-        if (!this.currentSelectedUnit.movedThisTurn && this.currentSelectedUnit.player === this.currentPlayer) {
-          this.turnState = "animatingMovement";
-          this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
-        }
-        else {
-          this.turnState = "selectingUnit";
-          this.currentSelectedUnit = null;
-          this.currentSelectedMovement = [];
-        }
-      }
+      this._clickListenerTurnStateSelectingMoveHelper(mousePos);
     }else if(this.turnState === "selectingAttack") {
-      // if the selected move is valid, state becomes animation state, otherwise deselect unit
-      var unitToAttack = this.getUnitToAttackAtPos(mousePos);
-
-      if (unitToAttack === null || unitToAttack.player === this.currentSelectedUnit.player) {
-        this.turnState = "selectingUnit";
-        this.currentSelectedUnit = null;
-        this.currentSelectedAttack = [];
-      }
-      else {
-        this.turnState = "animatingAttack";
-        this.currentSelectedUnit.attacking = true;
-        game.add.audio(this.currentSelectedUnit.attackSound).play();
-        this.currentSelectedUnit.animations.play("attack");
-        if (this.currentSelectedUnit.distanceTo(unitToAttack.pos) === 1) {
-          this.unitCombat(this.currentSelectedUnit, unitToAttack, 0);
-        }
-        else {
-          this.unitCombat(this.currentSelectedUnit, unitToAttack, this.map.getTileAtPos(unitToAttack.pos).protection);
-        }
-        this.currentSelectedAttack = [];
-      }
+      this._clickListenerTurnStateSelectingAttackHelper(mousePos);
     }
   }
 
@@ -220,4 +178,61 @@ Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
   if(terrainDefense === 0 && unit2.range[0] === 1 && unit2.getHealthNumber() > 0) {
     unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
   }
+};
+
+Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePos) {
+  // if the selected move is valid, state becomes animation state, otherwise deselect unit
+    var unitToAttack = this.getUnitToAttackAtPos(mousePos);
+
+    if (unitToAttack === null || unitToAttack.player === this.currentSelectedUnit.player) {
+      this.turnState = "selectingUnit";
+      this.currentSelectedUnit = null;
+      this.currentSelectedAttack = [];
+    }
+    else {
+      this.turnState = "animatingAttack";
+      this.currentSelectedUnit.attacking = true;
+      game.add.audio(this.currentSelectedUnit.attackSound).play();
+      this.currentSelectedUnit.animations.play("attack");
+      if (this.currentSelectedUnit.distanceTo(unitToAttack.pos) === 1) {
+        this.unitCombat(this.currentSelectedUnit, unitToAttack, 0);
+      }
+      else {
+        this.unitCombat(this.currentSelectedUnit, unitToAttack, this.map.getTileAtPos(unitToAttack.pos).protection);
+      }
+      this.currentSelectedAttack = [];
+    }
+};
+
+Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos) {
+  // if the selected move is valid, state becomes animation state, otherwise deselect unit
+  var squareToMoveTo = this.getMoveAtPos(mousePos);
+  var unitAtPos = this.getUnitAtPos(mousePos);
+  if (squareToMoveTo === null || (unitAtPos !== null && unitAtPos !== this.currentSelectedUnit)) {
+    this.turnState = "selectingUnit";
+    this.currentSelectedUnit = null;
+    this.currentSelectedMovement = [];
+  } else {
+    if (!this.currentSelectedUnit.movedThisTurn && this.currentSelectedUnit.player === this.currentPlayer) {
+      this.turnState = "animatingMovement";
+      this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
+    }
+    else {
+      this.turnState = "selectingUnit";
+      this.currentSelectedUnit = null;
+      this.currentSelectedMovement = [];
+    };
+  };
+};
+
+Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos) {
+  unit = this.getUnitAtPos(mousePos);
+  if(this.currentSelectedUnit !== unit) {
+    this.currentSelectedUnit = unit;
+    // get possible moves
+    console.log(this.currentPlayer);
+    this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
+    this.turnState = "selectingMove";
+    this.renderMoveHighlights();
+  };
 };
