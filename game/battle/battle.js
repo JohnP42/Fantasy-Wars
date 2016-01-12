@@ -97,10 +97,13 @@ Battle.prototype.animateMovement = function() {
 };
 
 Battle.prototype.animateAttack = function() {
-  this.turnState = "selectingUnit";
-  this.currentSelectedUnit = null;
-  this.currentSelectedMovement = [];
-  this.currentSelectedAttacks = [];
+  if (this.currentSelectedUnit.attackAnim()) {
+    this.turnState = "selectingUnit";
+    this.currentSelectedUnit.attacking = false;
+    this.currentSelectedUnit = null;
+    this.currentSelectedMovement = [];
+    this.currentSelectedAttacks = [];
+  }
 };
 
 Battle.prototype.getMoveAtPos = function(mousePos) {
@@ -188,6 +191,9 @@ Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePo
     }
     else {
       this.turnState = "animatingAttack";
+      this.currentSelectedUnit.attacking = true;
+      game.add.audio(this.currentSelectedUnit.attackSound).play();
+      this.currentSelectedUnit.animations.play("attack");
       if (this.currentSelectedUnit.distanceTo(unitToAttack.pos) === 1) {
         this.unitCombat(this.currentSelectedUnit, unitToAttack, 0);
       }

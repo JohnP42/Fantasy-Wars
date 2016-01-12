@@ -14,7 +14,7 @@ var armySelectState = {
   create: function() {
     _setBackgroundImage('parchment');
     var selectArmyText = this.add.text(265, 20, "Choose Your Army", {font: "bold 24pt Herculanum", align: "left"});
-    // pass to new MenuButton(x, y, spriteKey, targetState, mapkey, armykey, audio)
+    // pass to new MenuButton(x, y, spriteKey, targetState, tilemap name, armykey, audio)
     var dwarfImage = this.add.image(20, 70, "dwarfImage");
     var dwarfArmyButton = new MenuButton(450, 110, "dwarvesButton", "battleState", this.mapKey, "dwarf", "flash");
 

@@ -37,7 +37,6 @@ var battleState = {
 
         // create battle
         battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
-
         // Setup Menu UI
         _setupUIElements(battle);
     },

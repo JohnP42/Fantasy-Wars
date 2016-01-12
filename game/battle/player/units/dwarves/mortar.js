@@ -7,8 +7,10 @@ function Mortar(pos, player) {
   game.add.existing(this);
   this.animations.add("stand", [60, 61], 2);
   this.animations.add("move", [62, 63], 8);
-  this.animations.add("attack", [64, 65], 8);
+  this.animations.add("attack", [64, 65, 66, 67], 8);
   this.name = "Dwarf Mortar";
+  this.moveSound = "move";
+  this.attackSound = "mortarShot";
   this.health = 100;
   this.attack = 90;
   this.defense = 0.2;
