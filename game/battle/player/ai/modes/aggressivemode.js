@@ -16,7 +16,7 @@ AggressiveMode.prototype.execute = function() {
   return next_mode;
 };
 
-AgressiveMode.prototype._moveEachUnit() {
+AggressiveMode.prototype._moveEachUnit = function() {
   this.battle.players[0].army.units.forEach(function(unit) {
     var possibleMoves = unit.getPossibleMoves(unit.pos, this.battle.map, this.battle.enemyPositions())
     var walkPath = possibleMoves[0].getPath(); //Eventually this will have logic to determine which move to make;
@@ -25,6 +25,6 @@ AgressiveMode.prototype._moveEachUnit() {
   });
 };
 
-AgressiveMode.prototype._buildPhase = function() {
+AggressiveMode.prototype._buildPhase = function() {
 
 };
