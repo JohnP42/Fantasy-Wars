@@ -2,20 +2,10 @@ var battleState = {
     init: function(mapKey, armyKey, audio) {
         this.mapKey = mapKey;
         this.armyKey = armyKey;
-    	map: null;
-    	battle: null;
+    	map = null;
+    	battle = null;
 
-        var currentUnitHealth = null;
-        var currentUnitAttack = null;
-        var currentUnitDefense = null;
-        var currentUnitSpeed = null;
-
-        var currentTileName = null;
-        var currentTileDefense = null;
-        var currentTileInfMov = null;
-        var currentTileCavMov = null;
-        var currentTileArtMov = null;
-        var currentTileFlyMov = null;
+        _initializeVariables();
     },
 
     preload: function() {
@@ -27,12 +17,12 @@ var battleState = {
     //TODO: anything needed on battle start add here
     // tilemap(key, tileWidth, tileHeight, width, height) → {Phaser.Tilemap}
 
-        // setup battle assets
-
+        // Position camera to add top margin to map
         game.world.setBounds(0, -64, 1000, 1000);
         game.camera.y = -64;
 
-        var bgm = game.add.audio('battle');
+        _playSound('battle');
+
         var tilemap = game.add.tilemap("testmap", 32, 32, 8, 12);
         var tileset = tilemap.addTilesetImage("FW_Set", "tilesheet");
         var mainMap = tilemap.createLayer("Tile Layer 1");
@@ -42,19 +32,10 @@ var battleState = {
         attackHighlights = game.add.group();
 
         // army 1
-
-        var army = [new Grenadier(new Pos(2, 2), 1),
-        new Warrior(new Pos(1, 3), 1),
-        new Mech(new Pos(1, 2), 1),
-        new Mortar(new Pos(1, 1), 1),
-        new Biplane(new Pos(5, 1), 1)];
+        var army = _initializeArmyPlayer1();
 
         // army 2
-
-        var army2 = [new Grenadier(new Pos(5, 10), 2),
-        new MotorBike(new Pos(0, 10), 2),
-        new IronGuard(new Pos(6, 10), 2),
-        new Cannon(new Pos(6, 11), 2),];
+        var army2 = _initializeArmyPlayer2();
 
         // create battle
 
@@ -126,8 +107,6 @@ var battleState = {
         currentTileCavMov = game.add.text(596, 99, "Cavalry Cost:  ", terrainStatsStyle);
         currentTileArtMov = game.add.text(596, 127, "Artillery Cost:  ", terrainStatsStyle);
         currentTileFlyMov = game.add.text(596, 153, "Fly Cost:  ", terrainStatsStyle);
-
-        bgm.play();
     },
 
     update: function() {
@@ -164,4 +143,39 @@ var battleState = {
         // });
     }
 }
+
+function _initializeVariables() {
+    var currentUnitHealth = null;
+    var currentUnitAttack = null;
+    var currentUnitDefense = null;
+    var currentUnitSpeed = null;
+
+    var currentTileName = null;
+    var currentTileDefense = null;
+    var currentTileInfMov = null;
+    var currentTileCavMov = null;
+    var currentTileArtMov = null;
+    var currentTileFlyMov = null;
+};
+
+function _playSound(audioKey) {
+  var bgm = game.add.audio(audioKey);
+  bgm.play();
+};
+
+function _initializeArmyPlayer1() {
+  return [new Grenadier(new Pos(2, 2), 1),
+        new Warrior(new Pos(1, 3), 1),
+        new Mech(new Pos(1, 2), 1),
+        new Mortar(new Pos(1, 1), 1),
+        new Biplane(new Pos(5, 1), 1)];
+};
+
+function _initializeArmyPlayer2() {
+  return [new Grenadier(new Pos(5, 10), 2),
+        new MotorBike(new Pos(0, 10), 2),
+        new IronGuard(new Pos(6, 10), 2),
+        new Cannon(new Pos(6, 11), 2),];
+};
+
 
