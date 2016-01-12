@@ -43,6 +43,7 @@ var loadState = {
 	},
 
 	create: function() {
-		game.state.start("mainMenuState");
+		// game.state.start("victoryState", true, false, "1");
+            game.state.start("mainMenuState");
 	}
 }

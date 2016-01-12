@@ -1,14 +1,22 @@
 var battleState = {
 
-    init: function(mapKey, armyType) {
+    init: function(mapKey, armyKey, audio) {
         this.mapKey = mapKey;
-        this.armyType = armyType;
+        this.armyKey = armyKey;
     	map: null;
     	battle: null;
+
         var currentUnitHealth = null;
         var currentUnitAttack = null;
         var currentUnitDefense = null;
         var currentUnitSpeed = null;
+
+        var currentTileName = null;
+        var currentTileDefense = null;
+        var currentTileInfMov = null;
+        var currentTileCavMov = null;
+        var currentTileArtMov = null;
+        var currentTileFlyMov = null;
     },
 
     preload: function() {
@@ -62,7 +70,7 @@ var battleState = {
 
         var bottomMenuBar = game.add.image(0, 482, 'bottomMenuBar');
         var turnCountButton = game.add.button(0, 482, 'turnCountButton');
-        var turnCount = game.add.text(20, game.height - 108, "Turn: " + battle.turn, style);
+        var turnCount = game.add.text(20, game.height - 100, "Turn: " + battle.turn, style);
         var endGameButton = game.add.button(320, 482, 'endGameButton', function() {
             game.state.start("mainMenuState");
         });
@@ -103,6 +111,19 @@ var battleState = {
         currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle);
         currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle);
 
+        var spriteAnimationBackdrop = game.add.image(576, 162, 'statsMenu');
+
+        var terrainStatsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
+
+        var terrainStatsMenu = game.add.image(576, 0, 'statsMenu');
+        
+        currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
+        currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
+        currentTileInfMov = game.add.text(596, 72, "Infantry Cost:  ", terrainStatsStyle);
+        currentTileCavMov = game.add.text(596, 99, "Cavalry Cost:  ", terrainStatsStyle);
+        currentTileArtMov = game.add.text(596, 127, "Artillery Cost:  ", terrainStatsStyle);
+        currentTileFlyMov = game.add.text(596, 153, "Fly Cost:  ", terrainStatsStyle);
+
         bgm.play();
     },
 
@@ -117,6 +138,16 @@ var battleState = {
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
             currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
 
+        }
+
+        // TODO : at stuff from current selected tile
+        if (battle.currentSelectedTile != null) {
+            currentTileName.setText("Name: "  );
+            currentTileDefense.setText("Defense: "  );
+            currentTileInfMov.setText("Infantry Cost: "  );
+            currentTileCavMov.setText("Cavalry Cost: "  );
+            currentTileArtMov.setText("Artillery Cost: "  ); 
+            currentTileFlyMov.setText("Fly Cost: "  ); 
         }
     },
 
