@@ -230,7 +230,6 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
   if(this.currentSelectedUnit !== unit) {
     this.currentSelectedUnit = unit;
     // get possible moves
-    console.log(this.currentPlayer);
     this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
     this.turnState = "selectingMove";
     this.renderMoveHighlights();
