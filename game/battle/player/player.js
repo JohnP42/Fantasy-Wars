@@ -1,6 +1,7 @@
-function Player(army) {
+function Player(army, hqPos) {
 	this.army = army;
   this.active = false; // boolean to be used to determine which players turn it is
+  this.hqPos = hqPos;
 };
 
 Player.prototype.update = function(map, myTurn) {
