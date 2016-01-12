@@ -5,9 +5,7 @@ var mainMenuState = {
 
   create: function() {
     _playSound('menus');
-    var logo = this.add.image(0, 0, 'logo');
-    logo.width = this.game.width;
-    logo.height = this.game.height;
+    _setBackgroundImage('logo');
 
     var menuButton = new MenuButton(528, 200, "battleButton", "mapSelectState", "map", "army", "battleButton");
   }
@@ -16,4 +14,10 @@ var mainMenuState = {
 function _playSound(audioKey) {
   var bgm = game.add.audio(audioKey);
   bgm.play();
+};
+
+function _setBackgroundImage(imgKey) {
+  var logo = game.add.image(0, 0, imgKey);
+  logo.width = game.width;
+  logo.height = game.height;
 };
