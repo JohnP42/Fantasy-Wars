@@ -4,7 +4,8 @@ function Map() {
 
 Map.prototype.getTileAtPos = function(pos) {
   var map = game.world.cursor.map;
-  return map.getTile(pos.x, pos.y).properties;
+  var tile = map.getTile(pos.x, pos.y)
+  return tile ? tile.properties : tile;
 }
 
 Map.prototype.getPenaltyAtPos = function(pos, unit) {
