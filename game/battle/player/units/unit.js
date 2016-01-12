@@ -144,6 +144,7 @@ Unit.prototype.takeDamage = function(damage) {
   if (this.damageTaken >= this.health) {
     this.die();
   }
+  return damage;
 };
 
 Unit.prototype.getHealthNumber = function() {

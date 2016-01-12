@@ -174,9 +174,11 @@ Battle.prototype.arrayIncludesPosition = function(array, pos) {
 }
 
 Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
-  unit2.takeDamage(unit1.getAttackDamage(unit2.defense, terrainDefense));
+    dmg = unit2.takeDamage(unit1.getAttackDamage(unit2.defense, terrainDefense));
+    this._displayDamageTaken(dmg, unit2, unit1);
   if(terrainDefense === 0 && unit2.range[0] === 1 && unit2.getHealthNumber() > 0) {
-    unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
+    dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
+    this._displayDamageTaken(dmg, unit1, unit2);
   }
 };
 
@@ -234,3 +236,12 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
     this.renderMoveHighlights();
   };
 };
+
+Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
+  var style = { font: "12px Arial", backgroundColor: "red", fill: "#ffffff", align: "center" };
+  var text = game.add.text(unit1.pos.canvasX() + 16, unit1.pos.canvasY(), ("-" + dmg), style);
+  text.anchor.set(0.5);
+  text.alpha = 1;
+  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1000, "Linear", true);
+}
+
