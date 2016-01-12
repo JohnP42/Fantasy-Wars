@@ -10,16 +10,21 @@ function Unit(pos, player) {
   this.movedThisTurn = false;
   this.range = [1, 1];
   this.walkPath = [];
+  this.attacking = false;
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
 Unit.prototype.updateUnit = function(map) {
   //TODO: Update method
-  if(this.walkPath.length === 0) {
+  if(this.walkPath.length === 0 && !this.attacking) {
     this.animations.play("stand");
     this.x = this.pos.canvasX();
     this.y = this.pos.canvasY();
   }
+};
+
+Unit.prototype.attackAnim = function() {
+  return this.animations.currentAnim.isFinished;
 };
 
 Unit.prototype.move = function() {
@@ -48,10 +53,6 @@ Unit.prototype.move = function() {
     this.movedThisTurn = true;
   }
   return (this.walkPath.length === 0);
-};
-
-Unit.prototype.attack = function(pos) {
-  //TODO: Attack enemy unit
 };
 
 Unit.prototype.getPossibleMoves = function(pos, map, enemyPositions) {

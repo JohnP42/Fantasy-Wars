@@ -7,7 +7,7 @@ function Grenadier(pos, player) {
   game.add.existing(this);
   this.animations.add("stand", [10, 11], 2);
   this.animations.add("move", [12, 13], 8);
-  this.animations.add("attack", [14, 15], 8);
+  this.animations.add("attack", [14, 15, 16, 17], 8);
   this.name = "Dwarf Grenadier";
   this.moveSound = "move";
   this.attackSound = 'rifle';
