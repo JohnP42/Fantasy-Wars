@@ -9,8 +9,8 @@ function IronGuard(pos, player) {
   this.animations.add("move", [32, 33], 8);
   this.animations.add("attack", [34, 35, 36, 37], 8);
   this.name = "Dwarf IronGuard";
-  this.moveSound = "move";
-  this.attackSound = 'slash';
+  this.moveSound = game.add.audio("move");
+  this.attackSound = game.add.audio("slash");
   this.health = 100;
   this.attack = 75;
   this.defense = 0.40;

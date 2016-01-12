@@ -183,33 +183,35 @@ function _createEndTurnButton(battle, userInterfaceText) {
     currentPlayerText = userInterfaceText["currentPlayerText"];
     currentPlayerGold = userInterfaceText["currentPlayerGold"];
     var button = game.add.button(160, 476, 'endTurnButton', function() {
-        if (battle.currentPlayer === 1) {
-            battle.players[0].endTurn();
-            battle.currentPlayer = 2;
-            var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
-            var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
-            text.anchor.set(0.5);
-            text.alpha = 1;
-            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-            if (battle.players[1] instanceof ComputerPlayer) {
-                var computerPlayer = battle.players[1];
-                computerPlayer.battle = battle;
-                computerPlayer.updateMode("aggressive");
-                computerPlayer.playTurn();
-            }
-        } else {
-            battle.players[1].endTurn();
-            battle.currentPlayer = 1;
-            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-            var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
-            text.anchor.set(0.5);
-            text.alpha = 1;
-            var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-            battle.turn ++;
-            turnCount.setText("Turn: " + battle.turn);
-        };
-        currentPlayerText.setText("Player " + battle.currentPlayer);
-        currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
+        if(battle.turnState === "selectingUnit") {
+            if (battle.currentPlayer === 1) {
+                battle.players[0].endTurn();
+                battle.currentPlayer = 2;
+                var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
+                var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
+                text.anchor.set(0.5);
+                text.alpha = 1;
+                var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+                if (battle.players[1] instanceof ComputerPlayer) {
+                    var computerPlayer = battle.players[1];
+                    computerPlayer.battle = battle;
+                    computerPlayer.updateMode("aggressive");
+                    computerPlayer.playTurn();
+                }
+            } else {
+                battle.players[1].endTurn();
+                battle.currentPlayer = 1;
+                var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+                var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
+                text.anchor.set(0.5);
+                text.alpha = 1;
+                var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
+                battle.turn ++;
+                turnCount.setText("Turn: " + battle.turn);
+            };
+            currentPlayerText.setText("Player " + battle.currentPlayer);
+            currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
+        }
     });
 };
 

@@ -9,8 +9,8 @@ function MotorBike(pos, player) {
   this.animations.add("move", [42, 43], 12);
   this.animations.add("attack", [44, 45, 46, 47], 12);
   this.name = "Dwarf MotorBike";
-  this.moveSound = "move";
-  this.attackSound = "rifle";
+  this.moveSound = game.add.audio("move");
+  this.attackSound = game.add.audio("rifle");
   this.health = 100;
   this.attack = 50;
   this.defense = 0.2;

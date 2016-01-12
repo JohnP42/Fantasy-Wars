@@ -11,6 +11,7 @@ function Unit(pos, player) {
   this.range = [1, 1];
   this.walkPath = [];
   this.attacking = false;
+  this.alive = true;
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
@@ -24,6 +25,7 @@ Unit.prototype.updateUnit = function(map) {
 };
 
 Unit.prototype.attackAnim = function() {
+  this.attackSound.play('', 0, 1, false, false);
   return this.animations.currentAnim.isFinished;
 };
 
@@ -31,9 +33,12 @@ Unit.prototype.move = function() {
   // Moves unit along path
   // path is in the format: [location1, location2, ..., targetLocation]
   this.animations.play("move");
+  this.moveSound.play('', 0, 1, false, false);
   var nextTile = this.walkPath[this.walkPath.length - 1];
+
   if (!nextTile)
     return true;
+
   if (nextTile.canvasX() > this.x)
     this.x += 2;
   if(nextTile.canvasX() < this.x)
@@ -153,7 +158,8 @@ Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
 
 Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
-  this.destroy(); // FIXME: scope differently
+  this.destroy();
+  this.alive = false;
 }
 
 Unit.prototype.resetUnit = function() {

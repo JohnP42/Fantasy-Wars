@@ -72,6 +72,7 @@
                  "movCostInf":"1",
                  "name":"town",
                  "owner":"0",
+                 "capturePoints":"0",
                  "protection":".5"
                 },
              "19":
@@ -100,6 +101,7 @@
                  "movCostInf":"1",
                  "name":"castle",
                  "owner":"0",
+                 "capturePoints":"0",
                  "protection":".75"
                 },
              "21":
@@ -110,6 +112,7 @@
                  "movCostInf":"1",
                  "name":"barracks",
                  "owner":"0",
+                 "capturePoints":"0",
                  "protection":".5"
                 },
              "22":
