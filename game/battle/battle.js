@@ -59,7 +59,6 @@ Battle.prototype.onClickListener = function() {
       if(this.currentSelectedUnit !== unit) {
         this.currentSelectedUnit = unit;
         // get possible moves
-        console.log(this.currentPlayer);
         this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
         this.turnState = "selectingMove";
         this.renderMoveHighlights();
@@ -96,6 +95,9 @@ Battle.prototype.onClickListener = function() {
       }
       else {
         this.turnState = "animatingAttack";
+        this.currentSelectedUnit.attacking = true;
+        game.add.audio(this.currentSelectedUnit.attackSound).play();
+        this.currentSelectedUnit.animations.play("attack");
         if (this.currentSelectedUnit.distanceTo(unitToAttack.pos) === 1) {
           this.unitCombat(this.currentSelectedUnit, unitToAttack, 0);
         }
@@ -137,10 +139,13 @@ Battle.prototype.animateMovement = function() {
 };
 
 Battle.prototype.animateAttack = function() {
-  this.turnState = "selectingUnit";
-  this.currentSelectedUnit = null;
-  this.currentSelectedMovement = [];
-  this.currentSelectedAttacks = [];
+  if (this.currentSelectedUnit.attackAnim()) {
+    this.turnState = "selectingUnit";
+    this.currentSelectedUnit.attacking = false;
+    this.currentSelectedUnit = null;
+    this.currentSelectedMovement = [];
+    this.currentSelectedAttacks = [];
+  }
 };
 
 Battle.prototype.getMoveAtPos = function(mousePos) {

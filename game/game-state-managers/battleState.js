@@ -93,7 +93,7 @@ var battleState = {
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-                battle.turn ++;
+                battle.turn++;
                 turnCount.setText("Turn: " + battle.turn);
             };
             currentPlayerText.setText("Player " + battle.currentPlayer);
@@ -116,7 +116,7 @@ var battleState = {
         var terrainStatsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
 
         var terrainStatsMenu = game.add.image(576, 0, 'statsMenu');
-        
+
         currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
         currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
         currentTileInfMov = game.add.text(596, 72, "Infantry Cost:  ", terrainStatsStyle);
@@ -146,8 +146,8 @@ var battleState = {
             currentTileDefense.setText("Defense: "  );
             currentTileInfMov.setText("Infantry Cost: "  );
             currentTileCavMov.setText("Cavalry Cost: "  );
-            currentTileArtMov.setText("Artillery Cost: "  ); 
-            currentTileFlyMov.setText("Fly Cost: "  ); 
+            currentTileArtMov.setText("Artillery Cost: "  );
+            currentTileFlyMov.setText("Fly Cost: "  );
         }
     },
 

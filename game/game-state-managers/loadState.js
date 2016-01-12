@@ -12,6 +12,10 @@ var loadState = {
             game.load.audio('select', 'game/assets/audio/SE/select.ogg');
             game.load.audio('slash', 'game/assets/audio/SE/slash.ogg');
             game.load.audio('flash', 'game/assets/audio/SE/flash.ogg');
+            game.load.audio('bow', 'game/assets/audio/SE/bow.ogg');
+            game.load.audio('cannonShot', 'game/assets/audio/SE/Explosion4.ogg');
+            game.load.audio('mortarShot', 'game/assets/audio/SE/Explosion7.ogg');
+            game.load.audio('machineGun', 'game/assets/audio/SE/machineGun.ogg');
 
             this.load.image('logo', 'game/assets/logo.jpg');
             this.load.image('parchment', 'game/assets/menus/ui/parchmentBackdrop.png');
