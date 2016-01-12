@@ -50,6 +50,7 @@ var battleState = {
             currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
             currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
+            currentUnitRange.setText("Range:     " + battle.currentSelectedUnit.range[0] + "-" + battle.currentSelectedUnit.range[1]);
         }
 
         // TODO : at stuff from current selected tile
@@ -128,10 +129,10 @@ function _createTopMenuBar(battle) {
 
 function _createBottomMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
-    var bottomMenuBar = game.add.image(0, 482, 'bottomMenuBar');
-    var turnCountButton = game.add.button(0, 482, 'turnCountButton');
-    var turnCount = game.add.text(20, game.height - 100, "Turn: " + battle.turn, style);
-    var endGameButton = game.add.button(320, 482, 'endGameButton', function() {
+    var bottomMenuBar = game.add.image(0, 476, 'bottomMenuBar');
+    var turnCountButton = game.add.button(0, 476, 'turnCountButton');
+    var turnCount = game.add.text(20, game.height - 106, "Turn: " + battle.turn, style);
+    var endGameButton = game.add.button(320, 476, 'endGameButton', function() {
         if (window.confirm("Is it ok to end the game?")) {
             game.cache.removeSound('battle');
             game.state.start("mainMenuState");
@@ -150,13 +151,16 @@ function _createSpriteAnimationCloseUp(battle) {
 };
 
 function _createStatsMenu(battle) {
-    var statsStyle = {font: "16pt Herculanum", align: "left", fill: "white"};
+    var statsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
     var statsMenu = game.add.image(576, 353, 'statsMenu');
 
     currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle);
-    currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle);
-    currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle);
-    currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle);
+    currentUnitAttack = game.add.text(596, 403, "Attack:     ", statsStyle);
+    currentUnitDefense = game.add.text(596, 433, "Defense:     ", statsStyle);
+    currentUnitSpeed = game.add.text(596, 463, "Speed:     ", statsStyle);
+    currentUnitRange = game.add.text(596, 493, "Range:  ", statsStyle);
+
+    var spriteAnimationBackdrop = game.add.image(576, 162, 'statsMenu');
 };
 
 function _createTerrainMenu(battle) {
@@ -176,7 +180,7 @@ function _createEndTurnButton(battle, userInterfaceText) {
     // unpack user interface text
     currentPlayerText = userInterfaceText["currentPlayerText"];
     currentPlayerGold = userInterfaceText["currentPlayerGold"];
-    var button = game.add.button(160, 482, 'endTurnButton', function() {
+    var button = game.add.button(160, 476, 'endTurnButton', function() {
         if (battle.currentPlayer === 1) {
             battle.players[0].endTurn();
             battle.currentPlayer = 2;

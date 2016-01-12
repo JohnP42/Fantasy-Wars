@@ -45,9 +45,9 @@ function _loadSpritesheets() {
       game.load.spritesheet('dwarvesButton', 'game/assets/menus/buttons/dwarvesButton.png', 224, 71);
       game.load.spritesheet('elvesButton', 'game/assets/menus/buttons/elvesButton.png', 224, 71);
       game.load.spritesheet('orcsButton', 'game/assets/menus/buttons/orcsButton.png', 224, 71);
-      game.load.spritesheet('endTurnButton', 'game/assets/menus/ui/endTurnButton.png', 160, 64);
-      game.load.spritesheet('endGameButton', 'game/assets/menus/ui/endGameButton.png', 160, 64);
-      game.load.spritesheet('turnCountButton', 'game/assets/menus/ui/turnCountButton.png', 160, 64);
+      game.load.spritesheet('endTurnButton', 'game/assets/menus/buttons/endTurnButton.png', 160, 64);
+      game.load.spritesheet('endGameButton', 'game/assets/menus/buttons/endGameButton.png', 160, 64);
+      game.load.spritesheet('turnCountButton', 'game/assets/menus/buttons/turnCountButton.png', 160, 64);
 
       game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
       game.load.image("tilesheet", "game/assets/maps/fantasy_wars_tilesheet.png");
@@ -56,7 +56,9 @@ function _loadSpritesheets() {
       game.load.spritesheet("sprDwarves2", "game/assets/spritesheets/dwarf_units2.png", 32, 32);
       game.load.spritesheet("selectionTiles", "game/assets/spritesheets/select_tiles.png", 32, 32);
 
-      game.load.spritesheet("battleButton", "game/assets/menus/ui/battleground_buttons_sheet.png", 193, 71);
+      game.load.spritesheet("battleButton", "game/assets/menus/buttons/battlegroundButton.png", 193, 71);
+      game.load.spritesheet("campaignButton", "game/assets/menus/buttons/campaignButton.png", 193, 71);
+      game.load.spritesheet("instructionsButton", "game/assets/menus/buttons/instructionsButton.png", 193, 71);
 };
 
 function _loadScripts() {

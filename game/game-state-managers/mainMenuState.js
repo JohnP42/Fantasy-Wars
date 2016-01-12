@@ -7,7 +7,9 @@ var mainMenuState = {
     _playSound('menus');
     _setBackgroundImage('logo');
 
-    var menuButton = new MenuButton(528, 200, "battleButton", "mapSelectState", "map", "army", "battleButton");
+    var menuButton = new MenuButton(528, 175, "battleButton", "mapSelectState", "map", "army", "battleButton");
+    var menuButton = new MenuButton(528, 275, "campaignButton", "campaignState", "map", "army", "battleButton");
+    var menuButton = new MenuButton(528, 375, "instructionsButton", "instructionsState", "map", "army", "battleButton");
   }
 };
 
