@@ -50,6 +50,7 @@ var battleState = {
             currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
             currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
+            currentUnitRange.setText("Range:     " + battle.currentSelectedUnit.range[0] + "-" + battle.currentSelectedUnit.range[1]);
         }
 
         // TODO : at stuff from current selected tile
@@ -150,13 +151,16 @@ function _createSpriteAnimationCloseUp(battle) {
 };
 
 function _createStatsMenu(battle) {
-    var statsStyle = {font: "16pt Herculanum", align: "left", fill: "white"};
+    var statsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
     var statsMenu = game.add.image(576, 353, 'statsMenu');
 
     currentUnitHealth = game.add.text(596, 373, "Health:     ", statsStyle);
-    currentUnitAttack = game.add.text(596, 413, "Attack:     ", statsStyle);
-    currentUnitDefense = game.add.text(596, 453, "Defense:     ", statsStyle);
-    currentUnitSpeed = game.add.text(596, 493, "Speed:     ", statsStyle);
+    currentUnitAttack = game.add.text(596, 403, "Attack:     ", statsStyle);
+    currentUnitDefense = game.add.text(596, 433, "Defense:     ", statsStyle);
+    currentUnitSpeed = game.add.text(596, 463, "Speed:     ", statsStyle);
+    currentUnitRange = game.add.text(596, 493, "Range:  ", statsStyle);
+
+    var spriteAnimationBackdrop = game.add.image(576, 162, 'statsMenu');
 };
 
 function _createTerrainMenu(battle) {
