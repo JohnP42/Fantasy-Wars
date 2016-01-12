@@ -7,7 +7,7 @@ var mainMenuState = {
         logo.width = this.game.width;
         logo.height = this.game.height;
 
-        var menuButton = new MenuButton(528, 200, 'battleButton', "mapSelectState", "", "", "battleButton");
+        var menuButton = new MenuButton(528, 200, "battleButton", "mapSelectState", "map", "army", "battleButton");
         // this.sound.setDecodedCallback(bgm, this.start, this);
         bgm.play();
 	},

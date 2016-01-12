@@ -2,9 +2,6 @@ var mapSelectState = {
 
   init: function(mapKey, armyKey, audio) {
     // init function takes arguments for menu button; not need here
-    console.log(mapKey);
-    console.log(armyKey);
-    console.log(audio);
   },
 
   preload: function() {

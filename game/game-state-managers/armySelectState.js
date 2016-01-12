@@ -2,7 +2,6 @@ var armySelectState = {
 
   init: function(mapKey, armyKey, audio) {
     this.mapKey = mapKey;
-    console.log(mapKey);
   },
 
   preload: function() {

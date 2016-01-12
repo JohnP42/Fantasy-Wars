@@ -14,5 +14,5 @@ MenuButton.prototype.actionOnClick = function() {
     var sound = game.add.audio(this.audio);
     sound.play();
   };
-  game.state.start(this.targetState, this.mapKey, this.armyKey, this.audio);
+  game.state.start(this.targetState, true, false, this.mapKey, this.armyKey, this.audio);
 };
