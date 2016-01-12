@@ -6,6 +6,7 @@ function Battle(map, players) {
   this.currentSelectedMovement = [];
   this.currentSelectedAttacks = [];
   this.currentSelectedTile = null;
+  this.currentCaptureTile = null;
   this.turnState = "selectingUnit";
   this.canClick = true;
   this.currentPlayer = 1;
@@ -29,7 +30,7 @@ Battle.prototype.update = function() {
     moveHighlights.removeChildren();
   }
 
-  if(this.turnState !== "selectingAttack") {
+  if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
 
@@ -50,7 +51,7 @@ Battle.prototype.getUnitAtPos = function(pos) {
 
 Battle.prototype.onClickListener = function() {
   // Retrieve tile at a given pos
-  if(game.input.mousePointer.isDown && this.canClick) {
+  if(game.input.activePointer.leftButton.isDown && this.canClick) {
     // calculate tile on which mouse click happens
     var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     this.canClick = false;
@@ -62,17 +63,28 @@ Battle.prototype.onClickListener = function() {
     }
     else if(this.turnState === "selectingMove") {
       this._clickListenerTurnStateSelectingMoveHelper(mousePos);
-    }else if(this.turnState === "selectingAttack") {
+    }
+    else if(this.turnState === "selectingAttack") {
       this._clickListenerTurnStateSelectingAttackHelper(mousePos);
+    }
+    else if (this.turnState === "capturePrompt") {
+      this._clickListenerTurnStateCapturePromptHelper(mousePos);
     }
   }
 
-  if (game.input.mousePointer.isUp) {
+  if (game.input.activePointer.leftButton.isUp) {
     this.canClick = true;
   }
 };
 
+Battle.prototype.tileIsBuilding = function(tile) {
+  return (tile.name === "castle" || tile.name === "barracks" || tile.name === "town");
+}
+
 Battle.prototype.animateMovement = function() {
+  var prevPosX = this.currentSelectedUnit.pos.x;
+  var prevPosY = this.currentSelectedUnit.pos.y;
+
   if (this.currentSelectedUnit.move()) {
     var that = this;
     this.turnState = "selectingAttack";
@@ -85,11 +97,22 @@ Battle.prototype.animateMovement = function() {
       }
     });
 
-    if(!enemyInRange) {
+    var unit = that.currentSelectedUnit;
+    var movedThisPhase = (this.currentSelectedUnit.pos.x !== prevPosX || this.currentSelectedUnit.pos.y !== prevPosY)
+    if(!enemyInRange || (this.currentSelectedUnit instanceof UnitArtillery && movedThisPhase)) {
       that.turnState = "selectingUnit";
         that.currentSelectedUnit = null;
         that.currentSelectedMovement = [];
         that.currentSelectedAttacks = [];
+    }
+
+    if(this.tileIsBuilding(this.currentSelectedTile) && unit instanceof UnitInfantry) {
+      if(this.currentSelectedTile.owner !== this.currentPlayer) {
+        this.currentSelectedUnit = unit;
+        that.turnState = "capturePrompt";
+        that.currentSelectedMovement = [];
+        that.currentCaptureTile = this.currentSelectedTile;
+      }
     }
 
     this.renderAttackHighlights();
@@ -174,10 +197,23 @@ Battle.prototype.arrayIncludesPosition = function(array, pos) {
 }
 
 Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
+  var dmg = 0;
+
+  if (unit2 instanceof UnitFlying) {
+    dmg = unit2.takeDamage(unit1.getAttackDamage(unit2.defense, 0));
+  }
+  else {
     dmg = unit2.takeDamage(unit1.getAttackDamage(unit2.defense, terrainDefense));
-    this._displayDamageTaken(dmg, unit2, unit1);
+  }
+  this._displayDamageTaken(dmg, unit2, unit1);
+
   if(terrainDefense === 0 && unit2.range[0] === 1 && unit2.getHealthNumber() > 0) {
-    dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
+    if (unit1 instanceof UnitFlying) {
+      dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, 0));
+    }
+    else {
+      dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
+    }
     this._displayDamageTaken(dmg, unit1, unit2);
   }
 };
@@ -202,6 +238,15 @@ Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePo
         this.unitCombat(this.currentSelectedUnit, unitToAttack, this.map.getTileAtPos(unitToAttack.pos).protection);
       }
       this.currentSelectedAttack = [];
+      if(this.currentSelectedUnit.alive === false) {
+        this.currentSelectedUnit.attackSound.play();
+        unitToAttack.attackSound.play();
+        this.turnState = "selectingUnit";
+        this.currentSelectedUnit.attacking = false;
+        this.currentSelectedUnit = null;
+        this.currentSelectedMovement = [];
+        this.currentSelectedAttacks = [];
+      }
     }
 };
 
@@ -224,6 +269,26 @@ Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos)
       this.currentSelectedMovement = [];
     };
   };
+};
+
+Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos) {
+  if(this.getTileAtPos(mousePos) === this.currentCaptureTile) {
+    var capturePoints = this.currentCaptureTile.capturePoints;
+    capturePoints = parseInt(capturePoints) + this.currentSelectedUnit.getHealthNumber();
+    this.currentCaptureTile.capturePoints = capturePoints.toString();
+    if(capturePoints >= 20) {
+      this.currentCaptureTile.owner = this.currentPlayer;
+      this.currentCaptureTile.capturePoints = "0";
+    }
+    this.turnState = "selectingUnit";
+    this.currentSelectedUnit = null;
+    this.currentSelectedMovement = [];
+    this.currentSelectedAttacks = [];
+  }
+  else {
+    this._clickListenerTurnStateSelectingAttackHelper(mousePos);
+  }
+  this.currentCaptureTile = null;
 };
 
 Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos) {

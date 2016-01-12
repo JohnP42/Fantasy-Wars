@@ -2,6 +2,7 @@ PatrolMode.prototype = new Mode();
 PatrolMode.prototype.constructor = PatrolMode;
 
 function PatrolMode() {
+  this.battle = battle;
 };
 
 PatrolMode.prototype.execute = function() {

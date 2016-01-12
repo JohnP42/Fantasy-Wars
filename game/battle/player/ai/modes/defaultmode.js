@@ -1,7 +1,8 @@
 DefaultMode.prototype = new Mode();
 DefaultMode.prototype.constructor = DefaultMode;
 
-function DefaultMode() {
+function DefaultMode(battle) {
+  this.battle = battle;
 };
 
 DefaultMode.prototype.execute = function() {
