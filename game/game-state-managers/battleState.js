@@ -11,6 +11,7 @@ var battleState = {
     preload: function() {
         game.cache.removeSound('menus');
         game.load.audio('battle', 'game/assets/audio/BGM/battle.ogg');
+        this.game.canvas.id = 'canvasGame';
     },
 
 	create: function() {
@@ -37,6 +38,7 @@ var battleState = {
 
         // create battle
         battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
+        // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
         _setupUIElements(battle);
     },
@@ -204,3 +206,4 @@ function _createEndTurnButton(battle, userInterfaceText) {
         currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
     }, this, 2, 2, 3, 2);
 };
+

@@ -13,7 +13,7 @@ function MenuButton(x, y, spritekey, targetState, mapkey, armykey, audio, overFr
 
 MenuButton.prototype.actionOnClick = function() {
   if(this.audio !== null) {
-    var sound = game.add.audio(this.audio);
+    var sound = game.add.audio(this.audio, 0.2);
     sound.play();
   };
   game.state.start(this.targetState, true, false, this.mapKey, this.armyKey, this.audio);
