@@ -3,6 +3,6 @@ function Mode() {
 
 };
 
-Mode.prototype.execute.execute = function() {
+Mode.prototype.execute = function() {
   console.log("You must implement this function to inherit from this");
 };

@@ -10,7 +10,7 @@ function ComputerPlayer(army) {
 };
 
 // Computer Modes - Aggressive, Defensive, Patrol
-ComputerPlayer.prototype.updateState = function(state) {
+ComputerPlayer.prototype.updateMode = function(mode) {
   switch(state) {
     case: "aggressive":
       this.mode = new AggressiveMode();
@@ -28,5 +28,6 @@ ComputerPlayer.prototype.updateState = function(state) {
 };
 
 ComputerPlayer.prototype.playTurn = function() {
-  this.mode.execute();
+  nextMode = this.mode.execute();
+  this.updateMode(nextMode);
 };
