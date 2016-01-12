@@ -9,8 +9,8 @@ function Cannon(pos, player) {
   this.animations.add("move", [52, 53], 8);
   this.animations.add("attack", [54, 55, 56, 57], 8);
   this.name = "Dwarf Cannon";
-  this.moveSound = "move";
-  this.attackSound = 'cannonShot';
+  this.moveSound = game.add.audio("move");
+  this.attackSound = game.add.audio("cannonShot");
   this.health = 100;
   this.attack = 120;
   this.defense = 0.2;
