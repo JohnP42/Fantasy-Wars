@@ -59,14 +59,14 @@ Map.prototype.getAllBuildingsForPlayer = function(player) {
 Map.prototype.remakeAllFlags = function() {
   flags.removeChildren();
   this.getAllBuildings(true).forEach(function(building) {
-    if (building[0].owner === 1) {
+    if (parseInt(building[0].owner) === 1) {
       var sprite = "red_flag";
     }
     else {
       var sprite = "blue_flag";
     };
 
-    if(building[0].owner !== "0") {
+    if(parseInt(building[0].owner) !== 0) {
       var flag = game.add.sprite(building[1] * TILESCALE, building[2] * TILESCALE + 4, sprite);
     }
   });
