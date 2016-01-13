@@ -53,7 +53,7 @@ var battleState = {
         battle.update();
 
         if (battle.currentSelectedUnit !== null) {
-            currentUnitHealth.setText("Health:     " + battle.currentSelectedUnit.getHealthNumber());
+            currentUnitHealth.setText("Health:     " + (battle.currentSelectedUnit.health - battle.currentSelectedUnit.damageTaken));
             currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
             currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
@@ -198,6 +198,7 @@ function _createEndTurnButton(battle, userInterfaceText) {
                 if (prevGold !== battle.getCurrentPlayer().gold) {
                     game.add.audio('coin').play();
                 };
+                battle.getCurrentPlayer().onTurnStart(battle.map, battle.currentPlayer);
                 var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
                 var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
                 text.anchor.set(0.5);
