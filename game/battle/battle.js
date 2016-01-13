@@ -383,8 +383,21 @@ Battle.prototype.checkLosingConditionsforPlayer = function(player) {
   }
 }
 
+// Map.prototype.getAllBuildingsForPlayer = function(player) {
+//   var buildings = [];
+//   this.getAllBuildings().forEach(function(building) {
+//     if(parseInt(building.owner) === player)
+//       buildings.push(building);
+//   });
+
+//   return buildings;
+// }
+
 Battle.prototype.didPlayerLoseHQ = function(player) {
-  this.map.getAllBuildingsForPlayer(player).forEach(function(building){
+  console.log(this.map);
+  console.log(this.map.getAllBuildingsForPlayer(player));
+  this.map.getAllBuildingsForPlayer(player).forEach(function(building) {
+    console.log(building.name);
     if (building.name === "castle") {
       return false;
     }
