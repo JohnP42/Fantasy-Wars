@@ -25,7 +25,7 @@ var battleState = {
         _playSound('battle');
 
         var tilemap = game.add.tilemap(this.mapKey, 32, 32, 8, 12);
-        var tileset = tilemap.addTilesetImage("FW_Set", "tilesheet");
+        var tileset = tilemap.addTilesetImage("fantasy_wars_tilesheet", "tilesheet");
         var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
 
@@ -38,7 +38,7 @@ var battleState = {
         var army2 = _initializeArmyPlayer2();
 
         // create battle
-        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(6,2)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(7,11))]);
+        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
         if (battle.players[1] instanceof ComputerPlayer) {
@@ -66,10 +66,10 @@ var battleState = {
             var defense = parseFloat(battle.currentSelectedTile.protection);
             currentTileName.setText("Name: " + battle.currentSelectedTile.name );
             currentTileDefense.setText("Defense: " + (defense * 100) + "%");
-            currentTileInfMov.setText("Infantry Cost: "  + battle.currentSelectedTile.movCostInf );
-            currentTileCavMov.setText("Cavalry Cost: "  + battle.currentSelectedTile.movCostCav );
-            currentTileArtMov.setText("Artillery Cost: "  + battle.currentSelectedTile.movCostArt );
-            currentTileFlyMov.setText("Fly Cost: "  + battle.currentSelectedTile.movCostFly );
+            currentTileInfMov.setText("Inf Move Cost: "  + battle.currentSelectedTile.movCostInf );
+            currentTileCavMov.setText("Cav Move Cost: "  + battle.currentSelectedTile.movCostCav );
+            currentTileArtMov.setText("Art Move Cost: "  + battle.currentSelectedTile.movCostArt );
+            currentTileFlyMov.setText("Fly Move Cost: "  + battle.currentSelectedTile.movCostFly );
         }
     },
 
@@ -104,19 +104,13 @@ function _playSound(audioKey) {
 };
 
 function _initializeArmyPlayer1() {
-  return [new Grenadier(new Pos(2, 2), 1),
-        new Warrior(new Pos(1, 3), 1),
-        new Mech(new Pos(1, 2), 1),
-        new Mortar(new Pos(1, 1), 1),
-        new Biplane(new Pos(5, 1), 1)];
+  return [new Grenadier(new Pos(5, 7), 1),
+        new Warrior(new Pos(4, 7), 1)];
 };
 
 function _initializeArmyPlayer2() {
-  return [new Grenadier(new Pos(5, 10), 2),
-        new MotorBike(new Pos(0, 10), 2),
-        new MotorBike(new Pos(3, 11), 2),
-        new IronGuard(new Pos(6, 10), 2),
-        new Cannon(new Pos(6, 11), 2),];
+  return [new Grenadier(new Pos(12, 7), 2),
+        new Warrior(new Pos(13, 7), 2)];
 };
 
 function _setupUIElements(battle) {
@@ -178,10 +172,10 @@ function _createTerrainMenu(battle) {
 
     currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
     currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
-    currentTileInfMov = game.add.text(596, 72, "Infantry Cost:  ", terrainStatsStyle);
-    currentTileCavMov = game.add.text(596, 99, "Cavalry Cost:  ", terrainStatsStyle);
-    currentTileArtMov = game.add.text(596, 127, "Artillery Cost:  ", terrainStatsStyle);
-    currentTileFlyMov = game.add.text(596, 153, "Fly Cost:  ", terrainStatsStyle);
+    currentTileInfMov = game.add.text(596, 72, "Inf Move Cost:  ", terrainStatsStyle);
+    currentTileCavMov = game.add.text(596, 99, "Cav Move Cost:  ", terrainStatsStyle);
+    currentTileArtMov = game.add.text(596, 127, "Art Move Cost:  ", terrainStatsStyle);
+    currentTileFlyMov = game.add.text(596, 153, "Fly Move Cost:  ", terrainStatsStyle);
 };
 
 function _createEndTurnButton(battle, userInterfaceText) {
