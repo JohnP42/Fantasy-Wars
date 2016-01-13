@@ -37,9 +37,14 @@ var battleState = {
         var army2 = _initializeArmyPlayer2();
 
         // create battle
-        battle = new Battle(map,[new Player(new ArmyDwarf(army)), new Player(new ArmyDwarf(army2))]);
+        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(6,2)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(7,11))]);
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
+        if (battle.players[1] instanceof ComputerPlayer) {
+            var computerPlayer = battle.players[1];
+            computerPlayer.battle = battle;
+            computerPlayer.updateMode("aggressive");
+          };
         _setupUIElements(battle);
     },
 
@@ -134,7 +139,7 @@ function _createBottomMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
     var bottomMenuBar = game.add.image(0, 476, 'bottomMenuBar');
     var turnCountButton = game.add.button(0, 476, 'battleUIButtons', "", "", 4, 4, 5, 4);
-    var turnCount = game.add.text(20, game.height - 106, "Turn: " + battle.turn, style);
+    turnCount = game.add.text(20, game.height - 106, "Turn: " + battle.turn, style);
     var endGameButton = game.add.button(320, 476, 'battleUIButtons', function() {
         if (window.confirm("Is it ok to end the game?")) {
             game.cache.removeSound('battle');
@@ -198,12 +203,6 @@ function _createEndTurnButton(battle, userInterfaceText) {
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-                if (battle.players[1] instanceof ComputerPlayer) {
-                    var computerPlayer = battle.players[1];
-                    computerPlayer.battle = battle;
-                    computerPlayer.updateMode("aggressive");
-                    computerPlayer.playTurn();
-                }
             } else {
                 battle.players[1].endTurn();
                 battle.currentPlayer = 1;
