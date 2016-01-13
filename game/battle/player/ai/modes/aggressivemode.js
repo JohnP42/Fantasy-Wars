@@ -11,68 +11,68 @@ function AggressiveMode(battle) {
   this.currentSelectedUnit = null;
 };
 
-AggressiveMode.prototype.execute = function() {
-  var nextMode = "aggressive";
-  this._moveEachUnit();
-  this._buildPhase();
-  return nextMode;
-};
+// AggressiveMode.prototype.execute = function() {
+//   var nextMode = "aggressive";
+//   this._moveEachUnit();
+//   this._buildPhase();
+//   return nextMode;
+// };
 
-AggressiveMode.prototype._moveEachUnit = function() {
-  var that = this;
-  // this.battle.players[1].army.units.forEach(function(unit) {
-  //   that._moveUnit(unit);
-  // });
-  // var unit = this.battle.players[1].army.units[0];
-  // this._moveUnit(unit);
-  // unit = this.battle.players[1].army.units[0];
-  // this._moveUnit(unit);
-  var units = this.battle.players[1].army.units;
-  this._moveAllUnits(units);
-  sleep(500);
-  window.setTimeout(this._endTurn, 1500);
-};
+// AggressiveMode.prototype._moveEachUnit = function() {
+//   var that = this;
+//   // this.battle.players[1].army.units.forEach(function(unit) {
+//   //   that._moveUnit(unit);
+//   // });
+//   // var unit = this.battle.players[1].army.units[0];
+//   // this._moveUnit(unit);
+//   // unit = this.battle.players[1].army.units[0];
+//   // this._moveUnit(unit);
+//   var units = this.battle.players[1].army.units;
+//   this._moveAllUnits(units);
+//   sleep(500);
+//   window.setTimeout(this._endTurn, 1500);
+// };
 
 AggressiveMode.prototype._buildPhase = function() {
 };
 
-AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
-  // Recursive Move function
-  // Base Case
-  if (unitsArray.length === 0) {
-    return;
-  } else {
-    this._moveUnit(unitsArray.pop(), function() {
-      console.log("indicator");
-      console.log(unitsArray);
-      this._moveAllUnits(unitsArray);
-    });
-  };
-}
+// AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
+//   // Recursive Move function
+//   // Base Case
+//   if (unitsArray.length === 0) {
+//     return;
+//   } else {
+//     this._moveUnit(unitsArray.pop(), function() {
+//       console.log("indicator");
+//       console.log(unitsArray);
+//       this._moveAllUnits(unitsArray);
+//     });
+//   };
+// }
 
-AggressiveMode.prototype._moveUnit = function(unit, callback) {
-  // var mousePos = unit.pos
-  // this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
-  this.battle.currentSelectedUnit = unit;
-  var possibleMoves = unit.getPossibleMoves(unit.pos, this.battle.map, this.battle.enemyPositions())
-  possibleMoves = this._filterPossibleMoves(possibleMoves)
-  this.battle.currentSelectedMovement = possibleMoves;
-  this.battle.turnState = "selectingMove";
-  this.battle.renderMoveHighlights();
-  // // mousePos = this._getClosestMove(possibleMoves);
-  var squareToMoveTo = this._getClosestMove(possibleMoves);
-  // this.usedPositionsThisTurn.push(squareToMoveTo);
-  this.battle.turnState = "animatingMovement";
-  unit.walkPath = squareToMoveTo.getPath();
-};
+// AggressiveMode.prototype._moveUnit = function(unit, callback) {
+//   // var mousePos = unit.pos
+//   // this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
+//   this.battle.currentSelectedUnit = unit;
+//   var possibleMoves = unit.getPossibleMoves(unit.pos, this.battle.map, this.battle.enemyPositions())
+//   possibleMoves = this._filterPossibleMoves(possibleMoves)
+//   this.battle.currentSelectedMovement = possibleMoves;
+//   this.battle.turnState = "selectingMove";
+//   this.battle.renderMoveHighlights();
+//   // // mousePos = this._getClosestMove(possibleMoves);
+//   var squareToMoveTo = this._getClosestMove(possibleMoves);
+//   // this.usedPositionsThisTurn.push(squareToMoveTo);
+//   this.battle.turnState = "animatingMovement";
+//   unit.walkPath = squareToMoveTo.getPath();
+// };
 
-AggressiveMode.prototype._keepAnimatingUnit = function(unit) {
-  if (unit.walkPath.length === 0) {
-    return false;
-  } else {
-    return true;
-  }
-};
+// AggressiveMode.prototype._keepAnimatingUnit = function(unit) {
+//   if (unit.walkPath.length === 0) {
+//     return false;
+//   } else {
+//     return true;
+//   }
+// };
 
 AggressiveMode.prototype._endTurn = function() {
   this.battle.players[1].endTurn();
