@@ -137,8 +137,9 @@ Battle.prototype.animateMovement = function() {
         that.currentCaptureTile = this.currentSelectedTile;
       }
     }
-
-    this.renderAttackHighlights();
+    if (!this._isComputerTurn()) {
+      this.renderAttackHighlights();
+    };
   }
 };
 
@@ -333,7 +334,9 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
       // get possible moves
       this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
       this.turnState = "selectingMove";
-      this.renderMoveHighlights();
+      if (!this._isComputerTurn()) {
+        this.renderMoveHighlights();
+      };
     };
   }
   else {
