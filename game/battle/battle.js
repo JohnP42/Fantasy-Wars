@@ -12,6 +12,7 @@ function Battle(map, players) {
   this.computerCanClick = true;
   this.currentPlayer = 1;
   this.buildScreen = null;
+  this.unitSpriteDisplay = null;
 };
 
 Battle.prototype.update = function() {
@@ -35,6 +36,7 @@ Battle.prototype.update = function() {
   if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
+  this.updateUnitSpriteDisplay();
   this.checkVictoryConditions();
 };
 
@@ -402,6 +404,28 @@ Battle.prototype._isComputerTurn = function() {
     return false;
   };
 };
+
+Battle.prototype.updateUnitSpriteDisplay = function() {
+  if(this.currentSelectedUnit !== null) {
+    var unitClass = this.currentSelectedUnit.constructor;
+    if(this.unitSpriteDisplay === null || unitClass !== this.unitSpriteDisplay.constructor) {
+      if(this.unitSpriteDisplay !== null) {
+        this.unitSpriteDisplay.destroy();
+        this.unitSpriteDisplay = null;
+      }
+      var unit = this.unitSpriteDisplay = new unitClass(new Pos(20, 7), this.currentSelectedUnit.player);
+      unit.scale.x = 3;
+      unit.scale.y = 3;
+      unit.animations.play("stand", 2, true);
+    }
+  }
+  else {
+    if(this.unitSpriteDisplay !== null) {
+        this.unitSpriteDisplay.destroy();
+        this.unitSpriteDisplay = null;
+      }
+  }
+}
 
 Battle.prototype.checkVictoryConditions = function() {
   return false;

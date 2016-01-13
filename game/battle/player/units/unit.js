@@ -159,7 +159,7 @@ Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
   return Math.floor((this.attack * ((this.health - this.damageTaken)/this.health)) * (1.0 - enemyDefense) * (1.0 - terrainDefense) * (Math.random() / 10 + 1));
 };
 
-Unit.prototype.die = function(pos) {
+Unit.prototype.die = function() {
   //TODO: Destroys unit and removes from map
   this.alive = false;
   this.healthText.destroy();
