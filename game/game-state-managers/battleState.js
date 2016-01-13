@@ -103,7 +103,10 @@ function _playSound(audioKey) {
 };
 
 function _initializeArmyPlayer1() {
-  return [
+  return [new Grenadier(new Pos(2, 2), 1),
+        new Warrior(new Pos(1, 3), 1),        
+        new Mech(new Pos(1, 2), 1),       
+        new Mortar(new Pos(1, 1), 1),
         new Biplane(new Pos(5, 1), 1)];
 };
 

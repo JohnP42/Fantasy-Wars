@@ -407,16 +407,6 @@ Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum)
   }
 }
 
-// Map.prototype.getAllBuildingsForPlayer = function(player) {
-//   var buildings = [];
-//   this.getAllBuildings().forEach(function(building) {
-//     if(parseInt(building.owner) === player)
-//       buildings.push(building);
-//   });
-
-//   return buildings;
-// }
-
 Battle.prototype.didPlayerLoseHQ = function(player) {
   console.log(this.map);
   console.log(this.map.getAllBuildingsForPlayer(player));
