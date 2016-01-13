@@ -8,6 +8,7 @@ function AggressiveMode(battle) {
   this.battle = battle;
   this.enemyHQPos = this._getEnemyHQPos();
   this.usedPositionsThisTurn = [];
+  this.currentSelectedUnit = null;
 };
 
 AggressiveMode.prototype.execute = function() {
@@ -39,7 +40,6 @@ AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
   // Recursive Move function
   // Base Case
   if (unitsArray.length === 0) {
-    console.log("hello");
     return;
   } else {
     this._moveUnit(unitsArray.pop(), function() {
@@ -118,7 +118,7 @@ AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   result = [];
   possibleMoves.forEach(function(movePos) {
     var unitAtPos = that.battle.getUnitAtPos(movePos);
-    if (!unitAtPos && !that.arrayIncludesPosition(that.usedPositionsThisTurn, movePos)) {
+    if (!unitAtPos) {
       result.push(movePos);
     };
   });
@@ -140,38 +140,56 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Returns mousePos to position computer desires to click.
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
-  console.log(this.battle.turnState);
   if(this.battle.turnState === "selectingUnit") {
-    mousePos = this._selectingUnitHelper();
+    mousePos = this._selectNextUnit();
   }
   else if(this.battle.turnState === "selectingMove") {
-    console.log("Selecting Move!");
-    mousePos = this._selectingMoveHelper();
+    mousePos = this._selectNextMove();
   }
   else if(this.battle.turnState === "selectingAttack") {
-    mousePos = this._selectingAttackHelper();
+    mousePos = this._selectNextAttack();
   }
   else if (this.battle.turnState === "capturePrompt") {
-    mousePos = this._selectingCapturePromptHelper();
+    mousePos = this._selectNextCapture();
   } else {
     mousePos = new Pos (1,1);
   }
-  console.log(mousePos);
   return mousePos;
 };
 
-AggressiveMode.prototype._selectingUnitHelper = function() {
-  return new Pos(0,10);
+AggressiveMode.prototype._selectNextUnit = function() {
+  var nextUnitPos = null;
+  var that = this;
+  this.battle.players[1].army.units.forEach(function(unit) {
+    if (!nextUnitPos && !unit.movedThisTurn) {
+      that.currentSelectedUnit = unit;
+      nextUnitPos = unit.pos;
+    };
+  });
+  // Logic for when to end turn
+  if (nextUnitPos === null) {
+    this._endTurn();
+  }
+  console.log("Selecting unit at:");
+  console.log(nextUnitPos);
+  return nextUnitPos
 }
 
-AggressiveMode.prototype._selectingMoveHelper = function() {
-  return new Pos(2,10);
+AggressiveMode.prototype._selectNextMove = function() {
+  console.log("Selecting next move");
+  nextMovePos = null;
+  var possibleMoves = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.battle.map, this.battle.enemyPositions());
+  var filteredPossibleMoves = this._filterPossibleMoves(possibleMoves);
+  nextMovePos = filteredPossibleMoves[1];
+  console.log("Moving unit to:")
+  console.log(nextMovePos);
+  return nextMovePos;
 }
 
-AggressiveMode.prototype._selectingAttackHelper = function() {
+AggressiveMode.prototype._selectNextAttack = function() {
 
 }
 
-AggressiveMode.prototype._selectingCapturePromptHelper = function() {
+AggressiveMode.prototype._selectNextCapture = function() {
 
 }
