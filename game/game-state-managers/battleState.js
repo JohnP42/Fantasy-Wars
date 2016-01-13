@@ -200,8 +200,8 @@ function _createEndTurnButton(battle, userInterfaceText) {
                     game.add.audio('coin').play();
                 };
                 battle.getCurrentPlayer().onTurnStart(battle.map, battle.currentPlayer);
-                var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
-                var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
+                var style = { font: "65px Arial", fill: "#0000FF", align: "center", stroke: "white", strokeThickness: 5};
+                var text = game.add.text(game.world.centerX - 210, game.world.centerY - 300, "Player 2 Turn", style);
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
@@ -213,8 +213,8 @@ function _createEndTurnButton(battle, userInterfaceText) {
                 if (prevGold !== battle.getCurrentPlayer().gold) {
                     game.add.audio('coin').play();
                 };
-                var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-                var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
+                var style = { font: "65px Arial", fill: "#ff0044", align: "center", stroke: "white", strokeThickness: 5};
+                var text = game.add.text(game.world.centerX - 150, game.world.centerY - 300, "Player 1 Turn", style);
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
