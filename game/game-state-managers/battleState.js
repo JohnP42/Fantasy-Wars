@@ -31,6 +31,7 @@ var battleState = {
 
         moveHighlights = game.add.group();
         attackHighlights = game.add.group();
+        flags = game.add.group();
 
         // Initialize player armies
         var army = _initializeArmyPlayer1();

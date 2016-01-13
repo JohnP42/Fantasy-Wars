@@ -29,7 +29,7 @@ Map.prototype.posValid = function(pos) {
   return (pos.x >=0 && pos.x < map.width && pos.y >= 0 && pos.y < map.height);
 }
 
-Map.prototype.getAllBuildings = function() {
+Map.prototype.getAllBuildings = function(returnPos) {
   var buildings = [];
 
   var map = game.world.cursor.map;
@@ -38,10 +38,11 @@ Map.prototype.getAllBuildings = function() {
     for(var y = 0; y < map.height; y++) {
       var tile = map.getTile(x, y);
       if(tile.properties.owner !== undefined) {
-        buildings.push(tile.properties);
+        returnPos ? buildings.push([tile.properties, x, y]) : buildings.push(tile.properties);
       }
     }
   }
+
   return buildings
 }
 
@@ -53,6 +54,22 @@ Map.prototype.getAllBuildingsForPlayer = function(player) {
   });
 
   return buildings;
+}
+
+Map.prototype.remakeAllFlags = function() {
+  flags.removeChildren();
+  this.getAllBuildings(true).forEach(function(building) {
+    if (building[0].owner === 1) {
+      var sprite = "red_flag";
+    }
+    else {
+      var sprite = "blue_flag";
+    };
+
+    if(building[0].owner !== "0") {
+      var flag = game.add.sprite(building[1] * TILESCALE, building[2] * TILESCALE + 4, sprite);
+    }
+  });
 }
 
 
