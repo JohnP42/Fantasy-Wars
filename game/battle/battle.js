@@ -13,6 +13,7 @@ function Battle(map, players) {
   this.currentPlayer = 1;
   this.buildScreen = null;
   this.unitSpriteDisplay = null;
+  this.map.remakeAllFlags();
 };
 
 Battle.prototype.update = function() {
@@ -358,7 +359,7 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
 
 Battle.prototype.clickOnBarracks = function(mousePos) {
   if (this.currentSelectedTile) {
-    if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
+    if (this.currentSelectedTile.name === "barracks" && parseInt(this.currentSelectedTile.owner) === this.currentPlayer) {
       this.turnState = "buildUnit";
       this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
     }
@@ -429,16 +430,15 @@ Battle.prototype.updateUnitSpriteDisplay = function() {
 }
 
 Battle.prototype.checkVictoryConditions = function() {
-  return false;
-  // if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
-  //     game.state.start("victoryState", true, false, "Player 2");
-  // }
-  // else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
-  //     game.state.start("victoryState", true, false, "Player 1");
-  // }
-  // else {
-  //   return false;
-  // }
+  if (this.checkLosingConditionsforPlayer(this.players[0], 1) === true) {
+      game.state.start("victoryState", true, false, "Player 2");
+  }
+  else if (this.checkLosingConditionsforPlayer(this.players[1], 2) === true) {
+      game.state.start("victoryState", true, false, "Player 1");
+  }
+  else {
+    return false;
+  }
 }
 
 Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum) {
@@ -448,10 +448,11 @@ Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum)
 }
 
 Battle.prototype.didPlayerLoseHQ = function(player) {
-  var hqCaptured = false;
+  var hqCaptured = true;
   this.map.getAllBuildingsForPlayer(player).forEach(function(building) {
+    console.log(building.name);
     if (building.name === "castle") {
-      hqCaptured = true;
+      hqCaptured = false;
     }
   });
   return hqCaptured;
