@@ -80,6 +80,7 @@ AggressiveMode.prototype._endTurn = function() {
   if (prevGold !== battle.getCurrentPlayer().gold) {
       game.add.audio('coin').play();
   };
+  battle.getCurrentPlayer().onTurnStart(battle.map, battle.currentPlayer);
   var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
   var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
   text.anchor.set(0.5);
