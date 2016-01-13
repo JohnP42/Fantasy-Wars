@@ -41,8 +41,6 @@ function AggressiveMode(battle) {
 //     return;
 //   } else {
 //     this._moveUnit(unitsArray.pop(), function() {
-//       console.log("indicator");
-//       console.log(unitsArray);
 //       this._moveAllUnits(unitsArray);
 //     });
 //   };
@@ -73,16 +71,24 @@ function AggressiveMode(battle) {
 // };
 
 AggressiveMode.prototype._endTurn = function() {
-  this.battle.players[1].endTurn();
-  this.battle.currentPlayer = 1;
+  battle.players[1].endTurn();
+  battle.currentPlayer = 1;
+  var prevGold = battle.getCurrentPlayer().gold;
+  battle.addGold();
+  if (prevGold !== battle.getCurrentPlayer().gold) {
+      game.add.audio('coin').play();
+  };
+  battle.getCurrentPlayer().onTurnStart(battle.map, battle.currentPlayer);
   var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
   var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
   text.anchor.set(0.5);
   text.alpha = 1;
   var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-  this.battle.turn ++;
-  turnCount.setText("Turn: " + battle.turn)
-}
+  battle.turn ++;
+  turnCount.setText("Turn: " + battle.turn);
+  currentPlayerText.setText("Player " + this.battle.currentPlayer);
+  currentPlayerGold.setText("Gold: " + this.battle.players[battle.currentPlayer - 1].gold);
+};
 
 AggressiveMode.prototype._getEnemyHQPos = function() {
   pos = this.battle.players[0].hqPos;
@@ -92,20 +98,6 @@ AggressiveMode.prototype._getEnemyHQPos = function() {
 AggressiveMode.prototype._getDistanceBetween = function(pos1, pos2) {
   // Currently using pythagorean theorem to find distance, but can use some distance function which takes account terrain.
   return Math.sqrt(Math.pow(Math.abs(pos1.x - pos2.x), 2) + Math.pow(Math.abs(pos1.y - pos2.y), 2));
-};
-
-AggressiveMode.prototype._getClosestMove = function(possibleMoves) {
-  var that = this;
-  bestMove = null;
-  bestMoveDistance = 100;
-  possibleMoves.forEach(function(movePos) {
-    var distanceBetween = that._getDistanceBetween(that.enemyHQPos, movePos);
-    if (distanceBetween < bestMoveDistance) {
-      bestMove = movePos;
-      bestMoveDistance = distanceBetween;
-    };
-  });
-  return bestMove;
 };
 
 AggressiveMode.prototype.arrayIncludesPosition = function(array, pos) {
@@ -157,22 +149,24 @@ AggressiveMode.prototype._selectNextUnit = function() {
 }
 
 AggressiveMode.prototype._selectNextMove = function() {
-  console.log("Selecting next move");
+  var that = this;
   var nextMovePos = null;
   var possibleMoves = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.battle.map, this.battle.enemyPositions());
   var filteredPossibleMoves = this._filterPossibleMoves(possibleMoves);
-  // this._getClosestMove(possibleMoves)
-  // nextMovePos = filteredPossibleMoves[1];
-  nextMovePos = this._getClosestMove(filteredPossibleMoves);
+  if (this.currentSelectedUnit instanceof UnitArtillery) {
+    nextMovePos = that._handleArtilleryMovement(filteredPossibleMoves);
+  } else {
+    // nextMovePos = this._getClosestMoveToEnemyHQ(filteredPossibleMoves);
+    // nextMovePos = this._getClosestMoveToEnemyUnit(filteredPossibleMoves);
+    nextMovePos = this._randomizeUnitMovement(filteredPossibleMoves);
+  }
   return nextMovePos;
 }
 
 AggressiveMode.prototype._selectNextAttack = function() {
-  console.log("Selecting attack move");
   var nextAttackPos = null;
   var possibleAttackMoves = this.currentSelectedUnit.getPossibleAttacks(this.battle.map);
   var filteredAttackMoves = this._filterPossibleAttackMoves(possibleAttackMoves);
-  console.log(filteredAttackMoves);
   return filteredAttackMoves[0];
 }
 
@@ -207,5 +201,57 @@ AggressiveMode.prototype._filterPossibleAttackMoves = function(possibleAttackMov
   return result;
 }
 
-AggressiveMode.prototype._buildPhase = function() {
+AggressiveMode.prototype._getClosestMoveToEnemyHQ = function(possibleMoves) {
+  var that = this;
+  bestMove = null;
+  bestMoveDistance = 100;
+  possibleMoves.forEach(function(movePos) {
+    var distanceBetween = that._getDistanceBetween(that.enemyHQPos, movePos);
+    if (distanceBetween < bestMoveDistance) {
+      bestMove = movePos;
+      bestMoveDistance = distanceBetween;
+    };
+  });
+  return bestMove;
 };
+
+AggressiveMode.prototype._getClosestMoveToEnemyUnit = function(possibleMoves) {
+  var that = this;
+  // this.battle.enemyPositions()
+  bestMove = null;
+  bestMoveDistance = 100;
+  this.battle.enemyPositions().forEach(function(enemyPos) {
+    possibleMoves.forEach(function(movePos) {
+
+    var distanceBetween = that._getDistanceBetween(enemyPos, movePos);
+    if (distanceBetween < bestMoveDistance) {
+      bestMove = movePos;
+      bestMoveDistance = distanceBetween;
+    };
+  });
+  });
+  return bestMove;
+};
+
+AggressiveMode.prototype._randomizeUnitMovement = function(possibleMoves) {
+  var move = null;
+  if (Math.random() > .50) {
+    move = this._getClosestMoveToEnemyHQ(possibleMoves)
+  } else {
+    move = this._getClosestMoveToEnemyUnit(possibleMoves)
+  }
+  return move
+};
+
+AggressiveMode.prototype._handleArtilleryMovement = function(possibleMoves) {
+  var that = this;
+  var nextMove = null;
+  var rand = Math.random();
+  if (rand > .50) {
+    nextMove = this.currentSelectedUnit.pos;
+  } else {
+    nextMove = this._randomizeUnitMovement(possibleMoves);
+  }
+  return nextMove;
+};
+

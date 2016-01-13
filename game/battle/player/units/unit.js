@@ -12,11 +12,13 @@ function Unit(pos, player) {
   this.walkPath = [];
   this.attacking = false;
   this.alive = true;
+  this.healthText = null;
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
 Unit.prototype.updateUnit = function(map) {
   //TODO: Update method
+  this.updateDisplayHealth();
   if(this.walkPath.length === 0 && !this.attacking) {
     this.animations.play("stand");
     this.x = this.pos.canvasX();
@@ -159,12 +161,28 @@ Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
 
 Unit.prototype.die = function(pos) {
   //TODO: Destroys unit and removes from map
-  this.destroy();
   this.alive = false;
+  this.healthText.destroy();
+  this.destroy();
 }
 
 Unit.prototype.resetUnit = function() {
   // Resets unit at the end of a player's turn
   this.movedThisTurn = false;
   this.filters = null;
+}
+
+Unit.prototype.updateDisplayHealth = function() {
+  var style = {font: "12px Arial", fill: "white", strokeThickness: 3}
+
+  if (this.healthText === null) {
+    this.healthText = game.add.text(this.x + 16, this.y + 16, "", style);
+  }
+
+    this.healthText.x = this.x + 16;
+    this.healthText.y = this.y + 16;
+  if(this.damageTaken === 0)
+    this.healthText.text = "";
+  else
+    this.healthText.text = this.getHealthNumber();
 }
