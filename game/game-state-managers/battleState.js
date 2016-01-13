@@ -93,7 +93,7 @@ function _initializeVariables() {
 };
 
 function _playSound(audioKey) {
-  var bgm = game.add.audio(audioKey);
+  var bgm = game.add.audio(audioKey, 1, true);
   bgm.play();
 };
 
@@ -108,6 +108,7 @@ function _initializeArmyPlayer1() {
 function _initializeArmyPlayer2() {
   return [new Grenadier(new Pos(5, 10), 2),
         new MotorBike(new Pos(0, 10), 2),
+        new MotorBike(new Pos(3, 11), 2),
         new IronGuard(new Pos(6, 10), 2),
         new Cannon(new Pos(6, 11), 2),];
 };
