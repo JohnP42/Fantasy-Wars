@@ -5,18 +5,18 @@ function Berserker() {
 	this.pos = pos;
   Phaser.Sprite.call(this, game, pos.canvasX(), pos.canvasY(), "sprOrcs" + player);
   game.add.existing(this);
-  this.animations.add("stand", [0, 1], 2);
-  this.animations.add("move", [2, 3], 8);
-  this.animations.add("attack", [4, 5], 8);
+  this.animations.add("stand", [20, 21], 2);
+  this.animations.add("move", [22, 23], 8);
+  this.animations.add("attack", [24, 25, 26, 27], 8);
   this.moveSound = "move";
   this.attackSound = "slash";
   this.name = "Orc Berserker";
   this.health = 100;
-  this.attack = 45;
-  this.defense = 0.1;
+  this.attack = 90;
+  this.defense = 0;
   this.speed = 4;
-  this.range = [1,2];
-  this.cost = 100;
+  this.range = [1, 1];
+  this.cost = 400;
   this.player = player;
-	
+
 }
