@@ -40,6 +40,8 @@ function _loadImages() {
       game.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png');
       game.load.image('elfImage','game/assets/menus/images/elfImage.png');
       game.load.image('orcImage','game/assets/menus/images/orcImage.png');
+      game.load.image('unitBuildScreen','game/assets/menus/ui/unitBuildScreen.png');
+
 };
 
 function _loadSpritesheets() {

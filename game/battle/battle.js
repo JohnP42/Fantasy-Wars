@@ -10,6 +10,7 @@ function Battle(map, players) {
   this.turnState = "selectingUnit";
   this.canClick = true;
   this.currentPlayer = 1;
+  this.buildScreen = null;
 };
 
 Battle.prototype.update = function() {
@@ -98,7 +99,10 @@ Battle.prototype.animateMovement = function() {
     var enemyInRange = false;
     this.enemyPositions().forEach(function(pos) {
       if (that.arrayIncludesPosition(that.currentSelectedAttacks, pos)) {
-        enemyInRange = true;
+        enemyInRange = true
+        if (that.getUnitAtPos(pos) instanceof UnitFlying && that.currentSelectedUnit.range[1] === 1) {
+          enemyInRange = false;
+        }
       }
     });
 
@@ -314,18 +318,30 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
     };
   }
   else {
-    this.clickOnBarracks();
+    this.clickOnBarracks(mousePos);
   }
 };
 
 Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
-  var buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this);
+  var unit = this.buildScreen.onClick(mousePos);
+  console.log(unit);
+  if(unit) {
+    unit.movedThisTurn = true;
+    var gray = game.add.filter('Gray');
+    unit.filters = [gray];
+    this.getCurrentPlayer().army.units.push(unit);
+  }
+
+  this.buildScreen = this.buildScreen.destroy();
+  this.turnState = "selectingUnit";
+  this.currentSelectedUnit = null;
 };
 
-Battle.prototype.clickOnBarracks = function() {
+Battle.prototype.clickOnBarracks = function(mousePos) {
   if (this.currentSelectedTile) {
-    if (this.currentSelectedTile.name === "barracks") {
+    if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
       this.turnState = "buildUnit";
+      this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
     }
   }
 }
