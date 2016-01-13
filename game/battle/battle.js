@@ -285,6 +285,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
     var capturePoints = this.currentCaptureTile.capturePoints;
     capturePoints = parseInt(capturePoints) + this.currentSelectedUnit.getHealthNumber();
     this.currentCaptureTile.capturePoints = capturePoints.toString();
+    this._displayCaptureProgress(capturePoints, this.currentSelectedUnit);
 
     if(capturePoints >= 20) {
       this.currentCaptureTile.owner = this.currentPlayer;
@@ -362,6 +363,20 @@ Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
   var text = game.add.text(unit1.pos.canvasX() + 16, unit1.pos.canvasY(), ("-" + dmg), style);
   text.anchor.set(0.5);
   text.alpha = 1;
-  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1000, "Linear", true);
+  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1500, "Linear", true);
+}
+
+Battle.prototype._displayCaptureProgress = function(cap, unit) {
+  if (cap < 20) {
+    var style = { font: "24px Arial", fill: "#00e5e6", align: "center", stroke: "black", strokeThickness: 3 };
+    var text = game.add.text(unit.pos.canvasX() + 16, unit.pos.canvasY(), (((cap/20) * 100) + "%") + " Captured!", style);
+  }
+  else {
+    var style = { font: "24px Arial", fill: "#ff9900", align: "center", stroke: "white", strokeThickness: 3 };
+    var text = game.add.text(unit.pos.canvasX() + 16, unit.pos.canvasY(), "Captured!", style);
+  }
+  text.anchor.set(0.5);
+  text.alpha = 1;
+  var tween = game.add.tween(text).to( { alpha: 0, y: unit.pos.canvasY() - 20 }, 1500, "Linear", true);
 }
 
