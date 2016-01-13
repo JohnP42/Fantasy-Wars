@@ -23,9 +23,6 @@ AggressiveMode.prototype._moveEachUnit = function() {
   this._moveUnit(unit);
 };
 
-AggressiveMode.prototype._buildPhase = function() {
-};
-
 AggressiveMode.prototype._moveUnit = function(unit) {
   var mousePos = unit.pos
   this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
@@ -55,3 +52,6 @@ AggressiveMode.prototype._endTurn = function() {
   this.battle.turn ++;
   turnCount.setText("Turn: " + battle.turn)
 }
+
+AggressiveMode.prototype._buildPhase = function() {
+};
