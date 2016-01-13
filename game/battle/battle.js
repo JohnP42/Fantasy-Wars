@@ -423,11 +423,8 @@ Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum)
 }
 
 Battle.prototype.didPlayerLoseHQ = function(player) {
-  console.log(this.map);
-  console.log(this.map.getAllBuildingsForPlayer(player));
   var hqCaptured = false;
   this.map.getAllBuildingsForPlayer(player).forEach(function(building) {
-    console.log(building.name);
     if (building.name === "castle") {
       hqCaptured = true;
     }
