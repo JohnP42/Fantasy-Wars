@@ -285,6 +285,8 @@ Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos)
     this.currentSelectedMovement = [];
   } else {
     if (!this.currentSelectedUnit.movedThisTurn && this.currentSelectedUnit.player === this.currentPlayer) {
+      var moveSound = this.currentSelectedUnit.moveSound;
+      moveSound.play();
       this.turnState = "animatingMovement";
       this.currentSelectedUnit.walkPath = squareToMoveTo.getPath();
     }
@@ -352,6 +354,7 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
     var gray = game.add.filter('Gray');
     unit.filters = [gray];
     this.getCurrentPlayer().army.units.push(unit);
+    game.add.audio('purchase', 2).play();
   }
 
   this.buildScreen = this.buildScreen.destroy();
