@@ -27,6 +27,7 @@ function _loadAudio() {
       game.load.audio('cannonShot', 'game/assets/audio/SE/Explosion4.ogg');
       game.load.audio('mortarShot', 'game/assets/audio/SE/Explosion7.ogg');
       game.load.audio('machineGun', 'game/assets/audio/SE/machineGun.ogg');
+      game.load.audio('complete', 'game/assets/audio/SE/complete.ogg');
 };
 
 function _loadImages() {

@@ -285,7 +285,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
     if(capturePoints >= 20) {
       this.currentCaptureTile.owner = this.currentPlayer;
       this.currentCaptureTile.capturePoints = "0";
-      game.add.audio("flash").play();
+      game.add.audio("complete").play();
     }
     else {
       game.add.audio("capture").play();
@@ -319,11 +319,11 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
 };
 
 Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
-  //TODO: ADD POP UP THING
+  var buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this);
 };
 
 Battle.prototype.clickOnBarracks = function() {
-  if (this.currentCaptureTile) {
+  if (this.currentSelectedTile) {
     if (this.currentSelectedTile.name === "barracks") {
       this.turnState = "buildUnit";
     }
