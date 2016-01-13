@@ -43,8 +43,6 @@ AggressiveMode.prototype._buildPhase = function() {
 //     return;
 //   } else {
 //     this._moveUnit(unitsArray.pop(), function() {
-//       console.log("indicator");
-//       console.log(unitsArray);
 //       this._moveAllUnits(unitsArray);
 //     });
 //   };
@@ -75,16 +73,23 @@ AggressiveMode.prototype._buildPhase = function() {
 // };
 
 AggressiveMode.prototype._endTurn = function() {
-  this.battle.players[1].endTurn();
-  this.battle.currentPlayer = 1;
+  battle.players[1].endTurn();
+  battle.currentPlayer = 1;
+  var prevGold = battle.getCurrentPlayer().gold;
+  battle.addGold();
+  if (prevGold !== battle.getCurrentPlayer().gold) {
+      game.add.audio('coin').play();
+  };
   var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
   var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
   text.anchor.set(0.5);
   text.alpha = 1;
   var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-  this.battle.turn ++;
-  turnCount.setText("Turn: " + battle.turn)
-}
+  battle.turn ++;
+  turnCount.setText("Turn: " + battle.turn);
+  currentPlayerText.setText("Player " + this.battle.currentPlayer);
+  currentPlayerGold.setText("Gold: " + this.battle.players[battle.currentPlayer - 1].gold);
+};
 
 AggressiveMode.prototype._getEnemyHQPos = function() {
   pos = this.battle.players[0].hqPos;
@@ -159,7 +164,6 @@ AggressiveMode.prototype._selectNextUnit = function() {
 }
 
 AggressiveMode.prototype._selectNextMove = function() {
-  console.log("Selecting next move");
   var nextMovePos = null;
   var possibleMoves = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.battle.map, this.battle.enemyPositions());
   var filteredPossibleMoves = this._filterPossibleMoves(possibleMoves);
@@ -170,11 +174,9 @@ AggressiveMode.prototype._selectNextMove = function() {
 }
 
 AggressiveMode.prototype._selectNextAttack = function() {
-  console.log("Selecting attack move");
   var nextAttackPos = null;
   var possibleAttackMoves = this.currentSelectedUnit.getPossibleAttacks(this.battle.map);
   var filteredAttackMoves = this._filterPossibleAttackMoves(possibleAttackMoves);
-  console.log(filteredAttackMoves);
   return filteredAttackMoves[0];
 }
 
