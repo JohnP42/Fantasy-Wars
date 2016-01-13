@@ -176,11 +176,11 @@ Unit.prototype.updateDisplayHealth = function() {
   var style = {font: "12px Arial", fill: "white", strokeThickness: 3}
 
   if (this.healthText === null) {
-    this.healthText = game.add.text(this.pos.canvasX() + 16, this.pos.canvasY() + 16, "", style);
+    this.healthText = game.add.text(this.x + 16, this.y + 16, "", style);
   }
 
-    this.healthText.x = this.pos.canvasX() + 16;
-    this.healthText.y = this.pos.canvasY() + 16;
+    this.healthText.x = this.x + 16;
+    this.healthText.y = this.y + 16;
   if(this.damageTaken === 0)
     this.healthText.text = "";
   else
