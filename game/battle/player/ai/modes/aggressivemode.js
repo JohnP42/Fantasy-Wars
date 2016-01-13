@@ -134,7 +134,11 @@ AggressiveMode.prototype.handleComputerMove = function() {
   }
   else if (this.battle.turnState === "capturePrompt") {
     mousePos = this._selectNextCapture();
-  } else {
+  } 
+  else if (this.battle.turnState === "buildUnit") {
+    // mousePos = this.battle.clickOnBarracks();
+  }
+  else {
     mousePos = new Pos (1,1);
   }
   return mousePos;

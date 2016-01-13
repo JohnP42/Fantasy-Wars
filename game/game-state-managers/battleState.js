@@ -129,7 +129,7 @@ function _setupUIElements(battle) {
 
 function _createTopMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
-    var topMenuBar = game.add.image(0, -64, 'topMenuBar');
+    var topMenuBar = game.add.image(0, -68, 'topMenuBar');
     var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
     var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.players[battle.currentPlayer - 1].gold, style);
     return {"currentPlayerText": currentPlayerText, "currentPlayerGold": currentPlayerGold};
@@ -173,7 +173,7 @@ function _createStatsMenu(battle) {
 
 function _createTerrainMenu(battle) {
     var terrainStatsStyle = {font: "14pt Herculanum", align: "left", fill: "white"};
-    var terrainStatsMenu = game.add.image(576, 0, 'statsMenu');
+    var terrainStatsMenu = game.add.image(576, -4, 'statsMenu');
 
     currentTileName = game.add.text(596, 20, "Name:  ", terrainStatsStyle);
     currentTileDefense = game.add.text(596, 45, "Defense:  ", terrainStatsStyle);
