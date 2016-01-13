@@ -40,6 +40,11 @@ var battleState = {
         battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(6,2)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(7,11))]);
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
+        if (battle.players[1] instanceof ComputerPlayer) {
+            var computerPlayer = battle.players[1];
+            computerPlayer.battle = battle;
+            computerPlayer.updateMode("aggressive");
+          };
         _setupUIElements(battle);
     },
 
@@ -192,12 +197,6 @@ function _createEndTurnButton(battle, userInterfaceText) {
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
-                if (battle.players[1] instanceof ComputerPlayer) {
-                    var computerPlayer = battle.players[1];
-                    computerPlayer.battle = battle;
-                    computerPlayer.updateMode("aggressive");
-                    computerPlayer.playTurn();
-                }
             } else {
                 battle.players[1].endTurn();
                 battle.currentPlayer = 1;

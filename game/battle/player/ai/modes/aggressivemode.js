@@ -51,24 +51,19 @@ AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
 }
 
 AggressiveMode.prototype._moveUnit = function(unit, callback) {
-  var mousePos = unit.pos
-  this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
+  // var mousePos = unit.pos
+  // this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
   this.battle.currentSelectedUnit = unit;
   var possibleMoves = unit.getPossibleMoves(unit.pos, this.battle.map, this.battle.enemyPositions())
   possibleMoves = this._filterPossibleMoves(possibleMoves)
   this.battle.currentSelectedMovement = possibleMoves;
   this.battle.turnState = "selectingMove";
   this.battle.renderMoveHighlights();
-
-  // mousePos = this._getClosestMove(possibleMoves);
+  // // mousePos = this._getClosestMove(possibleMoves);
   var squareToMoveTo = this._getClosestMove(possibleMoves);
-  this.usedPositionsThisTurn.push(squareToMoveTo);
+  // this.usedPositionsThisTurn.push(squareToMoveTo);
   this.battle.turnState = "animatingMovement";
   unit.walkPath = squareToMoveTo.getPath();
-  do {
-    battle.animateMovement();
-  } while (unit.movedThisTurn === false);
-  callback.call(this);
 };
 
 AggressiveMode.prototype._keepAnimatingUnit = function(unit) {
@@ -141,8 +136,42 @@ AggressiveMode.prototype.arrayIncludesPosition = function(array, pos) {
   return included;
 }
 
-function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
-   while (currentTime + miliseconds >= new Date().getTime()) {
-   }
+AggressiveMode.prototype.handleComputerMove = function() {
+  // Returns mousePos to position computer desires to click.
+  // Sets battle.computerCanClick to true once a selection is made.
+  var mousePos;
+  console.log(this.battle.turnState);
+  if(this.battle.turnState === "selectingUnit") {
+    mousePos = this._selectingUnitHelper();
+  }
+  else if(this.battle.turnState === "selectingMove") {
+    console.log("Selecting Move!");
+    mousePos = this._selectingMoveHelper();
+  }
+  else if(this.battle.turnState === "selectingAttack") {
+    mousePos = this._selectingAttackHelper();
+  }
+  else if (this.battle.turnState === "capturePrompt") {
+    mousePos = this._selectingCapturePromptHelper();
+  } else {
+    mousePos = new Pos (1,1);
+  }
+  console.log(mousePos);
+  return mousePos;
+};
+
+AggressiveMode.prototype._selectingUnitHelper = function() {
+  return new Pos(0,10);
+}
+
+AggressiveMode.prototype._selectingMoveHelper = function() {
+  return new Pos(2,10);
+}
+
+AggressiveMode.prototype._selectingAttackHelper = function() {
+
+}
+
+AggressiveMode.prototype._selectingCapturePromptHelper = function() {
+
 }
