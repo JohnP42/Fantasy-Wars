@@ -35,7 +35,7 @@ Unit.prototype.move = function() {
   // Moves unit along path
   // path is in the format: [location1, location2, ..., targetLocation]
   this.animations.play("move");
-  this.moveSound.play('', 0, 1, false, false);
+  // this.moveSound.play('', 0, 1, false, false);
   var nextTile = this.walkPath[this.walkPath.length - 1];
 
   if (!nextTile)
