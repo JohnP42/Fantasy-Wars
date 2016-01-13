@@ -136,7 +136,7 @@ AggressiveMode.prototype.handleComputerMove = function() {
     mousePos = this._selectNextCapture();
   } 
   else if (this.battle.turnState === "buildUnit") {
-    // mousePos = this.battle.clickOnBarracks();
+    mousePos = this._selectNextBarracks();
   }
   else {
     mousePos = new Pos (1,1);
@@ -182,7 +182,22 @@ AggressiveMode.prototype._selectNextAttack = function() {
 
 AggressiveMode.prototype._selectNextCapture = function() {
 
-}
+};
+
+AggressiveMode.prototype._selectNextBarracks = function() {
+  var barracks = this._getAllBarracks();
+  console.log(barracks);
+};
+
+AggressiveMode.prototype._getAllBarracks = function() {
+  var barracks = [];
+  this.battle.map.getAllBuildingsForPlayer(battle.currentPlayer).forEach(function(building){
+    if (building.name === "barracks") {
+      barracks.push(building);
+    }
+  }); 
+  return barracks;
+};
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   // Takes in list of possible moves and filters out positions in which friendly units already exist
@@ -211,5 +226,3 @@ AggressiveMode.prototype._filterPossibleAttackMoves = function(possibleAttackMov
   return result;
 }
 
-AggressiveMode.prototype._buildPhase = function() {
-};
