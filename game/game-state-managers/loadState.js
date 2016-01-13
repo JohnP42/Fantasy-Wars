@@ -56,6 +56,8 @@ function _loadSpritesheets() {
 
       game.load.spritesheet("sprDwarves1", "game/assets/spritesheets/dwarf_units.png", 32, 32);
       game.load.spritesheet("sprDwarves2", "game/assets/spritesheets/dwarf_units2.png", 32, 32);
+      game.load.spritesheet("sprElves1", "game/assets/spritesheets/elf_units.png", 32, 32);
+      game.load.spritesheet("sprElves2", "game/assets/spritesheets/elf_units2.png", 32, 32);
       game.load.spritesheet("selectionTiles", "game/assets/spritesheets/select_tiles.png", 32, 32);
       game.load.spritesheet("blue_flag", "game/assets/spritesheets/blue_flag.png", 8, 8);
       game.load.spritesheet("red_flag", "game/assets/spritesheets/red_flag.png", 8, 8);
