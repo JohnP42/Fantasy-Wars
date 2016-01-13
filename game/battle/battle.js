@@ -34,7 +34,7 @@ Battle.prototype.update = function() {
   if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
-
+  this.checkVictoryConditions();
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -363,5 +363,46 @@ Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
   text.anchor.set(0.5);
   text.alpha = 1;
   var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1000, "Linear", true);
+}
+
+Battle.prototype.checkVictoryConditions = function() {
+  if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
+      game.state.start("victoryState", true, false, "Player 2");
+  }
+  else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
+      game.state.start("victoryState", true, false, "Player 1");
+  }
+  else {
+    return false;
+  }
+}
+
+Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum) {
+  if (playerObj.army.units.length === 0 || this.didPlayerLoseHQ(playerNum)) {
+    return true;
+  }
+}
+
+// Map.prototype.getAllBuildingsForPlayer = function(player) {
+//   var buildings = [];
+//   this.getAllBuildings().forEach(function(building) {
+//     if(parseInt(building.owner) === player)
+//       buildings.push(building);
+//   });
+
+//   return buildings;
+// }
+
+Battle.prototype.didPlayerLoseHQ = function(player) {
+  console.log(this.map);
+  console.log(this.map.getAllBuildingsForPlayer(player));
+  var hqCaptured = false;
+  this.map.getAllBuildingsForPlayer(player).forEach(function(building) {
+    console.log(building.name);
+    if (building.name === "castle") {
+      hqCaptured = true;
+    }
+  });
+  return hqCaptured;
 }
 
