@@ -9,6 +9,7 @@ function Battle(map, players) {
   this.currentCaptureTile = null;
   this.turnState = "selectingUnit";
   this.canClick = true;
+  this.computerCanClick = true;
   this.currentPlayer = 1;
   this.buildScreen = null;
 };
@@ -51,11 +52,20 @@ Battle.prototype.getUnitAtPos = function(pos) {
 };
 
 Battle.prototype.onClickListener = function() {
-  // Retrieve tile at a given pos
-  if(game.input.activePointer.leftButton.isDown && this.canClick) {
-    // calculate tile on which mouse click happens
-    var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
+  // Retrieve tile at a given pos;
+  if( (game.input.activePointer.leftButton.isDown && this.canClick) || (this._isComputerTurn() && this.computerCanClick)) {
+    // calculate tile on which mouse click happens;
+    if (this._isComputerTurn()) {
+      // Do computer Turn
+      this.computerCanClick = false;
+      var mousePos = this.players[1].handleComputerMove();
+    } else {
+      var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
+    }
     this.canClick = false;
+    if (!mousePos) {
+      mousePos = new Pos(0,0);
+    }
 
     if(this.turnState !== "buildUnit") {
       this.currentSelectedTile = this.map.getTileAtPos(mousePos);
@@ -78,8 +88,9 @@ Battle.prototype.onClickListener = function() {
     }
   }
 
-  if (game.input.activePointer.leftButton.isUp) {
+  if (game.input.activePointer.leftButton.isUp && !this._isComputerTurn()) {
     this.canClick = true;
+    // this.computerCanClick = true;
   }
 };
 
@@ -257,6 +268,7 @@ Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePo
         this.currentSelectedAttacks = [];
       }
     }
+    this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos) {
@@ -278,6 +290,7 @@ Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos)
       this.currentSelectedMovement = [];
     };
   };
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos) {
@@ -285,6 +298,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
     var capturePoints = this.currentCaptureTile.capturePoints;
     capturePoints = parseInt(capturePoints) + this.currentSelectedUnit.getHealthNumber();
     this.currentCaptureTile.capturePoints = capturePoints.toString();
+    this._displayCaptureProgress(capturePoints, this.currentSelectedUnit);
 
     if(capturePoints >= 20) {
       this.currentCaptureTile.owner = this.currentPlayer;
@@ -304,6 +318,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
     this._clickListenerTurnStateSelectingAttackHelper(mousePos);
   }
   this.currentCaptureTile = null;
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos) {
@@ -320,6 +335,7 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
   else {
     this.clickOnBarracks(mousePos);
   }
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
@@ -362,8 +378,30 @@ Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
   var text = game.add.text(unit1.pos.canvasX() + 16, unit1.pos.canvasY(), ("-" + dmg), style);
   text.anchor.set(0.5);
   text.alpha = 1;
-  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1000, "Linear", true);
+  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1500, "Linear", true);
 }
+
+Battle.prototype._displayCaptureProgress = function(cap, unit) {
+  if (cap < 20) {
+    var style = { font: "24px Arial", fill: "#00e5e6", align: "center", stroke: "black", strokeThickness: 3 };
+    var text = game.add.text(unit.pos.canvasX() + 16, unit.pos.canvasY(), (((cap/20) * 100) + "%") + " Captured!", style);
+  }
+  else {
+    var style = { font: "24px Arial", fill: "#ff9900", align: "center", stroke: "white", strokeThickness: 3 };
+    var text = game.add.text(unit.pos.canvasX() + 16, unit.pos.canvasY(), "Captured!", style);
+  }
+  text.anchor.set(0.5);
+  text.alpha = 1;
+  var tween = game.add.tween(text).to( { alpha: 0, y: unit.pos.canvasY() - 20 }, 1500, "Linear", true);
+}
+
+Battle.prototype._isComputerTurn = function() {
+  if (this.players[1] instanceof ComputerPlayer && this.currentPlayer === 2) {
+    return true;
+  } else {
+    return false;
+  };
+};
 
 Battle.prototype.checkVictoryConditions = function() {
   return false;
@@ -396,4 +434,3 @@ Battle.prototype.didPlayerLoseHQ = function(player) {
   });
   return hqCaptured;
 }
-
