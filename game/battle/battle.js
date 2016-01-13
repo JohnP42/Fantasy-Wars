@@ -366,15 +366,16 @@ Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
 }
 
 Battle.prototype.checkVictoryConditions = function() {
-  if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
-      game.state.start("victoryState", true, false, "Player 2");
-  }
-  else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
-      game.state.start("victoryState", true, false, "Player 1");
-  }
-  else {
-    return false;
-  }
+  return false;
+  // if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
+  //     game.state.start("victoryState", true, false, "Player 2");
+  // }
+  // else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
+  //     game.state.start("victoryState", true, false, "Player 1");
+  // }
+  // else {
+  //   return false;
+  // }
 }
 
 Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum) {
@@ -382,16 +383,6 @@ Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum)
     return true;
   }
 }
-
-// Map.prototype.getAllBuildingsForPlayer = function(player) {
-//   var buildings = [];
-//   this.getAllBuildings().forEach(function(building) {
-//     if(parseInt(building.owner) === player)
-//       buildings.push(building);
-//   });
-
-//   return buildings;
-// }
 
 Battle.prototype.didPlayerLoseHQ = function(player) {
   console.log(this.map);
