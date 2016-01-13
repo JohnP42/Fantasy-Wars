@@ -117,7 +117,10 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
   if (this.buildPhase === true) {
-    // mousePos = this._selectNextBarracks();
+    if (this.battle.turnState !== "buildUnit") {
+      this._runBuildPhase;
+    }
+    // move to ._runBuildPhase;
     this.buildPhase = false;
     this._endTurn();
   }
@@ -181,20 +184,51 @@ AggressiveMode.prototype._selectNextCapture = function() {
 
 };
 
-AggressiveMode.prototype._selectNextBarracks = function() {
-  var barracks = this._getAllBarracks();
-  console.log(barracks);
+
+// Battle.prototype.clickOnBarracks = function(mousePos) {
+//   if (this.currentSelectedTile) {
+//     if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
+//       this.turnState = "buildUnit";
+//       this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
+//     }
+//   }
+// }
+
+AggressiveMode.prototype._runBuildPhase = function() {
+  // fix so won't reset
+    var unusedBarracks = this._getAllBarracks;
+    this._selectNextBarracks(unusedBarracks.pop());
+}
+
+AggressiveMode.prototype._selectNextBarracks = function(barracks) {
+  var mousePos = this._getBarracksPosition(barracks)
+  this.battle.clickOnBarracks(mousePos);
 };
 
 AggressiveMode.prototype._getAllBarracks = function() {
   var barracks = [];
-  this.battle.map.getAllBuildingsForPlayer(battle.currentPlayer).forEach(function(building){
-    if (building.name === "barracks") {
-      barracks.push(building);
+  this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
+    if (buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer) {
+      barracks.push(buildingArray);
     }
   }); 
   return barracks;
 };
+
+AggressiveMode.prototype._getBarracksPosition = function(barracks) {
+  var barracksTileCoordinates = [];
+  barracksTileCoordinates.push(barracks[1]);
+  barracksTileCoordinates.push(barracks[2]);
+  return barracksTileCoordinates;
+};
+
+AggressiveMode.prototype._chooseUnit = function() {
+  var armyList = this.battle.getCurrentPlayer().army.armyList;
+}
+
+AggressiveMode.prototype._evaluateUnits = function (armyList) {
+  
+}
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   // Takes in list of possible moves and filters out positions in which friendly units already exist
