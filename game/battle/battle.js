@@ -12,6 +12,7 @@ function Battle(map, players) {
   this.computerCanClick = true;
   this.currentPlayer = 1;
   this.buildScreen = null;
+  this.unitSpriteDisplay = null;
 };
 
 Battle.prototype.update = function() {
@@ -35,6 +36,7 @@ Battle.prototype.update = function() {
   if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
+  this.updateUnitSpriteDisplay();
   this.checkVictoryConditions();
 };
 
@@ -304,6 +306,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
       this.currentCaptureTile.owner = this.currentPlayer;
       this.currentCaptureTile.capturePoints = "0";
       game.add.audio("complete").play();
+      this.map.remakeAllFlags();
     }
     else {
       game.add.audio("capture").play();
@@ -374,11 +377,11 @@ Battle.prototype.getCurrentPlayer = function() {
 }
 
 Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
-  var style = { font: "12px Arial", backgroundColor: "red", fill: "#ffffff", align: "center" };
+  var style = { font: "12px Arial", backgroundColor: "red", fill: "#ffffff", strokeThickness: 3, align: "center" };
   var text = game.add.text(unit1.pos.canvasX() + 16, unit1.pos.canvasY(), ("-" + dmg), style);
   text.anchor.set(0.5);
   text.alpha = 1;
-  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 1500, "Linear", true);
+  var tween = game.add.tween(text).to( { alpha: 0, y: unit1.pos.canvasY() - 20 }, 2000, "Linear", true);
 }
 
 Battle.prototype._displayCaptureProgress = function(cap, unit) {
@@ -402,6 +405,28 @@ Battle.prototype._isComputerTurn = function() {
     return false;
   };
 };
+
+Battle.prototype.updateUnitSpriteDisplay = function() {
+  if(this.currentSelectedUnit !== null) {
+    var unitClass = this.currentSelectedUnit.constructor;
+    if(this.unitSpriteDisplay === null || unitClass !== this.unitSpriteDisplay.constructor) {
+      if(this.unitSpriteDisplay !== null) {
+        this.unitSpriteDisplay.destroy();
+        this.unitSpriteDisplay = null;
+      }
+      var unit = this.unitSpriteDisplay = new unitClass(new Pos(20, 7), this.currentSelectedUnit.player);
+      unit.scale.x = 3;
+      unit.scale.y = 3;
+      unit.animations.play("stand", 2, true);
+    }
+  }
+  else {
+    if(this.unitSpriteDisplay !== null) {
+        this.unitSpriteDisplay.destroy();
+        this.unitSpriteDisplay = null;
+      }
+  }
+}
 
 Battle.prototype.checkVictoryConditions = function() {
   return false;
