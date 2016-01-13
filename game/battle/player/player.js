@@ -25,7 +25,7 @@ Player.prototype.onTurnStart = function(map, myPlayerID) {
         unit.damageTaken = 0;
       }
       var healthGained = prevDamageTaken - unit.damageTaken ;
-      console.log(healthGained);
+
       if(healthGained > 0){
         var style = { font: "12px Arial", backgroundColor: "green", fill: "#ffffff", strokeThickness: 3, align: "center" };
         var text = game.add.text(unit.pos.canvasX() + 16, unit.pos.canvasY(), ("+" + healthGained), style);
