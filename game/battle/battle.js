@@ -389,15 +389,16 @@ Battle.prototype._isComputerTurn = function() {
 };
 
 Battle.prototype.checkVictoryConditions = function() {
-  if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
-      game.state.start("victoryState", true, false, "Player 2");
-  }
-  else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
-      game.state.start("victoryState", true, false, "Player 1");
-  }
-  else {
-    return false;
-  }
+  return false;
+  // if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
+  //     game.state.start("victoryState", true, false, "Player 2");
+  // }
+  // else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
+  //     game.state.start("victoryState", true, false, "Player 1");
+  // }
+  // else {
+  //   return false;
+  // }
 }
 
 Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum) {
