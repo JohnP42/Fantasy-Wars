@@ -17,7 +17,7 @@ var mapSelectState = {
 
     // first map
     // args = x, y, spritekey(map thumbnail), targetState, tilemap name, army name, audio
-    var mapThumb = new MenuButton(20, 70, 'map1', "armySelectState", "testmap", "army", "flash");
+    var mapThumb = new MenuButton(20, 70, 'map1', "armySelectState", "oceanPass", "army", "flash");
     var mapThumbText = this.add.text(20, 260, "Two Rivers", {font: "16pt Herculanum", align: "left"});
     // second map
 
