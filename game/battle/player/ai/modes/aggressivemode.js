@@ -163,7 +163,9 @@ AggressiveMode.prototype._selectNextMove = function() {
   var nextMovePos = null;
   var possibleMoves = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.battle.map, this.battle.enemyPositions());
   var filteredPossibleMoves = this._filterPossibleMoves(possibleMoves);
-  nextMovePos = filteredPossibleMoves[1];
+  // this._getClosestMove(possibleMoves)
+  // nextMovePos = filteredPossibleMoves[1];
+  nextMovePos = this._getClosestMove(filteredPossibleMoves);
   return nextMovePos;
 }
 
