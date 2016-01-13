@@ -66,12 +66,14 @@ AggressiveMode.prototype._moveUnit = function(unit, callback) {
   unit.walkPath = squareToMoveTo.getPath();
   do {
     battle.animateMovement();
-  } while (this._keepAnimatingUnit === false);
+  } while (this._keepAnimatingUnit() === true);
   callback.call(this);
 };
 
 AggressiveMode.prototype._keepAnimatingUnit = function(unit) {
   if (unit.walkPath.length === 0) {
+    return false;
+  } else {
     return true;
   }
 };
