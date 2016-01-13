@@ -11,6 +11,7 @@ function Battle(map, players) {
   this.canClick = true;
   this.computerCanClick = true;
   this.currentPlayer = 1;
+  this.buildScreen = null;
 };
 
 Battle.prototype.update = function() {
@@ -34,7 +35,7 @@ Battle.prototype.update = function() {
   if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
-
+  this.checkVictoryConditions();
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -66,7 +67,9 @@ Battle.prototype.onClickListener = function() {
       mousePos = new Pos(0,0);
     }
 
-    this.currentSelectedTile = this.map.getTileAtPos(mousePos);
+    if(this.turnState !== "buildUnit") {
+      this.currentSelectedTile = this.map.getTileAtPos(mousePos);
+    }
 
     if(this.turnState === "selectingUnit") {
       this._clickListenerTurnStateSelectingUnitHelper(mousePos);
@@ -79,6 +82,9 @@ Battle.prototype.onClickListener = function() {
     }
     else if (this.turnState === "capturePrompt") {
       this._clickListenerTurnStateCapturePromptHelper(mousePos);
+    }
+    else if (this.turnState === "buildUnit") {
+      this._clickListenerTurnStateBuildUnitHelper(mousePos);
     }
   }
 
@@ -104,7 +110,10 @@ Battle.prototype.animateMovement = function() {
     var enemyInRange = false;
     this.enemyPositions().forEach(function(pos) {
       if (that.arrayIncludesPosition(that.currentSelectedAttacks, pos)) {
-        enemyInRange = true;
+        enemyInRange = true
+        if (that.getUnitAtPos(pos) instanceof UnitFlying && that.currentSelectedUnit.range[1] === 1) {
+          enemyInRange = false;
+        }
       }
     });
 
@@ -289,10 +298,16 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
     var capturePoints = this.currentCaptureTile.capturePoints;
     capturePoints = parseInt(capturePoints) + this.currentSelectedUnit.getHealthNumber();
     this.currentCaptureTile.capturePoints = capturePoints.toString();
+
     if(capturePoints >= 20) {
       this.currentCaptureTile.owner = this.currentPlayer;
       this.currentCaptureTile.capturePoints = "0";
+      game.add.audio("complete").play();
     }
+    else {
+      game.add.audio("capture").play();
+    }
+
     this.turnState = "selectingUnit";
     this.currentSelectedUnit = null;
     this.currentSelectedMovement = [];
@@ -307,15 +322,55 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
 
 Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos) {
   unit = this.getUnitAtPos(mousePos);
-  if(this.currentSelectedUnit !== unit) {
-    this.currentSelectedUnit = unit;
-    // get possible moves
-    this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
-    this.turnState = "selectingMove";
-    this.renderMoveHighlights();
-  };
-  this.computerCanClick = true;
+  if(unit) {
+    if(this.currentSelectedUnit !== unit) {
+      this.currentSelectedUnit = unit;
+      // get possible moves
+      this.currentSelectedMovement = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.map, this.enemyPositions());
+      this.turnState = "selectingMove";
+      this.renderMoveHighlights();
+    };
+    this.computerCanClick = true;
+  }
+  else {
+    this.clickOnBarracks(mousePos);
+  }
 };
+
+Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
+  var unit = this.buildScreen.onClick(mousePos);
+  console.log(unit);
+  if(unit) {
+    unit.movedThisTurn = true;
+    var gray = game.add.filter('Gray');
+    unit.filters = [gray];
+    this.getCurrentPlayer().army.units.push(unit);
+  }
+
+  this.buildScreen = this.buildScreen.destroy();
+  this.turnState = "selectingUnit";
+  this.currentSelectedUnit = null;
+};
+
+Battle.prototype.clickOnBarracks = function(mousePos) {
+  if (this.currentSelectedTile) {
+    if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
+      this.turnState = "buildUnit";
+      this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
+    }
+  }
+}
+
+Battle.prototype.addGold = function() {
+  var that = this;
+  this.map.getAllBuildingsForPlayer(this.currentPlayer).forEach(function(building) {
+    that.getCurrentPlayer().gold += 100;
+  });
+}
+
+Battle.prototype.getCurrentPlayer = function() {
+  return this.players[this.currentPlayer - 1];
+}
 
 Battle.prototype._displayDamageTaken = function(dmg, unit1, unit2) {
   var style = { font: "12px Arial", backgroundColor: "red", fill: "#ffffff", align: "center" };
@@ -332,3 +387,44 @@ Battle.prototype._isComputerTurn = function() {
     return false;
   };
 };
+
+Battle.prototype.checkVictoryConditions = function() {
+  if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
+      game.state.start("victoryState", true, false, "Player 2");
+  }
+  else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
+      game.state.start("victoryState", true, false, "Player 1");
+  }
+  else {
+    return false;
+  }
+}
+
+Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum) {
+  if (playerObj.army.units.length === 0 || this.didPlayerLoseHQ(playerNum)) {
+    return true;
+  }
+}
+
+// Map.prototype.getAllBuildingsForPlayer = function(player) {
+//   var buildings = [];
+//   this.getAllBuildings().forEach(function(building) {
+//     if(parseInt(building.owner) === player)
+//       buildings.push(building);
+//   });
+
+//   return buildings;
+// }
+
+Battle.prototype.didPlayerLoseHQ = function(player) {
+  console.log(this.map);
+  console.log(this.map.getAllBuildingsForPlayer(player));
+  var hqCaptured = false;
+  this.map.getAllBuildingsForPlayer(player).forEach(function(building) {
+    console.log(building.name);
+    if (building.name === "castle") {
+      hqCaptured = true;
+    }
+  });
+  return hqCaptured;
+}

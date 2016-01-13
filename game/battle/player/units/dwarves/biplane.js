@@ -13,7 +13,7 @@ function Biplane(pos, player) {
   this.attackSound = game.add.audio("machineGun");
   this.health = 100;
   this.attack = 50;
-  this.defense = 0.1;
+  this.defense = 0.2;
   this.speed = 8;
   this.range = [1,2];
   this.cost = 400;

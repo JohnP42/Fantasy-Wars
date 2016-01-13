@@ -98,21 +98,19 @@ function _initializeVariables() {
 };
 
 function _playSound(audioKey) {
-  var bgm = game.add.audio(audioKey);
+  var bgm = game.add.audio(audioKey, 1, true);
   bgm.play();
 };
 
 function _initializeArmyPlayer1() {
-  return [new Grenadier(new Pos(2, 2), 1),
-        new Warrior(new Pos(1, 3), 1),
-        new Mech(new Pos(1, 2), 1),
-        new Mortar(new Pos(1, 1), 1),
+  return [
         new Biplane(new Pos(5, 1), 1)];
 };
 
 function _initializeArmyPlayer2() {
   return [new Grenadier(new Pos(5, 10), 2),
         new MotorBike(new Pos(0, 10), 2),
+        new MotorBike(new Pos(3, 11), 2),
         new IronGuard(new Pos(6, 10), 2),
         new Cannon(new Pos(6, 11), 2),];
 };
@@ -130,7 +128,7 @@ function _createTopMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
     var topMenuBar = game.add.image(0, -64, 'topMenuBar');
     var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
-    var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.currentPlayer.goldCount, style);
+    var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.players[battle.currentPlayer - 1].gold, style);
     return {"currentPlayerText": currentPlayerText, "currentPlayerGold": currentPlayerGold};
 };
 
@@ -192,6 +190,11 @@ function _createEndTurnButton(battle, userInterfaceText) {
             if (battle.currentPlayer === 1) {
                 battle.players[0].endTurn();
                 battle.currentPlayer = 2;
+                var prevGold = battle.getCurrentPlayer().gold;
+                battle.addGold();
+                if (prevGold !== battle.getCurrentPlayer().gold) {
+                    game.add.audio('coin').play();
+                };
                 var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
                 var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
                 text.anchor.set(0.5);
@@ -200,6 +203,11 @@ function _createEndTurnButton(battle, userInterfaceText) {
             } else {
                 battle.players[1].endTurn();
                 battle.currentPlayer = 1;
+                var prevGold = battle.getCurrentPlayer().gold;
+                battle.addGold();
+                if (prevGold !== battle.getCurrentPlayer().gold) {
+                    game.add.audio('coin').play();
+                };
                 var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
                 var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
                 text.anchor.set(0.5);
@@ -209,7 +217,7 @@ function _createEndTurnButton(battle, userInterfaceText) {
                 turnCount.setText("Turn: " + battle.turn);
             };
             currentPlayerText.setText("Player " + battle.currentPlayer);
-            currentPlayerGold.setText("Gold: " + battle.currentPlayer.goldCount);
+            currentPlayerGold.setText("Gold: " + battle.players[battle.currentPlayer - 1].gold);
         }
     }, this, 2, 2, 3, 2);
 };

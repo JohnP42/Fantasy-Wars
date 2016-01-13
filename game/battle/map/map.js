@@ -29,5 +29,31 @@ Map.prototype.posValid = function(pos) {
   return (pos.x >=0 && pos.x < map.width && pos.y >= 0 && pos.y < map.height);
 }
 
+Map.prototype.getAllBuildings = function() {
+  var buildings = [];
+
+  var map = game.world.cursor.map;
+
+  for(var x = 0; x < map.width; x++) {
+    for(var y = 0; y < map.height; y++) {
+      var tile = map.getTile(x, y);
+      if(tile.properties.owner !== undefined) {
+        buildings.push(tile.properties);
+      }
+    }
+  }
+  return buildings
+}
+
+Map.prototype.getAllBuildingsForPlayer = function(player) {
+  var buildings = [];
+  this.getAllBuildings().forEach(function(building) {
+    if(parseInt(building.owner) === player)
+      buildings.push(building);
+  });
+
+  return buildings;
+}
+
 
 

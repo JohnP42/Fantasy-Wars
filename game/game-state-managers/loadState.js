@@ -27,6 +27,7 @@ function _loadAudio() {
       game.load.audio('cannonShot', 'game/assets/audio/SE/Explosion4.ogg');
       game.load.audio('mortarShot', 'game/assets/audio/SE/Explosion7.ogg');
       game.load.audio('machineGun', 'game/assets/audio/SE/machineGun.ogg');
+      game.load.audio('complete', 'game/assets/audio/SE/complete.ogg');
 };
 
 function _loadImages() {
@@ -39,6 +40,8 @@ function _loadImages() {
       game.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png');
       game.load.image('elfImage','game/assets/menus/images/elfImage.png');
       game.load.image('orcImage','game/assets/menus/images/orcImage.png');
+      game.load.image('unitBuildScreen','game/assets/menus/ui/unitBuildScreen.png');
+
 };
 
 function _loadSpritesheets() {
