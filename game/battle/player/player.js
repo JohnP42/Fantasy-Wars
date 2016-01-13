@@ -15,16 +15,17 @@ Player.prototype.unitPositions = function() {
   });
 };
 
-Player.prototype.onTurnStart = function(map) {
+Player.prototype.onTurnStart = function(map, myPlayerID) {
   this.army.units.forEach(function(unit) {
     var tile = map.getTileAtPos(unit.pos);
-    if(tile.owner !== undefined) {
+    if(tile.owner !== undefined && tile.owner === myPlayerID) {
       var prevDamageTaken = unit.damageTaken;
       unit.damageTaken -= Math.floor(unit.health / 5);
       if(unit.damageTaken < 0) {
         unit.damageTaken = 0;
       }
-      var healthGained = unit.damageTaken - prevDamageTaken;
+      var healthGained = prevDamageTaken - unit.damageTaken ;
+      console.log(healthGained);
       if(healthGained > 0){
         var style = { font: "12px Arial", backgroundColor: "green", fill: "#ffffff", align: "center" };
         var text = game.add.text(unit.pos.canvasX() + 16, unit.pos.canvasY(), ("+" + healthGained), style);
