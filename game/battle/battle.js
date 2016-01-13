@@ -330,11 +330,11 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
       this.turnState = "selectingMove";
       this.renderMoveHighlights();
     };
-    this.computerCanClick = true;
   }
   else {
     this.clickOnBarracks(mousePos);
   }
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
