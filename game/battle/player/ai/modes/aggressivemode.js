@@ -118,7 +118,7 @@ AggressiveMode.prototype.handleComputerMove = function() {
   var mousePos;
   if (this.buildPhase === true) {
     if (this.battle.turnState !== "buildUnit") {
-      this._runBuildPhase;
+      this._runBuildPhase();
     }
     // move to ._runBuildPhase;
     this.buildPhase = false;
@@ -196,22 +196,24 @@ AggressiveMode.prototype._selectNextCapture = function() {
 
 AggressiveMode.prototype._runBuildPhase = function() {
   // fix so won't reset
-    var unusedBarracks = this._getAllBarracks;
+    var unusedBarracks = this._getAllBarracks();
     this._selectNextBarracks(unusedBarracks.pop());
 }
 
 AggressiveMode.prototype._selectNextBarracks = function(barracks) {
   var mousePos = this._getBarracksPosition(barracks)
+  this.battle.currentSelectedTile = barracks[0];
   this.battle.clickOnBarracks(mousePos);
 };
 
 AggressiveMode.prototype._getAllBarracks = function() {
   var barracks = [];
   this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-    if (buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer) {
+    console.log(buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer);
+    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === this.battle.currentPlayer) {
       barracks.push(buildingArray);
     }
-  }); 
+  });
   return barracks;
 };
 
@@ -224,10 +226,27 @@ AggressiveMode.prototype._getBarracksPosition = function(barracks) {
 
 AggressiveMode.prototype._chooseUnit = function() {
   var armyList = this.battle.getCurrentPlayer().army.armyList;
+  var chosenUnit = this._evaluateUnitsCost;
+  return chosenUnit;
 }
 
-AggressiveMode.prototype._evaluateUnits = function (armyList) {
-  
+AggressiveMode.prototype._evaluateUnitsCost = function (armyList) {
+  var unitsToBuy = {};
+  armyList.forEach(function(unitClass, index) {
+    unit = new unitClass(new Pos(5, 3 + index), this.battle.currentPlayer);
+    unitsToBuy.unitClass = unit.cost;
+  });
+  var mostExpensiveUnit = this._findMostExpensiveUnit();
+}
+
+AggressiveMode.prototype._findMostExpensiveUnit = function(unitsToBuy) {
+  var mostExpensiveUnit = 0;
+  for (var unit in unitsToBuy) {
+    if (unitsToBuy.unit > mostExpensiveUnit) {
+      mostExpensiveUnit = unitsToBuy.unit;
+    }
+  }
+  return mostExpensiveUnit;
 }
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
