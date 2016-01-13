@@ -9,6 +9,7 @@ function AggressiveMode(battle) {
   this.enemyHQPos = this._getEnemyHQPos();
   this.usedPositionsThisTurn = [];
   this.currentSelectedUnit = null;
+  this.buildPhase = false;
 };
 
 // AggressiveMode.prototype.execute = function() {
@@ -115,7 +116,10 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Returns mousePos to position computer desires to click.
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
-  if(this.battle.turnState === "selectingUnit") {
+  if (this.buildPhase === true) {
+    mousePos = this._selectNextBarracks();
+  }
+  else if(this.battle.turnState === "selectingUnit") {
     mousePos = this._selectNextUnit();
   }
   else if(this.battle.turnState === "selectingMove") {
@@ -127,9 +131,6 @@ AggressiveMode.prototype.handleComputerMove = function() {
   else if (this.battle.turnState === "capturePrompt") {
     mousePos = this._selectNextCapture();
   } 
-  else if (this.battle.turnState === "buildUnit") {
-    mousePos = this._selectNextBarracks();
-  }
   else {
     mousePos = new Pos (1,1);
   }
