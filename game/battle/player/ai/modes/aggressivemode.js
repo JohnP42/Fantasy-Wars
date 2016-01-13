@@ -7,7 +7,7 @@ AggressiveMode.prototype.constructor = AggressiveMode;
 function AggressiveMode(battle) {
   this.battle = battle;
   this.enemyHQPos = this._getEnemyHQPos();
-  this.allUnitsTemp = null;
+  this.usedPositionsThisTurn = [];
 };
 
 AggressiveMode.prototype.execute = function() {
@@ -28,6 +28,7 @@ AggressiveMode.prototype._moveEachUnit = function() {
   // this._moveUnit(unit);
   var units = this.battle.players[1].army.units;
   this._moveAllUnits(units);
+  sleep(500);
   window.setTimeout(this._endTurn, 1500);
 };
 
@@ -39,7 +40,6 @@ AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
   // Base Case
   if (unitsArray.length === 0) {
     console.log("hello");
-    window.setTimeout(this._endTurn, 1000);
     return;
   } else {
     this._moveUnit(unitsArray.pop(), function() {
@@ -60,13 +60,14 @@ AggressiveMode.prototype._moveUnit = function(unit, callback) {
   this.battle.turnState = "selectingMove";
   this.battle.renderMoveHighlights();
 
-  mousePos = this._getClosestMove(possibleMoves);
-  var squareToMoveTo = this.battle.getMoveAtPos(mousePos);
+  // mousePos = this._getClosestMove(possibleMoves);
+  var squareToMoveTo = this._getClosestMove(possibleMoves);
+  this.usedPositionsThisTurn.push(squareToMoveTo);
   this.battle.turnState = "animatingMovement";
   unit.walkPath = squareToMoveTo.getPath();
   do {
     battle.animateMovement();
-  } while (this._keepAnimatingUnit(unit) === true);
+  } while (unit.movedThisTurn === false);
   callback.call(this);
 };
 
@@ -122,9 +123,26 @@ AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   result = [];
   possibleMoves.forEach(function(movePos) {
     var unitAtPos = that.battle.getUnitAtPos(movePos);
-    if (!unitAtPos) {
+    if (!unitAtPos && !that.arrayIncludesPosition(that.usedPositionsThisTurn, movePos)) {
       result.push(movePos);
     };
   });
   return result;
+}
+
+AggressiveMode.prototype.arrayIncludesPosition = function(array, pos) {
+  var included = false;
+  array.forEach(function(item) {
+    if(pos.equals(item)) {
+      included = true;
+      return;
+    }
+  });
+  return included;
+}
+
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
 }
