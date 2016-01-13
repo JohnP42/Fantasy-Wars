@@ -9,6 +9,7 @@ function AggressiveMode(battle) {
   this.enemyHQPos = this._getEnemyHQPos();
   this.usedPositionsThisTurn = [];
   this.currentSelectedUnit = null;
+  this.buildPhase = false;
 };
 
 // AggressiveMode.prototype.execute = function() {
@@ -33,8 +34,6 @@ function AggressiveMode(battle) {
 //   window.setTimeout(this._endTurn, 1500);
 // };
 
-AggressiveMode.prototype._buildPhase = function() {
-};
 
 // AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
 //   // Recursive Move function
@@ -117,7 +116,12 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Returns mousePos to position computer desires to click.
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
-  if(this.battle.turnState === "selectingUnit") {
+  if (this.buildPhase === true) {
+    // mousePos = this._selectNextBarracks();
+    this.buildPhase = false;
+    this._endTurn();
+  }
+  else if(this.battle.turnState === "selectingUnit") {
     mousePos = this._selectNextUnit();
   }
   else if(this.battle.turnState === "selectingMove") {
@@ -128,7 +132,8 @@ AggressiveMode.prototype.handleComputerMove = function() {
   }
   else if (this.battle.turnState === "capturePrompt") {
     mousePos = this._selectNextCapture();
-  } else {
+  } 
+  else {
     mousePos = new Pos (1,1);
   }
   return mousePos;
@@ -145,7 +150,7 @@ AggressiveMode.prototype._selectNextUnit = function() {
   });
   // Logic for when to end turn
   if (nextUnitPos === null) {
-    this._endTurn();
+    this.buildPhase = true;
   }
   return nextUnitPos
 }
@@ -174,7 +179,22 @@ AggressiveMode.prototype._selectNextAttack = function() {
 
 AggressiveMode.prototype._selectNextCapture = function() {
 
-}
+};
+
+AggressiveMode.prototype._selectNextBarracks = function() {
+  var barracks = this._getAllBarracks();
+  console.log(barracks);
+};
+
+AggressiveMode.prototype._getAllBarracks = function() {
+  var barracks = [];
+  this.battle.map.getAllBuildingsForPlayer(battle.currentPlayer).forEach(function(building){
+    if (building.name === "barracks") {
+      barracks.push(building);
+    }
+  }); 
+  return barracks;
+};
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   // Takes in list of possible moves and filters out positions in which friendly units already exist
@@ -256,3 +276,4 @@ AggressiveMode.prototype._handleArtilleryMovement = function(possibleMoves) {
   }
   return nextMove;
 };
+
