@@ -304,14 +304,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
       this.currentCaptureTile.owner = this.currentPlayer;
       this.currentCaptureTile.capturePoints = "0";
       game.add.audio("complete").play();
-      if (this.currentPlayer === 1) {
-        var sprite = "red_flag";
-      }
-      else {
-        var sprite = "blue_flag";
-      };
-
-      var flag = game.add.sprite(mousePos.canvasX(), mousePos.canvasY() + 4, sprite);
+      this.map.remakeAllFlags();
     }
     else {
       game.add.audio("capture").play();
