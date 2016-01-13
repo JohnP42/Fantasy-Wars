@@ -117,7 +117,9 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
   if (this.buildPhase === true) {
-    mousePos = this._selectNextBarracks();
+    // mousePos = this._selectNextBarracks();
+    this.buildPhase = false;
+    this._endTurn();
   }
   else if(this.battle.turnState === "selectingUnit") {
     mousePos = this._selectNextUnit();
@@ -148,7 +150,7 @@ AggressiveMode.prototype._selectNextUnit = function() {
   });
   // Logic for when to end turn
   if (nextUnitPos === null) {
-    this._endTurn();
+    this.buildPhase = true;
   }
   return nextUnitPos
 }
