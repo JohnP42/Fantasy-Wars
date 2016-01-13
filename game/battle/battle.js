@@ -347,7 +347,6 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
 
 Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
   var unit = this.buildScreen.onClick(mousePos);
-  console.log(unit);
   if(unit) {
     unit.movedThisTurn = true;
     var gray = game.add.filter('Gray');
