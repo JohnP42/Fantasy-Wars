@@ -53,7 +53,7 @@ var battleState = {
         battle.update();
 
         if (battle.currentSelectedUnit !== null) {
-            currentUnitHealth.setText("Health:     " + battle.currentSelectedUnit.getHealthNumber());
+            currentUnitHealth.setText("Health:     " + (battle.currentSelectedUnit.health - battle.currentSelectedUnit.damageTaken));
             currentUnitAttack.setText("Attack:     " + battle.currentSelectedUnit.attack);
             currentUnitDefense.setText("Defense:     " + battle.currentSelectedUnit.getDefenseAsPercent());
             currentUnitSpeed.setText("Speed:     " + battle.currentSelectedUnit.speed);
