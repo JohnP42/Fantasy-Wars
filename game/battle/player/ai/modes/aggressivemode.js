@@ -7,6 +7,7 @@ AggressiveMode.prototype.constructor = AggressiveMode;
 function AggressiveMode(battle) {
   this.battle = battle;
   this.enemyHQPos = this._getEnemyHQPos();
+  this.allUnitsTemp = null;
 };
 
 AggressiveMode.prototype.execute = function() {
@@ -18,22 +19,43 @@ AggressiveMode.prototype.execute = function() {
 
 AggressiveMode.prototype._moveEachUnit = function() {
   var that = this;
-  this.battle.players[1].army.units.forEach(function(unit) {
-    that._moveUnit(unit);
-  });
-  // var unit = this.battle.players[1].army.units[1];
+  // this.battle.players[1].army.units.forEach(function(unit) {
+  //   that._moveUnit(unit);
+  // });
+  // var unit = this.battle.players[1].army.units[0];
   // this._moveUnit(unit);
+  // unit = this.battle.players[1].army.units[0];
+  // this._moveUnit(unit);
+  var units = this.battle.players[1].army.units;
+  this._moveAllUnits(units);
   window.setTimeout(this._endTurn, 1500);
 };
 
 AggressiveMode.prototype._buildPhase = function() {
 };
 
-AggressiveMode.prototype._moveUnit = function(unit) {
+AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
+  // Recursive Move function
+  // Base Case
+  if (unitsArray.length === 0) {
+    console.log("hello");
+    window.setTimeout(this._endTurn, 1000);
+    return;
+  } else {
+    this._moveUnit(unitsArray.pop(), function() {
+      console.log("indicator");
+      console.log(unitsArray);
+      this._moveAllUnits(unitsArray);
+    });
+  };
+}
+
+AggressiveMode.prototype._moveUnit = function(unit, callback) {
   var mousePos = unit.pos
   this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
   this.battle.currentSelectedUnit = unit;
   var possibleMoves = unit.getPossibleMoves(unit.pos, this.battle.map, this.battle.enemyPositions())
+  possibleMoves = this._filterPossibleMoves(possibleMoves)
   this.battle.currentSelectedMovement = possibleMoves;
   this.battle.turnState = "selectingMove";
   this.battle.renderMoveHighlights();
@@ -42,7 +64,16 @@ AggressiveMode.prototype._moveUnit = function(unit) {
   var squareToMoveTo = this.battle.getMoveAtPos(mousePos);
   this.battle.turnState = "animatingMovement";
   unit.walkPath = squareToMoveTo.getPath();
-  battle.animateMovement();
+  do {
+    battle.animateMovement();
+  } while (this._keepAnimatingUnit === false);
+  callback.call(this);
+};
+
+AggressiveMode.prototype._keepAnimatingUnit = function(unit) {
+  if (unit.walkPath.length === 0) {
+    return true;
+  }
 };
 
 AggressiveMode.prototype._endTurn = function() {
@@ -80,3 +111,18 @@ AggressiveMode.prototype._getClosestMove = function(possibleMoves) {
   });
   return bestMove;
 };
+
+AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
+  // Takes in list of possible moves and filters out positions in which friendly units already exist
+  // for each possible move
+    // Call unitAtPos and check if null
+  var that = this;
+  result = [];
+  possibleMoves.forEach(function(movePos) {
+    var unitAtPos = that.battle.getUnitAtPos(movePos);
+    if (!unitAtPos) {
+      result.push(movePos);
+    };
+  });
+  return result;
+}
