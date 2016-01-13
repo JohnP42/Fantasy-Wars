@@ -63,7 +63,7 @@ Battle.prototype.onClickListener = function() {
     }
     this.canClick = false;
     if (!mousePos) {
-      mousePos = new Pos(5,5);
+      mousePos = new Pos(0,0);
     }
 
     this.currentSelectedTile = this.map.getTileAtPos(mousePos);

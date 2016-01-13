@@ -110,21 +110,6 @@ AggressiveMode.prototype._getClosestMove = function(possibleMoves) {
   return bestMove;
 };
 
-AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
-  // Takes in list of possible moves and filters out positions in which friendly units already exist
-  // for each possible move
-    // Call unitAtPos and check if null
-  var that = this;
-  result = [];
-  possibleMoves.forEach(function(movePos) {
-    var unitAtPos = that.battle.getUnitAtPos(movePos);
-    if (!unitAtPos) {
-      result.push(movePos);
-    };
-  });
-  return result;
-}
-
 AggressiveMode.prototype.arrayIncludesPosition = function(array, pos) {
   var included = false;
   array.forEach(function(item) {
@@ -170,26 +155,54 @@ AggressiveMode.prototype._selectNextUnit = function() {
   if (nextUnitPos === null) {
     this._endTurn();
   }
-  console.log("Selecting unit at:");
-  console.log(nextUnitPos);
   return nextUnitPos
 }
 
 AggressiveMode.prototype._selectNextMove = function() {
   console.log("Selecting next move");
-  nextMovePos = null;
+  var nextMovePos = null;
   var possibleMoves = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.battle.map, this.battle.enemyPositions());
   var filteredPossibleMoves = this._filterPossibleMoves(possibleMoves);
   nextMovePos = filteredPossibleMoves[1];
-  console.log("Moving unit to:")
-  console.log(nextMovePos);
   return nextMovePos;
 }
 
 AggressiveMode.prototype._selectNextAttack = function() {
-
+  console.log("Selecting attack move");
+  var nextAttackPos = null;
+  var possibleAttackMoves = this.currentSelectedUnit.getPossibleAttacks(this.battle.map);
+  var filteredAttackMoves = this._filterPossibleAttackMoves(possibleAttackMoves);
+  console.log(filteredAttackMoves);
+  return filteredAttackMoves[0];
 }
 
 AggressiveMode.prototype._selectNextCapture = function() {
 
+}
+
+AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
+  // Takes in list of possible moves and filters out positions in which friendly units already exist
+  // for each possible move
+    // Call unitAtPos and check if null
+  var that = this;
+  result = [];
+  possibleMoves.forEach(function(movePos) {
+    var unitAtPos = that.battle.getUnitAtPos(movePos);
+    if (!unitAtPos) {
+      result.push(movePos);
+    };
+  });
+  return result;
+}
+
+AggressiveMode.prototype._filterPossibleAttackMoves = function(possibleAttackMoves) {
+  var that = this;
+  result = [];
+  possibleAttackMoves.forEach(function(attackPos) {
+    var unitAtPos = that.battle.getUnitAtPos(attackPos);
+    if (unitAtPos && unitAtPos.player !== that.currentSelectedUnit.player) {
+      result.push(attackPos);
+    };
+  });
+  return result;
 }
