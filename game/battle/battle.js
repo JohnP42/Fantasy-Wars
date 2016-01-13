@@ -9,6 +9,7 @@ function Battle(map, players) {
   this.currentCaptureTile = null;
   this.turnState = "selectingUnit";
   this.canClick = true;
+  this.computerCanClick = true;
   this.currentPlayer = 1;
   this.buildScreen = null;
 };
@@ -34,7 +35,7 @@ Battle.prototype.update = function() {
   if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
-
+  this.checkVictoryConditions();
 };
 
 Battle.prototype.getUnitAtPos = function(pos) {
@@ -51,11 +52,20 @@ Battle.prototype.getUnitAtPos = function(pos) {
 };
 
 Battle.prototype.onClickListener = function() {
-  // Retrieve tile at a given pos
-  if(game.input.activePointer.leftButton.isDown && this.canClick) {
-    // calculate tile on which mouse click happens
-    var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
+  // Retrieve tile at a given pos;
+  if( (game.input.activePointer.leftButton.isDown && this.canClick) || (this._isComputerTurn() && this.computerCanClick)) {
+    // calculate tile on which mouse click happens;
+    if (this._isComputerTurn()) {
+      // Do computer Turn
+      this.computerCanClick = false;
+      var mousePos = this.players[1].handleComputerMove();
+    } else {
+      var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
+    }
     this.canClick = false;
+    if (!mousePos) {
+      mousePos = new Pos(0,0);
+    }
 
     if(this.turnState !== "buildUnit") {
       this.currentSelectedTile = this.map.getTileAtPos(mousePos);
@@ -78,8 +88,9 @@ Battle.prototype.onClickListener = function() {
     }
   }
 
-  if (game.input.activePointer.leftButton.isUp) {
+  if (game.input.activePointer.leftButton.isUp && !this._isComputerTurn()) {
     this.canClick = true;
+    // this.computerCanClick = true;
   }
 };
 
@@ -257,6 +268,7 @@ Battle.prototype._clickListenerTurnStateSelectingAttackHelper = function(mousePo
         this.currentSelectedAttacks = [];
       }
     }
+    this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos) {
@@ -278,6 +290,7 @@ Battle.prototype._clickListenerTurnStateSelectingMoveHelper = function(mousePos)
       this.currentSelectedMovement = [];
     };
   };
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos) {
@@ -305,6 +318,7 @@ Battle.prototype._clickListenerTurnStateCapturePromptHelper = function(mousePos)
     this._clickListenerTurnStateSelectingAttackHelper(mousePos);
   }
   this.currentCaptureTile = null;
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos) {
@@ -321,6 +335,7 @@ Battle.prototype._clickListenerTurnStateSelectingUnitHelper = function(mousePos)
   else {
     this.clickOnBarracks(mousePos);
   }
+  this.computerCanClick = true;
 };
 
 Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
@@ -380,3 +395,42 @@ Battle.prototype._displayCaptureProgress = function(cap, unit) {
   var tween = game.add.tween(text).to( { alpha: 0, y: unit.pos.canvasY() - 20 }, 1500, "Linear", true);
 }
 
+Battle.prototype._isComputerTurn = function() {
+  if (this.players[1] instanceof ComputerPlayer && this.currentPlayer === 2) {
+    return true;
+  } else {
+    return false;
+  };
+};
+
+Battle.prototype.checkVictoryConditions = function() {
+  return false;
+  // if (this.checkLosingConditionsforPlayer(this.players[0], 0) === true) {
+  //     game.state.start("victoryState", true, false, "Player 2");
+  // }
+  // else if (this.checkLosingConditionsforPlayer(this.players[1], 1) === true) {
+  //     game.state.start("victoryState", true, false, "Player 1");
+  // }
+  // else {
+  //   return false;
+  // }
+}
+
+Battle.prototype.checkLosingConditionsforPlayer = function(playerObj, playerNum) {
+  if (playerObj.army.units.length === 0 || this.didPlayerLoseHQ(playerNum)) {
+    return true;
+  }
+}
+
+Battle.prototype.didPlayerLoseHQ = function(player) {
+  console.log(this.map);
+  console.log(this.map.getAllBuildingsForPlayer(player));
+  var hqCaptured = false;
+  this.map.getAllBuildingsForPlayer(player).forEach(function(building) {
+    console.log(building.name);
+    if (building.name === "castle") {
+      hqCaptured = true;
+    }
+  });
+  return hqCaptured;
+}

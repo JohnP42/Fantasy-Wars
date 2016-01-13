@@ -42,7 +42,6 @@ Map.prototype.getAllBuildings = function() {
       }
     }
   }
-
   return buildings
 }
 
