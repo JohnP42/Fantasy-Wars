@@ -38,7 +38,7 @@ var battleState = {
         var army2 = _initializeArmyPlayer2();
 
         // create battle
-        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(6,2)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(7,11))]);
+        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
         if (battle.players[1] instanceof ComputerPlayer) {
