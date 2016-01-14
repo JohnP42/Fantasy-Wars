@@ -10,6 +10,7 @@ function AggressiveMode(battle) {
   this.usedPositionsThisTurn = [];
   this.currentSelectedUnit = null;
   this.buildPhase = false;
+  this.visitedBarracks = [];
 };
 
 // AggressiveMode.prototype.execute = function() {
@@ -118,14 +119,19 @@ AggressiveMode.prototype.handleComputerMove = function() {
   var mousePos;
   if (this.buildPhase === true) {
     if (this.battle.turnState !== "buildUnit") {
-      mousePos = this._runBuildPhase();
+      if (this._selectNextBarracks) {
+          mousePos = this._selectNextBarracks;
+      }
+      else {
+        this.buildPhase = false;
+        this._endTurn();
+      }
     }
     else if (this.battle.turnState === "buildUnit") {
-
+      // find the most expensive affordable unit
+      // get the mousePos for that unit
     }
-    // move to ._runBuildPhase;
-    this.buildPhase = false;
-    this._endTurn();
+
   }
   else if(this.battle.turnState === "selectingUnit") {
     mousePos = this._selectNextUnit();
@@ -144,6 +150,66 @@ AggressiveMode.prototype.handleComputerMove = function() {
   }
   return mousePos;
 };
+
+// Battle.prototype.clickOnBarracks = function(mousePos) {
+//   if (this.currentSelectedTile) {
+//     if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
+//       this.turnState = "buildUnit";
+//       this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
+//     }
+//   }
+// }
+
+// AggressiveMode.prototype._runBuildPhase = function() {
+//   // fix so won't reset
+//     var unusedBarracks = this._getAllBarracks();
+//     this._selectNextBarracks(unusedBarracks.pop());
+// }
+
+AggressiveMode.prototype._selectNextBarracks = function(barracks) {
+  var allBarracks = this._getAllBarracks();
+  if (allBarracks.length !== 0) {
+    var mousePos = this._getBarracksPosition(allBarracks[0]);
+    this.visitedBarracks.push(allBarracks.shift());
+    return mousePos;
+  }
+  else {
+    return null;
+  }
+};
+
+AggressiveMode.prototype._getAllBarracks = function() {
+  var barracks = [];
+  this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
+    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === this.battle.currentPlayer && this.visitedBarracks.includes(buildingArray) === false) {
+      barracks.push(buildingArray);
+    }
+  });
+  return barracks;
+};
+
+AggressiveMode.prototype._getBarracksPosition = function(barracks) {
+  var barracksTileCoordinates = [];
+  barracksTileCoordinates.push(barracks[1]);
+  barracksTileCoordinates.push(barracks[2]);
+  return barracksTileCoordinates;
+};
+
+AggressiveMode.prototype._getMostExpensiveAffordableUnit = function (armyList) {
+  var mostExpensiveAffordableUnit = null;
+  var greatestAffordableUnitCost = 0;
+  for (var unitCost in UNITS) {
+    if (UNITS.unitCost > greatestAffordableUnitCost && UNITS.unit <= this.battle.getCurrentPlayer().gold) {
+      greatestAffordableUnitCost = UNITS.unit;
+      mostExpensiveAffordableUnit = unit;
+    }
+  }
+  return mostExpensiveAffordableUnit;
+}
+
+AggressiveMode.prototype._findUnitMousePos = function(unit) {
+  
+}
 
 AggressiveMode.prototype._selectNextUnit = function() {
   var nextUnitPos = null;
@@ -188,74 +254,6 @@ AggressiveMode.prototype._selectNextCapture = function() {
 };
 
 
-// Battle.prototype.clickOnBarracks = function(mousePos) {
-//   if (this.currentSelectedTile) {
-//     if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
-//       this.turnState = "buildUnit";
-//       this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
-//     }
-//   }
-// }
-
-AggressiveMode.prototype._runBuildPhase = function() {
-  // fix so won't reset
-    var unusedBarracks = this._getAllBarracks();
-    this._selectNextBarracks(unusedBarracks.pop());
-}
-
-AggressiveMode.prototype._selectNextBarracks = function(barracks) {
-  var mousePos = this._getBarracksPosition(barracks)
-  this.battle.currentSelectedTile = barracks[0];
-  this.battle.clickOnBarracks(mousePos);
-  
-};
-
-AggressiveMode.prototype._getAllBarracks = function() {
-  var barracks = [];
-  this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-    console.log(buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer);
-    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === this.battle.currentPlayer) {
-      barracks.push(buildingArray);
-    }
-  });
-  return barracks;
-};
-
-AggressiveMode.prototype._getBarracksPosition = function(barracks) {
-  var barracksTileCoordinates = [];
-  barracksTileCoordinates.push(barracks[1]);
-  barracksTileCoordinates.push(barracks[2]);
-  return barracksTileCoordinates;
-};
-
-AggressiveMode.prototype._chooseUnit = function() {
-  var armyList = this.battle.getCurrentPlayer().army.armyList;
-  var chosenUnit = this._evaluateUnitsCost;
-  return chosenUnit;
-}
-
-AggressiveMode.prototype._evaluateUnitsCost = function (armyList) {
-  var unitsToBuy = {};
-  armyList.forEach(function(unitClass, index) {
-    unit = new unitClass(new Pos(5, 3 + index), this.battle.currentPlayer);
-    unitsToBuy.unitClass = unit.cost;
-  });
-  var mostExpensiveUnit = this._findMostExpensiveUnit();
-}
-
-AggressiveMode.prototype._findMostExpensiveUnit = function(unitsToBuy) {
-  var mostExpensiveUnit = 0;
-  for (var unit in unitsToBuy) {
-    if (unitsToBuy.unit > mostExpensiveUnit) {
-      mostExpensiveUnit = unitsToBuy.unit;
-    }
-  }
-  return mostExpensiveUnit;
-}
-
-AggressiveMode.prototype._findUnitMousePos = function(unit) {
-  
-}
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   // Takes in list of possible moves and filters out positions in which friendly units already exist
