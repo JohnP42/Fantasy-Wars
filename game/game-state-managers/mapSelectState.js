@@ -18,7 +18,6 @@ var mapSelectState = {
 
     // first map
     // args = x, y, spritekey(map thumbnail), targetState, tilemap name, army name, audio
-    console.log(this.gameMode);
     var mapThumb1 = new MenuButton(95, 90, 'landBridgeThumb1', "p1ArmySelectState", this.gameMode, "landBridge", "army", "flash");
     var mapThumb1Text = this.add.text(95, 300, "Land Bridge", {font: "16pt Herculanum", align: "left"});
     // second map

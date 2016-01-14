@@ -41,3 +41,4 @@ ComputerPlayer.prototype.playTurn = function() {
 ComputerPlayer.prototype.handleComputerMove = function() {
   return this.mode.handleComputerMove();
 }
+

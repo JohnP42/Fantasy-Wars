@@ -42,8 +42,6 @@ var battleState = {
         var race2 = this.armyKey2;
         // create battle
         var playerClass;
-        console.log("GAME MODE:");
-        console.log(this.gameMode);
         if(this.gameMode === "campaign") {
           playerClass = ComputerPlayer;
         }
@@ -107,7 +105,7 @@ var battleState = {
         if (battle.players[1] instanceof ComputerPlayer) {
             var computerPlayer = battle.players[1];
             computerPlayer.battle = battle;
-            computerPlayer.updateMode("aggressive");
+            computerPlayer.updateMode("defensive");
           };
         _setupUIElements(battle);
     },
