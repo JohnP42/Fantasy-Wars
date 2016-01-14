@@ -384,9 +384,11 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
   this.turnState = "selectingUnit";
   currentPlayerGold.setText("Gold: " + battle.players[battle.currentPlayer - 1].gold);
   this.currentSelectedUnit = null;
+  this.computerCanClick = true;
 };
 
 Battle.prototype.clickOnBarracks = function(mousePos) {
+  this.currentSelectedTile = this.map.getTileAtPos(mousePos);
   if (this.currentSelectedTile) {
     if (this.currentSelectedTile.name === "barracks" && parseInt(this.currentSelectedTile.owner) === this.currentPlayer) {
       this.turnState = "buildUnit";

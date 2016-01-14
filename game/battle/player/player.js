@@ -52,3 +52,18 @@ Player.prototype.quitGame = function() {
   //TODO: Allows player to end the battle
   // When this function is called it will start the "VictoryState" Game State
 };
+
+Player.prototype.armyType = function() {
+  if (this.army instanceof ArmyDwarf) {
+    return "dwarves";
+  }
+  else if (this.army instanceof ArmyElf) {
+    return "elves";
+  }
+  else if (this.army instanceof ArmyOrc) {
+    return "orcs";
+  }
+  else {
+    return null;
+  }
+};

@@ -118,11 +118,20 @@ AggressiveMode.prototype.handleComputerMove = function() {
   var mousePos;
   if (this.buildPhase === true) {
     if (this.battle.turnState !== "buildUnit") {
-      this._runBuildPhase;
+      //this._getAllBarracks().length !== 0
+      // !this._unitOnMyBarracks() && this.battle.getCurrentPlayer().gold >= 100
+      if (this._isOpenBarracks() && this.battle.getCurrentPlayer().gold >= 100) { 
+          mousePos = this._selectNextBarracks();
+      }
+      else {
+        console.log("no barracks found");
+        this.buildPhase = false;
+        this._endTurn();
+      }
     }
-    // move to ._runBuildPhase;
-    this.buildPhase = false;
-    this._endTurn();
+    else if (this.battle.turnState === "buildUnit") {
+      mousePos = this._findUnitMousePos();
+    }
   }
   else if(this.battle.turnState === "selectingUnit") {
     mousePos = this._selectNextUnit();
@@ -141,6 +150,103 @@ AggressiveMode.prototype.handleComputerMove = function() {
   }
   return mousePos;
 };
+
+AggressiveMode.prototype._unitOnMyBarracks = function(pos) {
+  if (this.battle.getUnitAtPos(pos)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+AggressiveMode.prototype._isOpenBarracks = function() {
+  var that = this;
+  var barracksWithOutUnits = this._getAllMyOpenBarracks();
+
+  if (barracksWithOutUnits.length > 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
+};
+
+AggressiveMode.prototype._getAllMyBarracksPositions = function() {
+  var that = this;
+  var allMyBarracksPos = [];
+  this._getAllBarracks().forEach(function(myBarracks) {
+    allMyBarracksPos.push(that._getBarracksPosition(myBarracks));
+  });
+  return allMyBarracksPos;
+};
+
+AggressiveMode.prototype._getAllMyOpenBarracks = function() {
+  var that = this;
+  var barracksWithOutUnits = [];
+  this._getAllMyBarracksPositions().forEach(function(barracksPos){
+    if (!that._unitOnMyBarracks(barracksPos)) {
+      barracksWithOutUnits.push(barracksPos);
+    }
+  });
+  return barracksWithOutUnits;
+};
+
+
+AggressiveMode.prototype._selectNextBarracks = function() {
+  if (this._isOpenBarracks()) {
+    var mousePos = this._getAllMyOpenBarracks()[0];
+    this.battle.currentSelectedTile = this.battle.map.getTileAtPos(mousePos);
+    return mousePos;
+  }
+  else {
+    return null;
+  }
+};
+
+AggressiveMode.prototype._getAllBarracks = function() {
+  var that = this;
+  var barracks = [];
+  this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
+    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === that.battle.currentPlayer) {
+      barracks.push(buildingArray);
+    }
+  });
+  return barracks;
+};
+
+
+AggressiveMode.prototype._getBarracksPosition = function(barracks) {
+  var barracksTileCoordinates = new Pos(parseInt(barracks[1]), parseInt(barracks[2]));
+  return barracksTileCoordinates;
+};
+
+AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
+  var armyType = this.battle.getCurrentPlayer().armyType();
+  var mostExpensiveAffordableUnit = null;
+  var mostExpensiveAffordableUnitIndex = null;
+  var greatestAffordableUnitCost = 0;
+  var unitIndex = -1;
+  var result = [];
+  for (var unit in UNITS[armyType]) {
+    unitIndex += 1;
+    if (UNITS[armyType][unit] > greatestAffordableUnitCost && UNITS[armyType][unit] <= this.battle.getCurrentPlayer().gold) {
+      greatestAffordableUnitCost = UNITS[armyType][unit];
+      mostExpensiveAffordableUnit = unit;
+      mostExpensiveAffordableUnitIndex = unitIndex;
+    }
+  }
+  result.push(mostExpensiveAffordableUnit);
+  result.push(mostExpensiveAffordableUnitIndex);
+  return result;
+}
+
+AggressiveMode.prototype._findUnitMousePos = function() {
+  var mostExpensiveAffordableUnit = this._getMostExpensiveAffordableUnit();
+  var unit = mostExpensiveAffordableUnit[0];
+  var unitIndex = mostExpensiveAffordableUnit[1];
+  var unitPosition = new Pos(5, 3 + unitIndex);
+  return unitPosition;
+}
 
 AggressiveMode.prototype._selectNextUnit = function() {
   var nextUnitPos = null;
@@ -185,50 +291,43 @@ AggressiveMode.prototype._selectNextCapture = function() {
 };
 
 
-// Battle.prototype.clickOnBarracks = function(mousePos) {
-//   if (this.currentSelectedTile) {
-//     if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
-//       this.turnState = "buildUnit";
-//       this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
-//     }
-//   }
+
+// AggressiveMode.prototype._runBuildPhase = function() {
+//   // fix so won't reset
+//     var unusedBarracks = this._getAllBarracks;
+//     this._selectNextBarracks(unusedBarracks.pop());
 // }
 
-AggressiveMode.prototype._runBuildPhase = function() {
-  // fix so won't reset
-    var unusedBarracks = this._getAllBarracks;
-    this._selectNextBarracks(unusedBarracks.pop());
-}
+// AggressiveMode.prototype._selectNextBarracks = function(barracks) {
+//   var mousePos = this._getBarracksPosition(barracks)
+//   this.battle.clickOnBarracks(mousePos);
+// };
 
-AggressiveMode.prototype._selectNextBarracks = function(barracks) {
-  var mousePos = this._getBarracksPosition(barracks)
-  this.battle.clickOnBarracks(mousePos);
-};
+// AggressiveMode.prototype._getAllBarracks = function() {
+//   var barracks = [];
+//   this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
+//     if (buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer) {
+//       barracks.push(buildingArray);
+//     }
+//   });
+//   return barracks;
+// };
 
-AggressiveMode.prototype._getAllBarracks = function() {
-  var barracks = [];
-  this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-    if (buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer) {
-      barracks.push(buildingArray);
-    }
-  });
-  return barracks;
-};
+// AggressiveMode.prototype._getBarracksPosition = function(barracks) {
+//   var barracksTileCoordinates = [];
+//   barracksTileCoordinates.push(barracks[1]);
+//   barracksTileCoordinates.push(barracks[2]);
+//   return barracksTileCoordinates;
+// };
 
-AggressiveMode.prototype._getBarracksPosition = function(barracks) {
-  var barracksTileCoordinates = [];
-  barracksTileCoordinates.push(barracks[1]);
-  barracksTileCoordinates.push(barracks[2]);
-  return barracksTileCoordinates;
-};
+// AggressiveMode.prototype._chooseUnit = function() {
+//   var armyList = this.battle.getCurrentPlayer().army.armyList;
+// }
 
-AggressiveMode.prototype._chooseUnit = function() {
-  var armyList = this.battle.getCurrentPlayer().army.armyList;
-}
+// AggressiveMode.prototype._evaluateUnits = function (armyList) {
 
-AggressiveMode.prototype._evaluateUnits = function (armyList) {
-
-}
+// }
+// >>>>>>> master
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   // Takes in list of possible moves and filters out positions in which friendly units already exist
