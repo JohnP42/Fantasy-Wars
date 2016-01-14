@@ -121,7 +121,7 @@ AggressiveMode.prototype.handleComputerMove = function() {
     if (this.battle.turnState !== "buildUnit") {
       if (this._selectNextBarracks()) {
           mousePos = this._selectNextBarracks();
-          console.log("mousePos" + mousePos);
+          console.log("mousePos: " + mousePos);
       }
       else {
         console.log("no barracks found");
@@ -165,9 +165,9 @@ AggressiveMode.prototype._selectNextBarracks = function() {
   var allBarracks = this._getAllBarracks();
   if (allBarracks.length !== 0) {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
-    console.log(mousePos[0]);
-    this.battle.currentSelectedTile = this.battle.map.getTileAtPos(new Pos(mousePos[0], mousePos[1]));
-    console.log(this.battle.currentSelectedTile.name);
+    this.battle.currentSelectedTile = allBarracks[0][0];
+    console.log("here");
+    console.log(this.battle.currentSelectedTile);
     this.visitedBarracks.push(allBarracks.shift());
     return mousePos;
   }
