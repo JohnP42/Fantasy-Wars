@@ -41,7 +41,6 @@ BuildScreen.prototype.onClick = function(mousePos) {
   else {
     var unit = new this.armyList[unitIndex](this.createPos, this.battle.currentPlayer)
     this.battle.getCurrentPlayer().gold -= unit.cost;
-    console.log(currentPlayerGold);
     return unit;
   }
 

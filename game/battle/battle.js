@@ -354,6 +354,7 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
   this.buildScreen = this.buildScreen.destroy();
   this.turnState = "selectingUnit";
   this.currentSelectedUnit = null;
+  this.computerCanClick = true;
 };
 
 Battle.prototype.clickOnBarracks = function(mousePos) {

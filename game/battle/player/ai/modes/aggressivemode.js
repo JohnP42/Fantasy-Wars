@@ -117,9 +117,14 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Returns mousePos to position computer desires to click.
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
+  console.log("Build Phase:");
+  console.log(this.buildPhase);
   if (this.buildPhase === true) {
+    console.log("BLAH");
     if (this.battle.turnState !== "buildUnit") {
-      if (this._selectNextBarracks()) {
+      console.log(this._getAllBarracks().length !== 0);
+      console.log("BLEEP")
+      if (this._getAllBarracks().length !== 0) {
           mousePos = this._selectNextBarracks();
       }
       else {
@@ -129,8 +134,8 @@ AggressiveMode.prototype.handleComputerMove = function() {
       }
     }
     else if (this.battle.turnState === "buildUnit") {
+      console.log("building unit");
       mousePos = this._findUnitMousePos();
-      // mousePos = new Pos(5,4);
     }
   }
   else if(this.battle.turnState === "selectingUnit") {
@@ -166,7 +171,6 @@ AggressiveMode.prototype._selectNextBarracks = function() {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
     this.battle.currentSelectedTile = allBarracks[0][0];
     this.visitedBarracks.push(allBarracks.shift());
-    console.log(this.visitedBarracks);
     return mousePos;
   }
   else {
@@ -178,7 +182,7 @@ AggressiveMode.prototype._getAllBarracks = function() {
   var that = this;
   var barracks = [];
   this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === that.battle.currentPlayer && !that._barracksAlreadyVisited(buildingArray)) {
+    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === that.battle.currentPlayer && that._barracksAlreadyVisited(buildingArray)) {
       barracks.push(buildingArray);
     }
   });
