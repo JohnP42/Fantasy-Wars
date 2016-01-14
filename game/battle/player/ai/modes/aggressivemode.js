@@ -12,65 +12,6 @@ function AggressiveMode(battle) {
   this.buildPhase = false;
 };
 
-// AggressiveMode.prototype.execute = function() {
-//   var nextMode = "aggressive";
-//   this._moveEachUnit();
-//   this._buildPhase();
-//   return nextMode;
-// };
-
-// AggressiveMode.prototype._moveEachUnit = function() {
-//   var that = this;
-//   // this.battle.players[1].army.units.forEach(function(unit) {
-//   //   that._moveUnit(unit);
-//   // });
-//   // var unit = this.battle.players[1].army.units[0];
-//   // this._moveUnit(unit);
-//   // unit = this.battle.players[1].army.units[0];
-//   // this._moveUnit(unit);
-//   var units = this.battle.players[1].army.units;
-//   this._moveAllUnits(units);
-//   sleep(500);
-//   window.setTimeout(this._endTurn, 1500);
-// };
-
-
-// AggressiveMode.prototype._moveAllUnits = function(unitsArray) {
-//   // Recursive Move function
-//   // Base Case
-//   if (unitsArray.length === 0) {
-//     return;
-//   } else {
-//     this._moveUnit(unitsArray.pop(), function() {
-//       this._moveAllUnits(unitsArray);
-//     });
-//   };
-// }
-
-// AggressiveMode.prototype._moveUnit = function(unit, callback) {
-//   // var mousePos = unit.pos
-//   // this.battle.currentSelectedTile = battle.map.getTileAtPos(mousePos);
-//   this.battle.currentSelectedUnit = unit;
-//   var possibleMoves = unit.getPossibleMoves(unit.pos, this.battle.map, this.battle.enemyPositions())
-//   possibleMoves = this._filterPossibleMoves(possibleMoves)
-//   this.battle.currentSelectedMovement = possibleMoves;
-//   this.battle.turnState = "selectingMove";
-//   this.battle.renderMoveHighlights();
-//   // // mousePos = this._getClosestMove(possibleMoves);
-//   var squareToMoveTo = this._getClosestMove(possibleMoves);
-//   // this.usedPositionsThisTurn.push(squareToMoveTo);
-//   this.battle.turnState = "animatingMovement";
-//   unit.walkPath = squareToMoveTo.getPath();
-// };
-
-// AggressiveMode.prototype._keepAnimatingUnit = function(unit) {
-//   if (unit.walkPath.length === 0) {
-//     return false;
-//   } else {
-//     return true;
-//   }
-// };
-
 AggressiveMode.prototype._endTurn = function() {
   battle.players[1].endTurn();
   battle.currentPlayer = 1;
@@ -92,8 +33,18 @@ AggressiveMode.prototype._endTurn = function() {
 };
 
 AggressiveMode.prototype._getEnemyHQPos = function() {
-  pos = this.battle.players[0].hqPos;
-  return pos;
+  // hqPos = this.battle.players[0].hqPos;
+  var that = this;
+  var hqPos = null;
+  var enemyPlayer = this.battle.players[0]
+  var enemyBuildings = this.battle.map.getAllBuildings(true);
+  enemyBuildings.forEach(function(buildingArray) {
+    if (buildingArray[0].name === "castle" && parseInt(buildingArray[0].owner) === 1) {
+      hqPos = that._getBarracksPosition(buildingArray);
+    }
+  });;
+  console.log(hqPos);
+  return hqPos;
 };
 
 AggressiveMode.prototype._getDistanceBetween = function(pos1, pos2) {
@@ -120,11 +71,10 @@ AggressiveMode.prototype.handleComputerMove = function() {
     if (this.battle.turnState !== "buildUnit") {
       //this._getAllBarracks().length !== 0
       // !this._unitOnMyBarracks() && this.battle.getCurrentPlayer().gold >= 100
-      if (this._isOpenBarracks() && this.battle.getCurrentPlayer().gold >= 100) { 
+      if (this._isOpenBarracks() && this.battle.getCurrentPlayer().gold >= 100) {
           mousePos = this._selectNextBarracks();
       }
       else {
-        console.log("no barracks found");
         this.buildPhase = false;
         this._endTurn();
       }
@@ -291,48 +241,10 @@ AggressiveMode.prototype._selectNextCapture = function() {
 };
 
 
-
-// AggressiveMode.prototype._runBuildPhase = function() {
-//   // fix so won't reset
-//     var unusedBarracks = this._getAllBarracks;
-//     this._selectNextBarracks(unusedBarracks.pop());
-// }
-
-// AggressiveMode.prototype._selectNextBarracks = function(barracks) {
-//   var mousePos = this._getBarracksPosition(barracks)
-//   this.battle.clickOnBarracks(mousePos);
-// };
-
-// AggressiveMode.prototype._getAllBarracks = function() {
-//   var barracks = [];
-//   this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-//     if (buildingArray[0].name === "barracks" && buildingArray[0].owner === this.battle.currentPlayer) {
-//       barracks.push(buildingArray);
-//     }
-//   });
-//   return barracks;
-// };
-
-// AggressiveMode.prototype._getBarracksPosition = function(barracks) {
-//   var barracksTileCoordinates = [];
-//   barracksTileCoordinates.push(barracks[1]);
-//   barracksTileCoordinates.push(barracks[2]);
-//   return barracksTileCoordinates;
-// };
-
-// AggressiveMode.prototype._chooseUnit = function() {
-//   var armyList = this.battle.getCurrentPlayer().army.armyList;
-// }
-
-// AggressiveMode.prototype._evaluateUnits = function (armyList) {
-
-// }
-// >>>>>>> master
-
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
   // Takes in list of possible moves and filters out positions in which friendly units already exist
   // for each possible move
-    // Call unitAtPos and check if null
+    // Call unitAtPos a check if null
   var that = this;
   result = [];
   possibleMoves.forEach(function(movePos) {
