@@ -43,10 +43,10 @@ function _loadImages() {
   game.load.image('elfImage','game/assets/menus/images/elfImage.png');
   game.load.image('orcImage','game/assets/menus/images/orcImage.png');
   game.load.image('unitBuildScreen','game/assets/menus/ui/unitBuildScreen.png');
+  game.load.image('instructions', 'game/assets/menus/ui/instructions.png')
 };
 
 function _loadSpritesheets() {
-
   game.load.spritesheet("mainMenuButtons", "game/assets/menus/buttons/mainMenuButtons.png", 193, 71);
   game.load.spritesheet("battleUIButtons", "game/assets/menus/buttons/battleUIButtons.png", 160, 64);
   game.load.spritesheet("armySelectionButtons", "game/assets/menus/buttons/armySelectionButtons.png", 224, 71);
@@ -68,7 +68,6 @@ function _loadSpritesheets() {
   game.load.spritesheet("selectionTiles", "game/assets/spritesheets/select_tiles.png", 32, 32);
   game.load.spritesheet("blue_flag", "game/assets/spritesheets/blue_flag.png", 8, 8);
   game.load.spritesheet("red_flag", "game/assets/spritesheets/red_flag.png", 8, 8);
-
 
 };
 
