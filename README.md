@@ -2,6 +2,29 @@
 # Fantasy Wars
 Fantasy Wars is a turn-based strategy game where each players can choose one of three mythical factions. Build up an army, capture strategic footholds, and slaughter opposing forces on your way to victory. Eliminate all enemy units or capture their castle to ensure victory.
 
+# Game Features
+* Three playable races
+* Four playable maps
+  * Unique scenarios on each map
+* Unit creation
+* Unique unit types
+  ** Different attack/defense/speed/range
+  ** Different properties (i.e artillery cannot move and attack)
+* Building properties
+* Building Capture
+* Terrain bonuses
+* Unit movement/attack animations
+* Player vs Player
+* Player vs Computer
+  ** Computer AI that can build units, capture, attack, and move on the enemy position.
+* Hand-drawn assets (tiles/units)
+* Menu navigation
+* User interface
+  * Display of current selected unit and tile properties
+* Sound effects (and option to mute sound)
+* Victory conditions
+*
+
 # Basic Rules (Units):
 Units are the forces in your army that you control to try and win the battle. Units fall into one of four categories: Infantry, Cavalry, Artillery, and Flying.
 
