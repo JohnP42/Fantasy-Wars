@@ -166,6 +166,11 @@ function _createBottomMenuBar(battle) {
             game.state.start("mainMenuState");
         };
     }, this, 0, 0, 1, 0);
+    var muteButton = game.add.button(508, 492, 'muteButton', function() {
+        game.sound.mute = game.sound.mute ? false : true;
+        muteButton.frame = game.sound.mute ? 1 : 0;
+    });
+
     return {"turnCount": turnCount};
 };
 

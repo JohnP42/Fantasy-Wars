@@ -43,7 +43,6 @@ function _loadImages() {
   game.load.image('elfImage','game/assets/menus/images/elfImage.png');
   game.load.image('orcImage','game/assets/menus/images/orcImage.png');
   game.load.image('unitBuildScreen','game/assets/menus/ui/unitBuildScreen.png');
-
 };
 
 function _loadSpritesheets() {
@@ -51,6 +50,7 @@ function _loadSpritesheets() {
   game.load.spritesheet("mainMenuButtons", "game/assets/menus/buttons/mainMenuButtons.png", 193, 71);
   game.load.spritesheet("battleUIButtons", "game/assets/menus/buttons/battleUIButtons.png", 160, 64);
   game.load.spritesheet("armySelectionButtons", "game/assets/menus/buttons/armySelectionButtons.png", 224, 71);
+  game.load.spritesheet('muteButton','game/assets/menus/buttons/muteButton.png', 32, 32);
 
   game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
   game.load.tilemap("oceanPass", "game/assets/maps/Ocean_Pass.json", null, Phaser.Tilemap.TILED_JSON );
