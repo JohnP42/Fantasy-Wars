@@ -128,10 +128,8 @@ AggressiveMode.prototype.handleComputerMove = function() {
       }
     }
     else if (this.battle.turnState === "buildUnit") {
-      // find the most expensive affordable unit
-      // get the mousePos for that unit
+      mousePos = this._findUnitMousePos;
     }
-
   }
   else if(this.battle.turnState === "selectingUnit") {
     mousePos = this._selectNextUnit();
@@ -166,7 +164,7 @@ AggressiveMode.prototype.handleComputerMove = function() {
 //     this._selectNextBarracks(unusedBarracks.pop());
 // }
 
-AggressiveMode.prototype._selectNextBarracks = function(barracks) {
+AggressiveMode.prototype._selectNextBarracks = function() {
   var allBarracks = this._getAllBarracks();
   if (allBarracks.length !== 0) {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
@@ -195,20 +193,35 @@ AggressiveMode.prototype._getBarracksPosition = function(barracks) {
   return barracksTileCoordinates;
 };
 
-AggressiveMode.prototype._getMostExpensiveAffordableUnit = function (armyList) {
+AggressiveMode.prototype._selectNextUnitToBuild = function() {
+  this.battle.currentPlayer.army
+};
+
+
+AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
+  var armyType = this.battle.getCurrentPlayer().armyType();
   var mostExpensiveAffordableUnit = null;
   var greatestAffordableUnitCost = 0;
-  for (var unitCost in UNITS) {
-    if (UNITS.unitCost > greatestAffordableUnitCost && UNITS.unit <= this.battle.getCurrentPlayer().gold) {
-      greatestAffordableUnitCost = UNITS.unit;
+  var unitIndex = -1;
+  var result = [];
+  for (var unit in UNITS[armyType]) {
+    unitIndex += 1;
+    if (UNITS[armyType][unit] > greatestAffordableUnitCost && UNITS[armyType][unit] <= this.battle.getCurrentPlayer().gold) {
+      greatestAffordableUnitCost = UNITS[armyType][unit];
       mostExpensiveAffordableUnit = unit;
     }
   }
-  return mostExpensiveAffordableUnit;
+  result.push(mostExpensiveAffordableUnit);
+  result.push(unitIndex);
+  return result;
 }
 
-AggressiveMode.prototype._findUnitMousePos = function(unit) {
-  
+AggressiveMode.prototype._findUnitMousePos = function() {
+  var mostExpensiveAffordableUnit = this._getMostExpensiveAffordableUnit();
+  var unit = mostExpensiveAffordableUnit[0];
+  var unitIndex = mostExpensiveAffordableUnit[1];
+  var unitPosition = [5, 3 + unitIndex];
+  return unitPosition;
 }
 
 AggressiveMode.prototype._selectNextUnit = function() {
