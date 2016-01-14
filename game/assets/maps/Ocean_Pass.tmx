@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="4">
  <tileset firstgid="1" name="fantasy_wars_tilesheet" tilewidth="32" tileheight="32" tilecount="28" columns="4">
-  <image source="John-FW/Fantasy-Wars/game/assets/maps/fantasy_wars_tilesheet.png" width="128" height="224"/>
+  <image source="fantasy_wars_tilesheet.png" width="128" height="224"/>
   <tile id="0">
    <properties>
     <property name="movCostArt" value="1"/>
@@ -320,4 +320,18 @@
 5,5,5,5,4,4,4,4,4,4,4,4,4,5,5,5,5,5
 </data>
  </layer>
+ <objectgroup name="units">
+  <object id="2" x="160" y="256" width="32" height="32">
+   <properties>
+    <property name="player" value="1"/>
+    <property name="unitIndex" value="0"/>
+   </properties>
+  </object>
+  <object id="3" x="384" y="256" width="32" height="32">
+   <properties>
+    <property name="player" value="2"/>
+    <property name="unitIndex" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
