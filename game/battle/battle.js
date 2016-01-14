@@ -359,6 +359,7 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
 
   this.buildScreen = this.buildScreen.destroy();
   this.turnState = "selectingUnit";
+  currentPlayerGold.setText("Gold: " + battle.players[battle.currentPlayer - 1].gold);
   this.currentSelectedUnit = null;
 };
 

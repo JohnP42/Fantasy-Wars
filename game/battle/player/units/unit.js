@@ -161,6 +161,7 @@ Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
 
 Unit.prototype.die = function() {
   //TODO: Destroys unit and removes from map
+  game.add.tween(this).to({alpha: 0}, 1000, "Linear", true);
   this.alive = false;
   this.healthText.destroy();
   this.destroy();
