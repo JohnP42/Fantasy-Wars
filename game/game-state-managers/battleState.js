@@ -126,7 +126,7 @@ function _createTopMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
     var topMenuBar = game.add.image(0, -64, 'topMenuBar');
     var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
-    var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.players[battle.currentPlayer - 1].gold, style);
+    currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.players[battle.currentPlayer - 1].gold, style);
     return {"currentPlayerText": currentPlayerText, "currentPlayerGold": currentPlayerGold};
 };
 
