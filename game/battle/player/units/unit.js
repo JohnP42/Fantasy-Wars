@@ -35,16 +35,23 @@ Unit.prototype.move = function() {
   // Moves unit along path
   // path is in the format: [location1, location2, ..., targetLocation]
   this.animations.play("move");
-  this.moveSound.play('', 0, 1, false, false);
+  // this.moveSound.play('', 0, 1, false, false);
   var nextTile = this.walkPath[this.walkPath.length - 1];
 
   if (!nextTile)
     return true;
 
-  if (nextTile.canvasX() > this.x)
+  if (nextTile.canvasX() > this.x) {
     this.x += 2;
-  if(nextTile.canvasX() < this.x)
+    this.scale.x = 1;
+    this.anchor.setTo(0, 0);
+  }
+  if(nextTile.canvasX() < this.x) {
     this.x -= 2;
+    this.scale.x = -1;
+    this.anchor.setTo(1, 0);
+  }
+
   if(nextTile.canvasY() > this.y)
     this.y += 2;
   if(nextTile.canvasY() < this.y)
@@ -161,6 +168,7 @@ Unit.prototype.getAttackDamage = function(enemyDefense, terrainDefense) {
 
 Unit.prototype.die = function() {
   //TODO: Destroys unit and removes from map
+  game.add.tween(this).to({alpha: 0}, 1000, "Linear", true);
   this.alive = false;
   this.healthText.destroy();
   this.destroy();

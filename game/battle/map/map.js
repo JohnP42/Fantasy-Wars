@@ -43,7 +43,7 @@ Map.prototype.getAllBuildings = function(returnPos) {
     }
   }
 
-  return buildings
+  return buildings;
 }
 
 Map.prototype.getAllBuildingsForPlayer = function(player) {
@@ -70,7 +70,21 @@ Map.prototype.remakeAllFlags = function() {
       var flag = game.add.sprite(building[1] * TILESCALE, building[2] * TILESCALE + 4, sprite);
     }
   });
-}
+};
+
+Map.prototype.getArmyForPlayer = function(player, armyList) {
+  var army = [];
+  var units = game.world.cursor.map.objects.units;
+  console.log(player);
+  units.forEach(function(unit) {
+    if(parseInt(unit.properties.player) === player) {
+      pos = new Pos(unit.x / TILESCALE, unit.y / TILESCALE);
+      army.push(new armyList[parseInt(unit.properties.unitIndex)](pos, player));
+    }
+  });
+
+  return army;
+};
 
 
 

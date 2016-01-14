@@ -18,7 +18,7 @@ Player.prototype.unitPositions = function() {
 Player.prototype.onTurnStart = function(map, myPlayerID) {
   this.army.units.forEach(function(unit) {
     var tile = map.getTileAtPos(unit.pos);
-    if(tile.owner !== undefined && tile.owner === myPlayerID) {
+    if(parseInt(tile.owner) !== undefined && parseInt(tile.owner) === myPlayerID) {
       var prevDamageTaken = unit.damageTaken;
       unit.damageTaken -= Math.floor(unit.health / 5);
       if(unit.damageTaken < 0) {

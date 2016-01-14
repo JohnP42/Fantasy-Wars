@@ -1,11 +1,12 @@
 var battleState = {
-    init: function(mapKey, armyKey, audio) {
-        this.mapKey = mapKey;
-        this.armyKey = armyKey;
+    init: function(mapKey, armyKey, gameMode, audio) {
+      this.mapKey = mapKey;
+      this.armyKey = armyKey;
+      this.gameMode = gameMode;
     	map = null;
     	battle = null;
 
-        _initializeVariables();
+      _initializeVariables();
     },
 
     preload: function() {
@@ -24,7 +25,7 @@ var battleState = {
 
         _playSound('battle');
 
-        var tilemap = game.add.tilemap(this.mapKey, 32, 32, 8, 12);
+        var tilemap = game.add.tilemap(this.mapKey);
         var tileset = tilemap.addTilesetImage("fantasy_wars_tilesheet", "tilesheet");
         var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
@@ -34,11 +35,34 @@ var battleState = {
         flags = game.add.group();
 
         // Initialize player armies
-        var army = _initializeArmyPlayer1();
-        var army2 = _initializeArmyPlayer2();
-
+        var army;
+        var army2;
+        var race = this.armyKey;
         // create battle
-        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
+        var playerClass;
+
+        if(this.gameMode === "campaign") {
+          playerClass = ComputerPlayer;
+        }
+        else {
+          playerClass = Player;
+        }
+
+        if (race === "dwarf") {
+          army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new playerClass(new ArmyDwarf(army2), new Pos(13,7))]);
+        }
+        else if (race === "elf") {
+          army = map.getArmyForPlayer(1, new ArmyElf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyElf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyElf(army), new Pos(4,7)), new playerClass(new ArmyElf(army2), new Pos(13,7))]);
+        }
+        else {
+          army = map.getArmyForPlayer(1, new ArmyOrc([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyOrc([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyOrc(army), new Pos(4,7)), new playerClass(new ArmyOrc(army2), new Pos(13,7))]);
+        }
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
         if (battle.players[1] instanceof ComputerPlayer) {
@@ -48,6 +72,7 @@ var battleState = {
           };
         _setupUIElements(battle);
     },
+
 
     update: function() {
         //TODO: Anything dealing with the battle here
@@ -104,13 +129,13 @@ function _playSound(audioKey) {
 };
 
 function _initializeArmyPlayer1() {
-  return [new Grenadier(new Pos(5, 7), 1),
-        new Warrior(new Pos(4, 7), 1)];
+  return [new battle.player.army.armyList[1](new Pos(5, 7), 1),
+        new battle.player.army.armyList[0](new Pos(4, 7), 1)];
 };
 
 function _initializeArmyPlayer2() {
-  return [new Grenadier(new Pos(12, 7), 2),
-        new Warrior(new Pos(13, 7), 2)];
+  return [new battle.player.army.armyList[1](new Pos(12, 7), 2),
+        new battle.player.army.armyList[0](new Pos(13, 7), 2)];
 };
 
 function _setupUIElements(battle) {
@@ -126,7 +151,7 @@ function _createTopMenuBar(battle) {
     var style = {font: "21pt Herculanum", align: "left", fill: "white"};
     var topMenuBar = game.add.image(0, -64, 'topMenuBar');
     var currentPlayerText = game.add.text(20, -47, "Player " + battle.currentPlayer, style);
-    var currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.players[battle.currentPlayer - 1].gold, style);
+    currentPlayerGold = game.add.text(550, -47, "Gold: " + battle.players[battle.currentPlayer - 1].gold, style);
     return {"currentPlayerText": currentPlayerText, "currentPlayerGold": currentPlayerGold};
 };
 
@@ -141,6 +166,11 @@ function _createBottomMenuBar(battle) {
             game.state.start("mainMenuState");
         };
     }, this, 0, 0, 1, 0);
+    var muteButton = game.add.button(508, 492, 'muteButton', function() {
+        game.sound.mute = game.sound.mute ? false : true;
+        muteButton.frame = game.sound.mute ? 1 : 0;
+    });
+
     return {"turnCount": turnCount};
 };
 
@@ -194,8 +224,8 @@ function _createEndTurnButton(battle, userInterfaceText) {
                     game.add.audio('coin').play();
                 };
                 battle.getCurrentPlayer().onTurnStart(battle.map, battle.currentPlayer);
-                var style = { font: "65px Arial", fill: "#0000FF", align: "center" };
-                var text = game.add.text(game.world.centerX, game.world.centerY - 300, "Player 2 Turn", style);
+                var style = { font: "65px Arial", fill: "#0000FF", align: "center", stroke: "white", strokeThickness: 5};
+                var text = game.add.text(game.world.centerX - 210, game.world.centerY - 300, "Player 2 Turn", style);
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
@@ -207,8 +237,8 @@ function _createEndTurnButton(battle, userInterfaceText) {
                 if (prevGold !== battle.getCurrentPlayer().gold) {
                     game.add.audio('coin').play();
                 };
-                var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-                var text = game.add.text(game.world.centerX , game.world.centerY - 300, "Player 1 Turn", style);
+                var style = { font: "65px Arial", fill: "#ff0044", align: "center", stroke: "white", strokeThickness: 5};
+                var text = game.add.text(game.world.centerX - 150, game.world.centerY - 300, "Player 1 Turn", style);
                 text.anchor.set(0.5);
                 text.alpha = 1;
                 var tween = game.add.tween(text).to( { alpha: 0 }, 2000, "Linear", true);
