@@ -10,7 +10,6 @@ function AggressiveMode(battle) {
   this.usedPositionsThisTurn = [];
   this.currentSelectedUnit = null;
   this.buildPhase = false;
-  this.visitedBarracks = [];
 };
 
 // AggressiveMode.prototype.execute = function() {
@@ -215,14 +214,6 @@ AggressiveMode.prototype._getAllBarracks = function() {
   return barracks;
 };
 
-// AggressiveMode.prototype._barracksAlreadyVisited = function(barracksArray) {
-//   this.visitedBarracks.forEach(function(visitedBarracks){
-//     if (parseInt(visitedBarracks[1]) === parseInt(barracksArray[1]) && parseInt(visitedBarracks[2]) === parseInt(barracksArray[2])) {
-//       return false;
-//     }
-//   });
-//   return true;
-// };
 
 AggressiveMode.prototype._getBarracksPosition = function(barracks) {
   var barracksTileCoordinates = new Pos(parseInt(barracks[1]), parseInt(barracks[2]));
