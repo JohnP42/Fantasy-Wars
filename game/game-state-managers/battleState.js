@@ -1,7 +1,8 @@
 var battleState = {
-    init: function(mapKey, armyKey, gameMode, audio) {
+    init: function(mapKey, armyKey1, armyKey2, gameMode, audio) {
       this.mapKey = mapKey;
-      this.armyKey = armyKey;
+      this.armyKey1 = armyKey1;
+      this.armyKey2 = armyKey2;
       this.gameMode = gameMode;
     	map = null;
     	battle = null;
@@ -37,7 +38,8 @@ var battleState = {
         // Initialize player armies
         var army;
         var army2;
-        var race = this.armyKey;
+        var race1 = this.armyKey1;
+        var race2 = this.armyKey2;
         // create battle
         var playerClass;
 
@@ -49,20 +51,55 @@ var battleState = {
         }
 
 
-        if (race === "dwarf") {
+        if (race1 === "dwarf" && race2 === "dwarf") {
           army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
           battle = new Battle(map,[new Player(new ArmyDwarf(army)), new playerClass(new ArmyDwarf(army2))]);
         }
-        else if (race === "elf") {
+        else if (race1 ==="dwarf" && race2 === "elf"){
+          army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyElf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyDwarf(army)), new playerClass(new ArmyElf(army2))]);
+        }
+        else if (race1 ==="dwarf" && race2 === "orc"){
+          army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyOrc([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyDwarf(army)), new playerClass(new ArmyOrc(army2))]);
+        }
+        else if (race1 === "elf" && race2 === "dwarf") {
+          army = map.getArmyForPlayer(1, new ArmyElf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyElf(army)), new playerClass(new ArmyDwarf(army2))]);
+        }
+        else if (race1 === "elf" && race2 === "elf") {
           army = map.getArmyForPlayer(1, new ArmyElf([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyElf([]).armyList);
           battle = new Battle(map,[new Player(new ArmyElf(army)), new playerClass(new ArmyElf(army2))]);
         }
-        else {
+        else if (race1 === "elf" && race2 === "orc") {
+          army = map.getArmyForPlayer(1, new ArmyElf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyOrc([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyElf(army)), new playerClass(new ArmyOrc(army2))]);
+        }
+        else if (race1 === "orc" && race2 === "dwarf") {
+          army = map.getArmyForPlayer(1, new ArmyOrc([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyOrc(army)), new playerClass(new ArmyDwarf(army2))]);
+        }
+        else if (race1 === "orc" && race2 === "elf") {
+          army = map.getArmyForPlayer(1, new ArmyOrc([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyElf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyOrc(army)), new playerClass(new ArmyElf(army2))]);
+        }
+        else if (race1 ==="orc" && race2 === "orc") {
           army = map.getArmyForPlayer(1, new ArmyOrc([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyOrc([]).armyList);
           battle = new Battle(map,[new Player(new ArmyOrc(army)), new playerClass(new ArmyOrc(army2))]);
+        }
+        else {
+          army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
+          battle = new Battle(map,[new Player(new ArmyDwarf(army)), new playerClass(new ArmyDwarf(army2))]);
         }
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
