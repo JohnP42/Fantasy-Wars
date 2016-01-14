@@ -1,6 +1,6 @@
 var mapSelectState = {
 
-  init: function(mapKey, armyKey, gameMode, audio) {
+  init: function(mapKey, armyKey1, armyKey2, gameMode, audio) {
     // init function takes arguments for menu button; not need here
     this.gameMode = gameMode;
   },
