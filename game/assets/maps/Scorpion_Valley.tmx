@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="4">
+ <tileset firstgid="1" name="fantasy_wars_tilesheet" tilewidth="32" tileheight="32" tilecount="28" columns="4">
+  <image source="fantasy_wars_tilesheet.png" width="128" height="224"/>
+  <tile id="0">
+   <properties>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="plains"/>
+    <property name="protection" value="0"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="plains"/>
+    <property name="protection" value="0"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="movCostArt" value="100"/>
+    <property name="movCostCav" value="100"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="100"/>
+    <property name="name" value="water"/>
+    <property name="protection" value="0"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="movCostArt" value="100"/>
+    <property name="movCostCav" value="100"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="100"/>
+    <property name="name" value="water"/>
+    <property name="protection" value="0"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="movCostArt" value="100"/>
+    <property name="movCostCav" value="100"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="100"/>
+    <property name="name" value="water"/>
+    <property name="protection" value="0"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="plains"/>
+    <property name="protection" value="0"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="movCostArt" value=""/>
+    <property name="movCostCav" value=""/>
+    <property name="movCostFly" value=""/>
+    <property name="movCostInf" value=""/>
+    <property name="name" value=""/>
+    <property name="protection" value=""/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="town"/>
+    <property name="owner" value="1"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="town"/>
+    <property name="owner" value="2"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="movCostArt" value="2"/>
+    <property name="movCostCav" value="2"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="forest"/>
+    <property name="protection" value=".25"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="movCostArt" value="2"/>
+    <property name="movCostCav" value="2"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="forest"/>
+    <property name="protection" value=".25"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="movCostArt" value="2"/>
+    <property name="movCostCav" value="2"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="forest"/>
+    <property name="protection" value=".25"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="town"/>
+    <property name="owner" value="0"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="movCostArt" value="3"/>
+    <property name="movCostCav" value="3"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="2"/>
+    <property name="name" value="mountain"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="castle"/>
+    <property name="owner" value="0"/>
+    <property name="protection" value=".75"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="barracks"/>
+    <property name="owner" value="0"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="movCostArt" value="3"/>
+    <property name="movCostCav" value="3"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="2"/>
+    <property name="name" value="mountain"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="movCostArt" value="2"/>
+    <property name="movCostCav" value="2"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="forest"/>
+    <property name="protection" value=".25"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="castle"/>
+    <property name="owner" value="1"/>
+    <property name="protection" value=".75"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="castle"/>
+    <property name="owner" value="2"/>
+    <property name="protection" value=".75"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="barracks"/>
+    <property name="owner" value="1"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="capturePoints" value="0"/>
+    <property name="movCostArt" value="1"/>
+    <property name="movCostCav" value="1"/>
+    <property name="movCostFly" value="1"/>
+    <property name="movCostInf" value="1"/>
+    <property name="name" value="barracks"/>
+    <property name="owner" value="2"/>
+    <property name="protection" value=".5"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="18" height="15">
+  <data encoding="csv">
+23,23,23,23,1,23,23,23,23,23,23,1,1,1,1,18,6,23,
+23,23,23,1,23,23,23,23,23,23,1,28,26,1,1,23,23,23,
+23,23,1,18,23,23,23,23,1,18,1,1,1,23,23,23,23,6,
+23,23,19,23,23,23,6,1,1,1,1,1,23,23,23,23,6,23,
+23,23,6,23,23,16,1,1,1,1,1,23,23,23,23,18,23,23,
+23,23,6,23,23,6,1,22,1,1,23,23,23,23,23,19,23,23,
+23,23,6,23,23,6,1,6,1,1,1,23,23,23,23,1,23,23,
+23,23,22,23,23,23,6,18,19,19,16,6,23,23,23,22,23,23,
+23,23,1,23,23,23,23,6,1,1,6,6,6,23,23,1,23,23,
+23,23,19,23,23,23,23,23,6,6,22,6,6,23,23,1,23,23,
+23,6,18,23,23,23,23,6,6,6,1,6,16,23,23,1,23,23,
+1,23,23,23,23,23,6,6,6,1,1,6,23,23,23,19,23,23,
+23,23,23,23,23,1,1,1,18,6,23,23,23,23,18,1,23,23,
+23,23,23,6,1,25,27,1,23,23,23,23,23,23,1,23,23,23,
+23,1,18,6,1,1,1,23,23,23,23,23,23,1,23,23,23,23
+</data>
+ </layer>
+ <objectgroup name="units">
+  <object id="2" x="192" y="384" width="32" height="32">
+   <properties>
+    <property name="player" value="1"/>
+    <property name="unitIndex" value="0"/>
+   </properties>
+  </object>
+  <object id="3" x="352" y="64" width="32" height="32">
+   <properties>
+    <property name="player" value="2"/>
+    <property name="unitIndex" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

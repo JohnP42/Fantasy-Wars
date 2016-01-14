@@ -55,6 +55,8 @@ function _loadSpritesheets() {
   game.load.tilemap("testmap", "game/assets/maps/FW_map_1.json", null, Phaser.Tilemap.TILED_JSON );
   game.load.tilemap("oceanPass", "game/assets/maps/Ocean_Pass.json", null, Phaser.Tilemap.TILED_JSON );
   game.load.tilemap("landBridge", "game/assets/maps/Land_Bridge.json", null, Phaser.Tilemap.TILED_JSON ); 
+  game.load.tilemap("colosseum", "game/assets/maps/Colosseum.json", null, Phaser.Tilemap.TILED_JSON );
+  game.load.tilemap("scorpionValley", "game/assets/maps/Scorpion_Valley.json", null, Phaser.Tilemap.TILED_JSON );
   game.load.image("tilesheet", "game/assets/maps/fantasy_wars_tilesheet.png");
 
   game.load.spritesheet("sprDwarves1", "game/assets/spritesheets/dwarf_units.png", 32, 32);
