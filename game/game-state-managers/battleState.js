@@ -48,6 +48,7 @@ var battleState = {
           playerClass = Player;
         }
 
+
         if (race === "dwarf") {
           army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
