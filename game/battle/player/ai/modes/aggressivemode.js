@@ -117,14 +117,10 @@ AggressiveMode.prototype.handleComputerMove = function() {
   // Returns mousePos to position computer desires to click.
   // Sets battle.computerCanClick to true once a selection is made.
   var mousePos;
-  console.log("Build Phase:");
-  console.log(this.buildPhase);
   if (this.buildPhase === true) {
-    console.log("BLAH");
     if (this.battle.turnState !== "buildUnit") {
-      console.log(this._getAllBarracks().length !== 0);
-      console.log("BLEEP")
-      if (this._getAllBarracks().length !== 0) {
+      //this._getAllBarracks().length !== 0
+      if (!this._unitOnMyBarracks() && this.battle.getCurrentPlayer().gold >= 100) { 
           mousePos = this._selectNextBarracks();
       }
       else {
@@ -134,7 +130,6 @@ AggressiveMode.prototype.handleComputerMove = function() {
       }
     }
     else if (this.battle.turnState === "buildUnit") {
-      console.log("building unit");
       mousePos = this._findUnitMousePos();
     }
   }
@@ -156,6 +151,14 @@ AggressiveMode.prototype.handleComputerMove = function() {
   return mousePos;
 };
 
+AggressiveMode.prototype._unitOnMyBarracks = function() {
+  var barracksPos = new Pos(13, 8);
+  if (this.battle.getUnitAtPos(barracksPos)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 // Battle.prototype.clickOnBarracks = function(mousePos) {
 //   if (this.currentSelectedTile) {
 //     if (this.currentSelectedTile.name === "barracks" && this.currentSelectedTile.owner === this.currentPlayer) {
@@ -190,7 +193,14 @@ AggressiveMode.prototype._getAllBarracks = function() {
 };
 
 AggressiveMode.prototype._barracksAlreadyVisited = function(barracksArray) {
+  console.log(this.visitedBarracks);
   this.visitedBarracks.forEach(function(visitedBarracks){
+    console.log("Filter logic");
+    console.log(parseInt(visitedBarracks[1]));
+    console.log(parseInt(barracksArray[1]));
+    console.log(parseInt(visitedBarracks[2]));
+    console.log(parseInt(barracksArray[2]));
+    console.log(parseInt(visitedBarracks[1]) === parseInt(barracksArray[1]) && parseInt(visitedBarracks[2]) === parseInt(barracksArray[2]));
     if (parseInt(visitedBarracks[1]) === parseInt(barracksArray[1]) && parseInt(visitedBarracks[2]) === parseInt(barracksArray[2])) {
       return false;
     }
