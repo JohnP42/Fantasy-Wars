@@ -188,9 +188,10 @@ AggressiveMode.prototype._getAllBarracks = function() {
 };
 
 AggressiveMode.prototype._getBarracksPosition = function(barracks) {
-  var barracksTileCoordinates = [];
-  barracksTileCoordinates.push(parseInt(barracks[1]));
-  barracksTileCoordinates.push(parseInt(barracks[2]));
+  var barracksTileCoordinates = new Pos(parseInt(barracks[1]), parseInt(barracks[2]));
+  // barracksTileCoordinates.push(parseInt(barracks[1]));
+  // barracksTileCoordinates.push(parseInt(barracks[2]));
+
   return barracksTileCoordinates;
 };
 

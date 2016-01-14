@@ -62,6 +62,7 @@ Battle.prototype.onClickListener = function() {
       // Do computer Turn
       this.computerCanClick = false;
       var mousePos = this.players[1].handleComputerMove();
+      console.log(mousePos);
     } else {
       var mousePos = new Pos(Math.floor(game.input.activePointer.worldX / TILESCALE), Math.floor(game.input.activePointer.worldY / TILESCALE));
     }
@@ -359,9 +360,13 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
 
 Battle.prototype.clickOnBarracks = function(mousePos) {
   console.log("in click on barracks");
-  console.log(this.currentSelectedTile);
+  this.currentSelectedTile = this.map.getTileAtPos(mousePos);
   if (this.currentSelectedTile) {
     console.log("have tile");
+    console.log(this.currentSelectedTile.name);
+    console.log(typeof this.currentSelectedTile.name)
+    console.log(mousePos);
+    console.log(this.currentSelectedTile.name === "barracks");
     if (this.currentSelectedTile.name === "barracks" && parseInt(this.currentSelectedTile.owner) === this.currentPlayer) {
       console.log("have turnState");
       this.turnState = "buildUnit";
