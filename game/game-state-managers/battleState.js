@@ -24,7 +24,7 @@ var battleState = {
 
         _playSound('battle');
 
-        var tilemap = game.add.tilemap(this.mapKey, 32, 32, 8, 12);
+        var tilemap = game.add.tilemap(this.mapKey);
         var tileset = tilemap.addTilesetImage("fantasy_wars_tilesheet", "tilesheet");
         var mainMap = tilemap.createLayer("Tile Layer 1");
         map = new Map();
@@ -34,11 +34,23 @@ var battleState = {
         flags = game.add.group();
 
         // Initialize player armies
-        var army = _initializeArmyPlayer1();
-        var army2 = _initializeArmyPlayer2();
-
+        var tempArmy = new ArmyDwarf
+        tempArmy.armylist
+        var army = map.getArmyForPlayer(1);
+        var army2 = map.getArmyForPlayer(2);
+        var race = this.armyKey;
         // create battle
-        battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
+        if (race === "dwarf") {
+          var tempArmy = new ArmyDwarf
+          tempArmy.armylist
+          battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
+        }
+        else if (race === "elf") {
+          battle = new Battle(map,[new Player(new ArmyElf(army), new Pos(4,7)), new ComputerPlayer(new ArmyElf(army2), new Pos(13,7))]);
+        }
+        else {
+          battle = new Battle(map,[new Player(new ArmyOrc(army), new Pos(4,7)), new ComputerPlayer(new ArmyOrc(army2), new Pos(13,7))]);
+        }
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
         if (battle.players[1] instanceof ComputerPlayer) {
@@ -104,13 +116,13 @@ function _playSound(audioKey) {
 };
 
 function _initializeArmyPlayer1() {
-  return [new Grenadier(new Pos(5, 7), 1),
-        new Warrior(new Pos(4, 7), 1)];
+  return [new battle.player.army.armyList[1](new Pos(5, 7), 1),
+        new battle.player.army.armyList[0](new Pos(4, 7), 1)];
 };
 
 function _initializeArmyPlayer2() {
-  return [new Grenadier(new Pos(12, 7), 2),
-        new Warrior(new Pos(13, 7), 2)];
+  return [new battle.player.army.armyList[1](new Pos(12, 7), 2),
+        new battle.player.army.armyList[0](new Pos(13, 7), 2)];
 };
 
 function _setupUIElements(battle) {
