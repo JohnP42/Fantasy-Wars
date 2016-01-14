@@ -41,10 +41,17 @@ Unit.prototype.move = function() {
   if (!nextTile)
     return true;
 
-  if (nextTile.canvasX() > this.x)
+  if (nextTile.canvasX() > this.x) {
     this.x += 2;
-  if(nextTile.canvasX() < this.x)
+    this.scale.x = 1;
+    this.anchor.setTo(0, 0);
+  }
+  if(nextTile.canvasX() < this.x) {
     this.x -= 2;
+    this.scale.x = -1;
+    this.anchor.setTo(1, 0);
+  }
+
   if(nextTile.canvasY() > this.y)
     this.y += 2;
   if(nextTile.canvasY() < this.y)
