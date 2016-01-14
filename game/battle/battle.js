@@ -251,7 +251,12 @@ Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
 
   if(terrainDefense === 0 && unit2.range[0] === 1 && unit2.getHealthNumber() > 0) {
     if (unit1 instanceof UnitFlying) {
-      dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, 0));
+      if (unit2.range[1] > 1) {
+        dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, 0));
+      }
+      else {
+        dmg = 0;
+      }
     }
     else {
       dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
