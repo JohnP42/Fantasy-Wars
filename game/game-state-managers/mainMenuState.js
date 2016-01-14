@@ -9,10 +9,10 @@ var mainMenuState = {
   create: function() {
     _playSound('menus');
     _setBackgroundImage('logo');
-      // x, y, spritekey, targetState, mapkey, armykey, audio, overFrame, outFrame, downFrame, upFrame
-    battleStateButton = new MenuButton(528, 175, "mainMenuButtons", "mapSelectState", "map", "army", "battleButton", 0, 0, 1, 0);
+      // (x, y, spritekey, targetState, gameMode, mapkey, armykey, audio, overFrame, outFrame, downFrame, upFrame)
+    battleStateButton = new MenuButton(528, 175, "mainMenuButtons", "mapSelectState", "battleGround", "map", "army", "battleButton", 0, 0, 1, 0);
     // battleStateButton.setButtonAnimation("");
-    campaignStateButton = new MenuButton(528, 275, "mainMenuButtons", "campaignState", "map", "army", "battleButton", 2, 2, 3, 2);
+    campaignStateButton = new MenuButton(528, 275, "mainMenuButtons", "mapSelectState", "campaign", "map", "army", "battleButton", 2, 2, 3, 2);
     // campaignStateButton._setButtonAnimation("");
     instructionsStateButton = new MenuButton(528, 375, "mainMenuButtons", "instructionsState", "map", "army", "battleButton", 4, 4, 5, 4);
     // instructionsStateButton._setButtonAnimation("");

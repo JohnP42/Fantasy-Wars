@@ -1,11 +1,12 @@
 var battleState = {
-    init: function(mapKey, armyKey, audio) {
-        this.mapKey = mapKey;
-        this.armyKey = armyKey;
+    init: function(mapKey, armyKey, gameMode, audio) {
+      this.mapKey = mapKey;
+      this.armyKey = armyKey;
+      this.gameMode = gameMode;
     	map = null;
     	battle = null;
 
-        _initializeVariables();
+      _initializeVariables();
     },
 
     preload: function() {
@@ -38,20 +39,29 @@ var battleState = {
         var army2;
         var race = this.armyKey;
         // create battle
+        var playerClass;
+
+        if(this.gameMode === "campaign") {
+          playerClass = ComputerPlayer;
+        }
+        else {
+          playerClass = Player;
+        }
+
         if (race === "dwarf") {
           army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
-          battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
+          battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new playerClass(new ArmyDwarf(army2), new Pos(13,7))]);
         }
         else if (race === "elf") {
           army = map.getArmyForPlayer(1, new ArmyElf([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyElf([]).armyList);
-          battle = new Battle(map,[new Player(new ArmyElf(army), new Pos(4,7)), new ComputerPlayer(new ArmyElf(army2), new Pos(13,7))]);
+          battle = new Battle(map,[new Player(new ArmyElf(army), new Pos(4,7)), new playerClass(new ArmyElf(army2), new Pos(13,7))]);
         }
         else {
           army = map.getArmyForPlayer(1, new ArmyOrc([]).armyList);
           army2 = map.getArmyForPlayer(2, new ArmyOrc([]).armyList);
-          battle = new Battle(map,[new Player(new ArmyOrc(army), new Pos(4,7)), new ComputerPlayer(new ArmyOrc(army2), new Pos(13,7))]);
+          battle = new Battle(map,[new Player(new ArmyOrc(army), new Pos(4,7)), new playerClass(new ArmyOrc(army2), new Pos(13,7))]);
         }
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
         // Setup Menu UI
@@ -62,6 +72,7 @@ var battleState = {
           };
         _setupUIElements(battle);
     },
+
 
     update: function() {
         //TODO: Anything dealing with the battle here

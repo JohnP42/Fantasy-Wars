@@ -1,7 +1,8 @@
 var mapSelectState = {
 
-  init: function(mapKey, armyKey, audio) {
+  init: function(mapKey, armyKey, gameMode, audio) {
     // init function takes arguments for menu button; not need here
+    this.gameMode = gameMode;
   },
 
   preload: function() {
@@ -17,7 +18,8 @@ var mapSelectState = {
 
     // first map
     // args = x, y, spritekey(map thumbnail), targetState, tilemap name, army name, audio
-    var mapThumb = new MenuButton(20, 70, 'map1', "armySelectState", "oceanPass", "army", "flash");
+    console.log(this.gameMode);
+    var mapThumb = new MenuButton(20, 70, 'map1', "armySelectState", this.gameMode, "oceanPass", "army", "flash");
     var mapThumbText = this.add.text(20, 260, "Two Rivers", {font: "16pt Herculanum", align: "left"});
     // second map
 
