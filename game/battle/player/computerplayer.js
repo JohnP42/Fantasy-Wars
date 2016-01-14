@@ -3,10 +3,9 @@
 ComputerPlayer.prototype = new Player();
 ComputerPlayer.prototype.constructor = ComputerPlayer;
 
-function ComputerPlayer(army, hqPos) {
+function ComputerPlayer(army) {
   this.army = army;
   this.active = false;  // boolean to be used to determine which players turn it is
-  this.hqPosition = hqPos;
   this.mode = null;
   this.battle = null;
 };
