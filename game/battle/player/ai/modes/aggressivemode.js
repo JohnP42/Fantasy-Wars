@@ -166,7 +166,7 @@ AggressiveMode.prototype._selectNextBarracks = function() {
   if (allBarracks.length !== 0) {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
     console.log(mousePos[0]);
-    this.battle.currentSelectedTile = this.battle.map.getTileAtPos(new Pos(parseInt(mousePos[0]), parseInt(mousePos[1])));
+    this.battle.currentSelectedTile = this.battle.map.getTileAtPos(new Pos(mousePos[0], mousePos[1]));
     console.log(this.battle.currentSelectedTile.name);
     this.visitedBarracks.push(allBarracks.shift());
     return mousePos;
