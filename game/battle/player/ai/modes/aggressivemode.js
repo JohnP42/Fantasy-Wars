@@ -181,7 +181,7 @@ AggressiveMode.prototype._selectNextAttack = function() {
 }
 
 AggressiveMode.prototype._selectNextCapture = function() {
-
+  return this.currentSelectedUnit.pos;
 };
 
 
