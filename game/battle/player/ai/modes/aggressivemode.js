@@ -165,6 +165,9 @@ AggressiveMode.prototype._selectNextBarracks = function() {
   var allBarracks = this._getAllBarracks();
   if (allBarracks.length !== 0) {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
+    console.log(mousePos[0]);
+    this.battle.currentSelectedTile = this.battle.map.getTileAtPos(new Pos(parseInt(mousePos[0]), parseInt(mousePos[1])));
+    console.log(this.battle.currentSelectedTile.name);
     this.visitedBarracks.push(allBarracks.shift());
     return mousePos;
   }
@@ -186,15 +189,10 @@ AggressiveMode.prototype._getAllBarracks = function() {
 
 AggressiveMode.prototype._getBarracksPosition = function(barracks) {
   var barracksTileCoordinates = [];
-  barracksTileCoordinates.push(barracks[1]);
-  barracksTileCoordinates.push(barracks[2]);
+  barracksTileCoordinates.push(parseInt(barracks[1]));
+  barracksTileCoordinates.push(parseInt(barracks[2]));
   return barracksTileCoordinates;
 };
-
-AggressiveMode.prototype._selectNextUnitToBuild = function() {
-  this.battle.currentPlayer.army
-};
-
 
 AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
   var armyType = this.battle.getCurrentPlayer().armyType();
