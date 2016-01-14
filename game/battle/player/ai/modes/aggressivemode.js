@@ -162,19 +162,7 @@ AggressiveMode.prototype._unitOnMyBarracks = function(pos) {
 
 AggressiveMode.prototype._isOpenBarracks = function() {
   var that = this;
-  var allMyBarracks = this._getAllBarracks();
-  var barracksWithOutUnits = [];
-  var allMyBarracksPos = [];
-
-  allMyBarracks.forEach(function(barracks) {
-    allMyBarracksPos.push(that._getBarracksPosition(barracks));
-  });
-
-  allMyBarracksPos.forEach(function(barracksPos){
-    if (!that._unitOnMyBarracks(barracksPos)) {
-      barracksWithOutUnits.push(barracksPos);
-    }
-  });
+  var barracksWithOutUnits = this._getAllMyOpenBarracks();
 
   if (barracksWithOutUnits.length > 0) {
     return true;
@@ -184,12 +172,31 @@ AggressiveMode.prototype._isOpenBarracks = function() {
   }
 };
 
+AggressiveMode.prototype._getAllMyBarracksPositions = function() {
+  var that = this;
+  var allMyBarracksPos = [];
+  this._getAllBarracks().forEach(function(myBarracks) {
+    allMyBarracksPos.push(that._getBarracksPosition(myBarracks));
+  });
+  return allMyBarracksPos;
+};
+
+AggressiveMode.prototype._getAllMyOpenBarracks = function() {
+  var that = this;
+  var barracksWithOutUnits = [];
+  this._getAllMyBarracksPositions().forEach(function(barracksPos){
+    if (!that._unitOnMyBarracks(barracksPos)) {
+      barracksWithOutUnits.push(barracksPos);
+    }
+  });
+  return barracksWithOutUnits;
+};
+
+
 AggressiveMode.prototype._selectNextBarracks = function() {
-  var allBarracks = this._getAllBarracks();
-  if (allBarracks.length !== 0) {
-    var mousePos = this._getBarracksPosition(allBarracks[0]);
-    this.battle.currentSelectedTile = allBarracks[0][0];
-    this.visitedBarracks.push(allBarracks.shift());
+  if (this._isOpenBarracks()) {
+    var mousePos = this._getAllMyOpenBarracks()[0];
+    this.battle.currentSelectedTile = this.battle.map.getTileAtPos(mousePos);
     return mousePos;
   }
   else {
@@ -208,14 +215,14 @@ AggressiveMode.prototype._getAllBarracks = function() {
   return barracks;
 };
 
-AggressiveMode.prototype._barracksAlreadyVisited = function(barracksArray) {
-  this.visitedBarracks.forEach(function(visitedBarracks){
-    if (parseInt(visitedBarracks[1]) === parseInt(barracksArray[1]) && parseInt(visitedBarracks[2]) === parseInt(barracksArray[2])) {
-      return false;
-    }
-  });
-  return true;
-};
+// AggressiveMode.prototype._barracksAlreadyVisited = function(barracksArray) {
+//   this.visitedBarracks.forEach(function(visitedBarracks){
+//     if (parseInt(visitedBarracks[1]) === parseInt(barracksArray[1]) && parseInt(visitedBarracks[2]) === parseInt(barracksArray[2])) {
+//       return false;
+//     }
+//   });
+//   return true;
+// };
 
 AggressiveMode.prototype._getBarracksPosition = function(barracks) {
   var barracksTileCoordinates = new Pos(parseInt(barracks[1]), parseInt(barracks[2]));
