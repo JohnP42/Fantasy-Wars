@@ -166,6 +166,7 @@ AggressiveMode.prototype._selectNextBarracks = function() {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
     this.battle.currentSelectedTile = allBarracks[0][0];
     this.visitedBarracks.push(allBarracks.shift());
+    console.log(this.visitedBarracks);
     return mousePos;
   }
   else {
@@ -177,24 +178,29 @@ AggressiveMode.prototype._getAllBarracks = function() {
   var that = this;
   var barracks = [];
   this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === that.battle.currentPlayer && that.visitedBarracks.includes(buildingArray) === false) {
+    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === that.battle.currentPlayer && !that._barracksAlreadyVisited(buildingArray)) {
       barracks.push(buildingArray);
     }
   });
   return barracks;
 };
 
+AggressiveMode.prototype._barracksAlreadyVisited = function(barracksArray) {
+  this.visitedBarracks.forEach(function(visitedBarracks){
+    if (parseInt(visitedBarracks[1]) === parseInt(barracksArray[1]) && parseInt(visitedBarracks[2]) === parseInt(barracksArray[2])) {
+      return false;
+    }
+  });
+  return true;
+};
+
 AggressiveMode.prototype._getBarracksPosition = function(barracks) {
   var barracksTileCoordinates = new Pos(parseInt(barracks[1]), parseInt(barracks[2]));
-  // barracksTileCoordinates.push(parseInt(barracks[1]));
-  // barracksTileCoordinates.push(parseInt(barracks[2]));
-
   return barracksTileCoordinates;
 };
 
 AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
   var armyType = this.battle.getCurrentPlayer().armyType();
-  console.log(armyType);
   var mostExpensiveAffordableUnit = null;
   var mostExpensiveAffordableUnitIndex = null;
   var greatestAffordableUnitCost = 0;
@@ -210,7 +216,6 @@ AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
   }
   result.push(mostExpensiveAffordableUnit);
   result.push(mostExpensiveAffordableUnitIndex);
-  console.log(result);
   return result;
 }
 
@@ -218,7 +223,7 @@ AggressiveMode.prototype._findUnitMousePos = function() {
   var mostExpensiveAffordableUnit = this._getMostExpensiveAffordableUnit();
   var unit = mostExpensiveAffordableUnit[0];
   var unitIndex = mostExpensiveAffordableUnit[1];
-  var unitPosition = [5, 3 + unitIndex];
+  var unitPosition = new Pos(5, 3 + unitIndex);
   return unitPosition;
 }
 
