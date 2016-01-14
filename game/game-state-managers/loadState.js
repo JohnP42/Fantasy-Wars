@@ -38,11 +38,15 @@ function _loadImages() {
   game.load.image('bottomMenuBar', 'game/assets/menus/ui/menuBar.png');
   game.load.image('topMenuBar', 'game/assets/menus/ui/topMenuBar.png');
   game.load.image('statsMenu', 'game/assets/menus/ui/statsMenu.png');
-  game.load.image('map1', 'game/assets/menus/images/FW_map_1_thumbnail.png');
   game.load.image('dwarfImage','game/assets/menus/images/dwarfImage.png');
   game.load.image('elfImage','game/assets/menus/images/elfImage.png');
   game.load.image('orcImage','game/assets/menus/images/orcImage.png');
   game.load.image('unitBuildScreen','game/assets/menus/ui/unitBuildScreen.png');
+
+  game.load.image('landBridgeThumb1', 'game/assets/menus/images/land_bridge.png');
+  game.load.image('oceanpassThumb2', 'game/assets/menus/images/oceanpass.png');
+  game.load.image('colosseumThumb3', 'game/assets/menus/images/colosseum.png');
+  game.load.image('scorpionValleyThumb4', 'game/assets/menus/images/scorpion_valley.png');
 };
 
 function _loadSpritesheets() {
