@@ -34,21 +34,23 @@ var battleState = {
         flags = game.add.group();
 
         // Initialize player armies
-        var tempArmy = new ArmyDwarf
-        tempArmy.armylist
-        var army = map.getArmyForPlayer(1);
-        var army2 = map.getArmyForPlayer(2);
+        var army;
+        var army2;
         var race = this.armyKey;
         // create battle
         if (race === "dwarf") {
-          var tempArmy = new ArmyDwarf
-          tempArmy.armylist
+          army = map.getArmyForPlayer(1, new ArmyDwarf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyDwarf([]).armyList);
           battle = new Battle(map,[new Player(new ArmyDwarf(army), new Pos(4,7)), new ComputerPlayer(new ArmyDwarf(army2), new Pos(13,7))]);
         }
         else if (race === "elf") {
+          army = map.getArmyForPlayer(1, new ArmyElf([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyElf([]).armyList);
           battle = new Battle(map,[new Player(new ArmyElf(army), new Pos(4,7)), new ComputerPlayer(new ArmyElf(army2), new Pos(13,7))]);
         }
         else {
+          army = map.getArmyForPlayer(1, new ArmyOrc([]).armyList);
+          army2 = map.getArmyForPlayer(2, new ArmyOrc([]).armyList);
           battle = new Battle(map,[new Player(new ArmyOrc(army), new Pos(4,7)), new ComputerPlayer(new ArmyOrc(army2), new Pos(13,7))]);
         }
         // battle = new Battle(map,[new Player(new ArmyDwarf(army)), new ComputerPlayer(new ArmyDwarf(army2))]);
