@@ -119,16 +119,19 @@ AggressiveMode.prototype.handleComputerMove = function() {
   var mousePos;
   if (this.buildPhase === true) {
     if (this.battle.turnState !== "buildUnit") {
-      if (this._selectNextBarracks) {
-          mousePos = this._selectNextBarracks;
+      if (this._selectNextBarracks()) {
+          mousePos = this._selectNextBarracks();
+          console.log("mousePos" + mousePos);
       }
       else {
+        console.log("no barracks found");
         this.buildPhase = false;
         this._endTurn();
       }
     }
     else if (this.battle.turnState === "buildUnit") {
-      mousePos = this._findUnitMousePos;
+      console.log("turnstate is build unit");
+      mousePos = this._findUnitMousePos();
     }
   }
   else if(this.battle.turnState === "selectingUnit") {
@@ -158,12 +161,6 @@ AggressiveMode.prototype.handleComputerMove = function() {
 //   }
 // }
 
-// AggressiveMode.prototype._runBuildPhase = function() {
-//   // fix so won't reset
-//     var unusedBarracks = this._getAllBarracks();
-//     this._selectNextBarracks(unusedBarracks.pop());
-// }
-
 AggressiveMode.prototype._selectNextBarracks = function() {
   var allBarracks = this._getAllBarracks();
   if (allBarracks.length !== 0) {
@@ -177,9 +174,10 @@ AggressiveMode.prototype._selectNextBarracks = function() {
 };
 
 AggressiveMode.prototype._getAllBarracks = function() {
+  var that = this;
   var barracks = [];
   this.battle.map.getAllBuildings(true).forEach(function(buildingArray) {
-    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === this.battle.currentPlayer && this.visitedBarracks.includes(buildingArray) === false) {
+    if (buildingArray[0].name === "barracks" && parseInt(buildingArray[0].owner) === that.battle.currentPlayer && that.visitedBarracks.includes(buildingArray) === false) {
       barracks.push(buildingArray);
     }
   });
