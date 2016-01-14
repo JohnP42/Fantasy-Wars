@@ -181,7 +181,7 @@ AggressiveMode.prototype._selectNextAttack = function() {
 }
 
 AggressiveMode.prototype._selectNextCapture = function() {
-
+  return this.currentSelectedUnit.pos;
 };
 
 
@@ -227,7 +227,7 @@ AggressiveMode.prototype._chooseUnit = function() {
 }
 
 AggressiveMode.prototype._evaluateUnits = function (armyList) {
-  
+
 }
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {
@@ -310,4 +310,3 @@ AggressiveMode.prototype._handleArtilleryMovement = function(possibleMoves) {
   }
   return nextMove;
 };
-

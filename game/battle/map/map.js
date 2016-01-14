@@ -75,10 +75,9 @@ Map.prototype.remakeAllFlags = function() {
 Map.prototype.getArmyForPlayer = function(player, armyList) {
   var army = [];
   var units = game.world.cursor.map.objects.units;
-
+  console.log(player);
   units.forEach(function(unit) {
     if(parseInt(unit.properties.player) === player) {
-      console.log(unit);
       pos = new Pos(unit.x / TILESCALE, unit.y / TILESCALE);
       army.push(new armyList[parseInt(unit.properties.unitIndex)](pos, player));
     }
