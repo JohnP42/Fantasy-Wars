@@ -121,7 +121,6 @@ AggressiveMode.prototype.handleComputerMove = function() {
     if (this.battle.turnState !== "buildUnit") {
       if (this._selectNextBarracks()) {
           mousePos = this._selectNextBarracks();
-          console.log("mousePos: " + mousePos);
       }
       else {
         console.log("no barracks found");
@@ -130,8 +129,8 @@ AggressiveMode.prototype.handleComputerMove = function() {
       }
     }
     else if (this.battle.turnState === "buildUnit") {
-      console.log("turnstate is build unit");
       mousePos = this._findUnitMousePos();
+      // mousePos = new Pos(5,4);
     }
   }
   else if(this.battle.turnState === "selectingUnit") {
@@ -166,8 +165,6 @@ AggressiveMode.prototype._selectNextBarracks = function() {
   if (allBarracks.length !== 0) {
     var mousePos = this._getBarracksPosition(allBarracks[0]);
     this.battle.currentSelectedTile = allBarracks[0][0];
-    console.log("here");
-    console.log(this.battle.currentSelectedTile);
     this.visitedBarracks.push(allBarracks.shift());
     return mousePos;
   }
@@ -197,7 +194,9 @@ AggressiveMode.prototype._getBarracksPosition = function(barracks) {
 
 AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
   var armyType = this.battle.getCurrentPlayer().armyType();
+  console.log(armyType);
   var mostExpensiveAffordableUnit = null;
+  var mostExpensiveAffordableUnitIndex = null;
   var greatestAffordableUnitCost = 0;
   var unitIndex = -1;
   var result = [];
@@ -206,10 +205,12 @@ AggressiveMode.prototype._getMostExpensiveAffordableUnit = function () {
     if (UNITS[armyType][unit] > greatestAffordableUnitCost && UNITS[armyType][unit] <= this.battle.getCurrentPlayer().gold) {
       greatestAffordableUnitCost = UNITS[armyType][unit];
       mostExpensiveAffordableUnit = unit;
+      mostExpensiveAffordableUnitIndex = unitIndex;
     }
   }
   result.push(mostExpensiveAffordableUnit);
-  result.push(unitIndex);
+  result.push(mostExpensiveAffordableUnitIndex);
+  console.log(result);
   return result;
 }
 

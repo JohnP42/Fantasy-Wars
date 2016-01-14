@@ -55,13 +55,13 @@ Player.prototype.quitGame = function() {
 
 Player.prototype.armyType = function() {
   if (this.army instanceof ArmyDwarf) {
-    return "dwarf";
+    return "dwarves";
   }
   else if (this.army instanceof ArmyElf) {
-    return "elf";
+    return "elves";
   }
   else if (this.army instanceof ArmyOrc) {
-    return "orc";
+    return "orcs";
   }
   else {
     return null;
