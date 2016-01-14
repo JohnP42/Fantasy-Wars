@@ -118,7 +118,10 @@ AggressiveMode.prototype.handleComputerMove = function() {
   var mousePos;
   if (this.buildPhase === true) {
     if (this.battle.turnState !== "buildUnit") {
-      this._runBuildPhase();
+      mousePos = this._runBuildPhase();
+    }
+    else if (this.battle.turnState === "buildUnit") {
+
     }
     // move to ._runBuildPhase;
     this.buildPhase = false;
@@ -204,6 +207,7 @@ AggressiveMode.prototype._selectNextBarracks = function(barracks) {
   var mousePos = this._getBarracksPosition(barracks)
   this.battle.currentSelectedTile = barracks[0];
   this.battle.clickOnBarracks(mousePos);
+  
 };
 
 AggressiveMode.prototype._getAllBarracks = function() {
@@ -247,6 +251,10 @@ AggressiveMode.prototype._findMostExpensiveUnit = function(unitsToBuy) {
     }
   }
   return mostExpensiveUnit;
+}
+
+AggressiveMode.prototype._findUnitMousePos = function(unit) {
+  
 }
 
 AggressiveMode.prototype._filterPossibleMoves = function(possibleMoves) {

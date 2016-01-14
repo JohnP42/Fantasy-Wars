@@ -358,12 +358,9 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
 };
 
 Battle.prototype.clickOnBarracks = function(mousePos) {
-  console.log("IN CLICK ON BARRACKS");
   if (this.currentSelectedTile) {
-    console.log("GOT TILE");
     if (this.currentSelectedTile.name === "barracks" && parseInt(this.currentSelectedTile.owner) === this.currentPlayer) {
       this.turnState = "buildUnit";
-      console.log(this.turnState);
       this.buildScreen = new BuildScreen(this.getCurrentPlayer().army.armyList, this, mousePos);
     }
   }
