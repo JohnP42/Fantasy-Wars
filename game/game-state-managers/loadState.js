@@ -2,6 +2,7 @@ var loadState = {
 
 	preload: function() {
 		// Load Assets
+    _loadText();
     _loadAudio();
     _loadImages();
     _loadSpritesheets();
@@ -13,6 +14,10 @@ var loadState = {
     game.state.start("mainMenuState");
 	}
 }
+
+function _loadText() {
+  game.load.text("instructions", "game/assets/instructions.html");
+};
 
 function _loadAudio() {
   game.load.audio('move', 'game/assets/audio/SE/move.ogg');
