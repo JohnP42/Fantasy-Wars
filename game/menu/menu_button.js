@@ -1,6 +1,7 @@
 MenuButton.prototype = Object.create(Phaser.Button.prototype);
 MenuButton.prototype.constructor = MenuButton;
 
+
 function MenuButton(x, y, spritekey, targetState, gameMode, mapkey, armyKey1, armyKey2, audio, overFrame, outFrame, downFrame, upFrame) {
   this.mapKey = mapkey;
   this.armyKey1 = armyKey1;
@@ -14,7 +15,7 @@ function MenuButton(x, y, spritekey, targetState, gameMode, mapkey, armyKey1, ar
 };
 
 MenuButton.prototype.actionOnClick = function() {
-  if(this.audio !== null) {
+  if(this.audio) {
     var sound = game.add.audio(this.audio, 0.2);
     sound.play();
   };
