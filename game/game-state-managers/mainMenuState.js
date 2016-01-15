@@ -1,5 +1,6 @@
 var mainMenuState = {
   preload: function() {
+    game.cache.removeSound('victory');
     game.load.audio('menus', 'game/assets/audio/BGM/menus.ogg');
     var battleStateButton = null;
     var campaignStateButton = null;
