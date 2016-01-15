@@ -15,6 +15,10 @@ ComputerPlayer.prototype.update = function(map, myTurn) {
 };
 
 
+ComputerPlayer.prototype.handleComputerMove = function() {
+  return this.mode.handleComputerMove();
+};
+
 // Computer Modes - Aggressive, Defensive, Patrol
 ComputerPlayer.prototype.updateMode = function(mode) {
   switch(mode) {
@@ -33,11 +37,3 @@ ComputerPlayer.prototype.updateMode = function(mode) {
   }
 };
 
-ComputerPlayer.prototype.playTurn = function() {
-  nextMode = this.mode.execute();
-  this.updateMode(nextMode);
-};
-
-ComputerPlayer.prototype.handleComputerMove = function() {
-  return this.mode.handleComputerMove();
-}

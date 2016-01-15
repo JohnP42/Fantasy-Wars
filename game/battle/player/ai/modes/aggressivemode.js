@@ -319,3 +319,4 @@ AggressiveMode.prototype._handleArtilleryMovement = function(possibleMoves) {
   }
   return nextMove;
 };
+
