@@ -29,13 +29,12 @@ Mode.prototype._endTurn = function() {
   currentPlayerText.setText("Player " + this.battle.currentPlayer);
   currentPlayerGold.setText("Gold: " + this.battle.players[battle.currentPlayer - 1].gold);
   var nextMode = null;
-  if (Math.random() > .1) {
+  if (Math.random() > .05) {
     nextMode= "aggressive";
   } else {
     nextMode = "defensive";
   }
   this.battle.players[1].updateMode(nextMode);
-  console.log(nextMode)
 };
 
 Mode.prototype._getEnemyHQPos = function() {
