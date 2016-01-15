@@ -1,12 +1,13 @@
 MenuButton.prototype = Object.create(Phaser.Button.prototype);
 MenuButton.prototype.constructor = MenuButton;
 
-function MenuButton(args) {
-  //x, y, spritekey, targetState, gameMode, mapKey, armyKey1, armyKey2, audio, overFrame, outFrame, downFrame, upFrame
-  this.mapKey = args.mapKey;
-  this.armyKey = args.armykey;
-  this.targetState = args.targetState;
-  this.gameMode = args.gameMode;
+
+function MenuButton(x, y, spritekey, targetState, gameMode, mapkey, armyKey1, armyKey2, audio, overFrame, outFrame, downFrame, upFrame) {
+  this.mapKey = mapkey;
+  this.armyKey1 = armyKey1;
+  this.armyKey2 = armyKey2;
+  this.targetState = targetState;
+  this.gameMode = gameMode;
 
   this.audio = audio || null;
   Phaser.Button.call(this, game, x, y, spritekey, this.actionOnClick, this, overFrame, outFrame, downFrame, upFrame);
@@ -18,5 +19,5 @@ MenuButton.prototype.actionOnClick = function() {
     var sound = game.add.audio(this.audio, 0.2);
     sound.play();
   };
-  game.state.start(this.targetState, true, false, this.mapKey, this.armyKey, this.gameMode, this.audio);
+  game.state.start(this.targetState, true, false, this.mapKey, this.armyKey1, this.armyKey2, this.gameMode, this.audio);
 };

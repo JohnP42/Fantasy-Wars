@@ -13,6 +13,7 @@ function Battle(map, players) {
   this.currentPlayer = 1;
   this.buildScreen = null;
   this.unitSpriteDisplay = null;
+  this.captureText = null;
   this.map.remakeAllFlags();
 };
 
@@ -34,12 +35,29 @@ Battle.prototype.update = function() {
     moveHighlights.removeChildren();
   }
 
+  if(this.turnState === "capturePrompt") {
+    this.displayCaptureText();
+  }
+  else if(this.captureText !== null) {
+    this.captureText.destroy();
+    this.captureText = null;
+  }
+
   if(this.turnState !== "selectingAttack" && this.turnState !== "capturePrompt") {
     attackHighlights.removeChildren();
   }
   this.updateUnitSpriteDisplay();
   this.checkVictoryConditions();
 };
+
+Battle.prototype.displayCaptureText = function() {
+  if (this.captureText === null) {
+    var style = {font: "10px Arial", fill: "orange", strokeThickness: 3, align: "center"};
+    this.captureText = game.add.text(this.currentSelectedUnit.x + 16, this.currentSelectedUnit.y + 16, "Capture?", style);
+    this.captureText.anchor.setTo(0.5, 0.5);
+    game.add.tween(this.captureText.scale).to( {x: 1.1, y: 1.1 }, 300, "Linear", true, 0, -1, true);
+  }
+}
 
 Battle.prototype.getUnitAtPos = function(pos) {
   // Retrieves Unit at given pos
@@ -124,13 +142,13 @@ Battle.prototype.animateMovement = function() {
     var movedThisPhase = (this.currentSelectedUnit.pos.x !== prevPosX || this.currentSelectedUnit.pos.y !== prevPosY)
     if(!enemyInRange || (this.currentSelectedUnit instanceof UnitArtillery && movedThisPhase)) {
       that.turnState = "selectingUnit";
-        that.currentSelectedUnit = null;
-        that.currentSelectedMovement = [];
-        that.currentSelectedAttacks = [];
+      that.currentSelectedUnit = null;
+      that.currentSelectedMovement = [];
+      that.currentSelectedAttacks = [];
     }
 
     if(this.tileIsBuilding(this.currentSelectedTile) && unit instanceof UnitInfantry) {
-      if(this.currentSelectedTile.owner !== this.currentPlayer) {
+      if(parseInt(this.currentSelectedTile.owner) !== this.currentPlayer) {
         this.currentSelectedUnit = unit;
         that.turnState = "capturePrompt";
         that.currentSelectedMovement = [];
@@ -233,7 +251,12 @@ Battle.prototype.unitCombat = function(unit1, unit2, terrainDefense) {
 
   if(terrainDefense === 0 && unit2.range[0] === 1 && unit2.getHealthNumber() > 0) {
     if (unit1 instanceof UnitFlying) {
-      dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, 0));
+      if (unit2.range[1] > 1) {
+        dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, 0));
+      }
+      else {
+        dmg = 0;
+      }
     }
     else {
       dmg = unit1.takeDamage(unit2.getAttackDamage(unit1.defense, terrainDefense));
@@ -361,9 +384,11 @@ Battle.prototype._clickListenerTurnStateBuildUnitHelper = function(mousePos) {
   this.turnState = "selectingUnit";
   currentPlayerGold.setText("Gold: " + battle.players[battle.currentPlayer - 1].gold);
   this.currentSelectedUnit = null;
+  this.computerCanClick = true;
 };
 
 Battle.prototype.clickOnBarracks = function(mousePos) {
+  this.currentSelectedTile = this.map.getTileAtPos(mousePos);
   if (this.currentSelectedTile) {
     if (this.currentSelectedTile.name === "barracks" && parseInt(this.currentSelectedTile.owner) === this.currentPlayer) {
       this.turnState = "buildUnit";

@@ -16,7 +16,7 @@ function Unit(pos, player) {
   // Phaser.Sprite.call(this, game, pos.canvasX, pos.canvasY, 'spritename');
 };
 
-Unit.prototype.updateUnit = function(map) {
+Unit.prototype.updateUnit = function(map, turnState) {
   //TODO: Update method
   this.updateDisplayHealth();
   if(this.walkPath.length === 0 && !this.attacking) {
@@ -25,6 +25,11 @@ Unit.prototype.updateUnit = function(map) {
     this.y = this.pos.canvasY();
   }
 };
+
+Unit.prototype.grayOut = function() {
+  var gray = game.add.filter('Gray');
+  this.filters = [gray];
+}
 
 Unit.prototype.attackAnim = function() {
   this.attackSound.play('', 0, 1, false, false);
@@ -41,10 +46,17 @@ Unit.prototype.move = function() {
   if (!nextTile)
     return true;
 
-  if (nextTile.canvasX() > this.x)
+  if (nextTile.canvasX() > this.x) {
     this.x += 2;
-  if(nextTile.canvasX() < this.x)
+    this.scale.x = 1;
+    this.anchor.setTo(0, 0);
+  }
+  if(nextTile.canvasX() < this.x) {
     this.x -= 2;
+    this.scale.x = -1;
+    this.anchor.setTo(1, 0);
+  }
+
   if(nextTile.canvasY() > this.y)
     this.y += 2;
   if(nextTile.canvasY() < this.y)
@@ -55,9 +67,8 @@ Unit.prototype.move = function() {
     this.walkPath.pop();
   }
   if (this.walkPath.length === 0) {
-    var gray = game.add.filter('Gray');
-    this.filters = [gray];
     this.movedThisTurn = true;
+    this.grayOut();
   }
   return (this.walkPath.length === 0);
 };
@@ -110,10 +121,10 @@ Unit.prototype.arrayIncludesPosition = function(array, pos) {
 
 Unit.prototype.getSurroundingPos = function(pos) {
   // Returns an array of positions surrounding the input position
-  return [new Pos(pos.x, pos.y + 1, pos), // top
+  return [new Pos(pos.x,     pos.y + 1, pos), // top
           new Pos(pos.x + 1, pos.y, pos), // right
-          new Pos(pos.x, pos.y - 1, pos), // bottom
-          new Pos(pos.x - 1, pos.y, pos) // left
+          new Pos(pos.x,     pos.y - 1, pos), // bottom
+          new Pos(pos.x - 1, pos.y,     pos) // left
   ];
 };
 

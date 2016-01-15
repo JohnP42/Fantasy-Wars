@@ -1,8 +1,7 @@
-function Player(army, hqPos) {
+function Player(army) {
 	this.army = army;
   this.gold = 500;
   this.active = false; // boolean to be used to determine which players turn it is
-  this.hqPos = hqPos;
 };
 
 Player.prototype.update = function(map, myTurn) {
@@ -51,4 +50,19 @@ Player.prototype.endTurn = function() {
 Player.prototype.quitGame = function() {
   //TODO: Allows player to end the battle
   // When this function is called it will start the "VictoryState" Game State
+};
+
+Player.prototype.armyType = function() {
+  if (this.army instanceof ArmyDwarf) {
+    return "dwarves";
+  }
+  else if (this.army instanceof ArmyElf) {
+    return "elves";
+  }
+  else if (this.army instanceof ArmyOrc) {
+    return "orcs";
+  }
+  else {
+    return null;
+  }
 };
