@@ -105,7 +105,7 @@ var battleState = {
         if (battle.players[1] instanceof ComputerPlayer) {
             var computerPlayer = battle.players[1];
             computerPlayer.battle = battle;
-            computerPlayer.updateMode("defensive");
+            computerPlayer.updateMode("aggressive");
           };
         _setupUIElements(battle);
     },
