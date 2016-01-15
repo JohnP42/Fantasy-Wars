@@ -17,3 +17,7 @@ function _addGameStates() {
   game.state.add("battleState", battleState);
   game.state.add("victoryState", victoryState);
 };
+
+
+
+

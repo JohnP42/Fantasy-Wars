@@ -47,7 +47,7 @@ Mode.prototype._getEnemyHQPos = function() {
     if (buildingArray[0].name === "castle" && parseInt(buildingArray[0].owner) === 1) {
       hqPos = that._getBarracksPosition(buildingArray);
     }
-  });;
+  });
   return hqPos;
 };
 
@@ -223,11 +223,20 @@ Mode.prototype._selectNextMove = function() {
   var nextMovePos = null;
   var possibleMoves = this.currentSelectedUnit.getPossibleMoves(this.currentSelectedUnit.pos, this.battle.map, this.battle.enemyPositions());
   var filteredPossibleMoves = this._filterPossibleMoves(possibleMoves);
+
+  var allBuildings = this.battle.map.getAllBuildings(true);
+  var shouldStay = false;
+  allBuildings.forEach(function(allBuildings) {
+    if (parseInt(allBuildings[0].owner) === 1 && that._getBarracksPosition(allBuildings).equals(that.currentSelectedUnit.pos)) {
+      shouldStay = true;
+    }
+  });
+
   if (this.currentSelectedUnit instanceof UnitArtillery) {
     nextMovePos = that._handleArtilleryMovement(filteredPossibleMoves);
+  } else if (this.currentSelectedUnit instanceof UnitInfantry && shouldStay) {
+    nextMovePos = that.currentSelectedUnit.pos;
   } else {
-    // nextMovePos = this._getClosestMoveToEnemyHQ(filteredPossibleMoves);
-    // nextMovePos = this._getClosestMoveToEnemyUnit(filteredPossibleMoves);
     nextMovePos = this._randomizeUnitMovement(filteredPossibleMoves);
   }
   return nextMovePos;
