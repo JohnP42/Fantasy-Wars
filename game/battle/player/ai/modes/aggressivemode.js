@@ -69,8 +69,6 @@ AggressiveMode.prototype.handleComputerMove = function() {
   var mousePos;
   if (this.buildPhase === true) {
     if (this.battle.turnState !== "buildUnit") {
-      //this._getAllBarracks().length !== 0
-      // !this._unitOnMyBarracks() && this.battle.getCurrentPlayer().gold >= 100
       if (this._isOpenBarracks() && this.battle.getCurrentPlayer().gold >= 100) {
           mousePos = this._selectNextBarracks();
       }
