@@ -16,7 +16,9 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'game/phaser/phaser.js',
+      'game/battle/player/player.js',
       'game/battle/player/units/unit.js',
+      'game/battle/player/units/unitCavalry.js',
       'game/battle/player/units/unitInfantry.js',
       'game/battle/player/units/unitFlying.js',
       'game/battle/player/units/unitArtillery.js',
