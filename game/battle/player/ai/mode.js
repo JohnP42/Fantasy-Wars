@@ -29,11 +29,7 @@ Mode.prototype._endTurn = function() {
   currentPlayerText.setText("Player " + this.battle.currentPlayer);
   currentPlayerGold.setText("Gold: " + this.battle.players[battle.currentPlayer - 1].gold);
   var nextMode = null;
-  if (Math.random() > .05) {
-    nextMode= "aggressive";
-  } else {
-    nextMode = "defensive";
-  }
+  nextMode = Math.random() > .05 ? "aggressive" : "defensive";
   this.battle.players[1].updateMode(nextMode);
 };
 
@@ -106,23 +102,14 @@ Mode.prototype.handleComputerMove = function() {
 };
 
 Mode.prototype._unitOnMyBarracks = function(pos) {
-  if (this.battle.getUnitAtPos(pos)) {
-    return true;
-  } else {
-    return false;
-  }
+  return this.battle.getUnitAtPos(pos) ? true : false;
 };
 
 Mode.prototype._isOpenBarracks = function() {
   var that = this;
   var barracksWithOutUnits = this._getAllMyOpenBarracks();
 
-  if (barracksWithOutUnits.length > 0) {
-    return true;
-  }
-  else {
-    return false;
-  }
+  return barracksWithOutUnits.length > 0;
 };
 
 Mode.prototype._getAllMyBarracksPositions = function() {
@@ -212,9 +199,7 @@ Mode.prototype._selectNextUnit = function() {
     };
   });
   // Logic for when to end turn
-  if (nextUnitPos === null) {
-    this.buildPhase = true;
-  }
+  if (nextUnitPos === null) { this.buildPhase = true; }
   return nextUnitPos
 }
 
@@ -262,9 +247,7 @@ Mode.prototype._filterPossibleMoves = function(possibleMoves) {
   result = [];
   possibleMoves.forEach(function(movePos) {
     var unitAtPos = that.battle.getUnitAtPos(movePos);
-    if (!unitAtPos) {
-      result.push(movePos);
-    };
+    if (!unitAtPos) { result.push(movePos); };
   });
   return result;
 }
@@ -327,11 +310,7 @@ Mode.prototype._handleArtilleryMovement = function(possibleMoves) {
   var that = this;
   var nextMove = null;
   var rand = Math.random();
-  if (rand > .50) {
-    nextMove = this.currentSelectedUnit.pos;
-  } else {
-    nextMove = this._randomizeUnitMovement(possibleMoves);
-  }
+  nextMove = rand > .50 ? this.currentSelectedUnit.pos : this._randomizeUnitMovement(possibleMoves);
   return nextMove;
 };
 
