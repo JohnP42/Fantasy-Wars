@@ -1,4 +1,3 @@
-![Fantasy Wars](http://i.neoseeker.com/ca/fantasy_wars_conceptart_cLwPX.jpg)
 # Fantasy Wars
 Fantasy Wars is a turn-based strategy game where each players can choose one of three mythical factions. Build up an army, capture strategic footholds, and slaughter opposing forces on your way to victory. Eliminate all enemy units or capture their castle to ensure victory.
 
